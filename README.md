@@ -1,2 +1,2 @@
 # gds-utils
-A set of general tools for working with General Distribution System formats I wrote
+A set of tools I wrote for working with General Distribution System formats
