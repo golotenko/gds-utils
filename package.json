@@ -6,11 +6,11 @@
   },
   "bundleDependencies": false,
   "dependencies": {
-    "klesun-node-tools": "git+https://github.com/klesun-misc/klesun-node-tools.git#6e9511dcb0f74bec8db09b43b7c26e0398134dd6",
+    "klesun-node-tools": "git+https://github.com/klesun-misc/klesun-node-tools.git#6e9511dcb0f74bec8db09b43b7c26e0398134dd6"
   },
   "description": "Some of my personal tools for working with OTA and GDS formats",
   "license": "MIT",
-  "main": "./index.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:golotenko/gds-utils.git"
