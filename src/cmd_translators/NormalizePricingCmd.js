@@ -1,5 +1,5 @@
-const php = require('klesun-node-tools/src/Transpiled/php.js');
-const Rej = require('klesun-node-tools/src/Rej.js');
+const php = require('enko-fundamentals/src/Transpiled/php.js');
+const Rej = require('enko-fundamentals/src/Rej.js');
 
 const dict = items => {
 	const result = {};
