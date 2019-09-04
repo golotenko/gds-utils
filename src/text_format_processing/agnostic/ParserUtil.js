@@ -1,3 +1,4 @@
+const php = require('enko-fundamentals/src/Transpiled/php.js');
 
 /**
  * if your dump has a sequence of lines following same format, like list of passengers,
@@ -50,4 +51,47 @@ exports.parseBagAmountCode = (code) => {
 	} else {
 		return null;
 	}
+};
+
+/*
+ * //          ' 2 UA 999S 19DEC EWRBRU HK1   635P  750A|*      SA/SU   E  1'
+ * $pattern = 'NNAAAFFFFS_DDDDDCCCCRRRQQQQQTTTTTTTZZZZZ_KYYYYYYYYYYYLLLLUUUUUUU';
+ * @param $str -- string we want to split
+ * @param $pattern -- marker string to define split positions
+ */
+exports.splitByPosition = (str, pattern, names = null, trim = false) => {
+	if (!names) {
+		const symbols = php.str_split(pattern, 1);
+		names = php.array_combine(symbols, symbols);
+	}
+	const letters = [];
+	let position = 0;
+	for (const markerChar of php.str_split(pattern)) {
+		if (php.array_key_exists(markerChar, letters)) {
+			letters[markerChar] += php.mb_substr(str, position, 1);
+		} else {
+			letters[markerChar] = php.mb_substr(str, position, 1);
+		}
+		++position;
+	}
+	const result = {};
+	for (const [markerChar, name] of Object.entries(names)) {
+		result[name] = trim ? php.trim(letters[markerChar]) : letters[markerChar];
+	}
+	return result;
+};
+
+exports.wrapLinesAt = (str, wrapAt) => {
+	const lines = str.split('\n');
+	const result = [];
+	for (const line of lines) {
+		if (php.mb_strlen(line) > wrapAt) {
+			for (const subLine of php.str_split(line, wrapAt)) {
+				result.push(subLine);
+			}
+		} else {
+			result.push(line);
+		}
+	}
+	return result.join('\n');
 };
