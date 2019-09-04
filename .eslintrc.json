@@ -1,0 +1,36 @@
+{
+  "env": {
+    "browser": false,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2019
+  },
+  "rules": {
+    "indent": ["warn", "tab"],
+    "semi": ["error", "always"],
+    "no-invalid-this": "warn",
+    "no-undef": "error"
+    ,"comma-dangle": ["warn", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline"
+    }]
+  },
+  "globals": {
+    "setTimeout": false,
+    "clearTimeout": false,
+
+    "Promise": false,
+    "Set": false,
+    "Proxy": false,
+    "Map": false,
+
+    // node-specific
+    "process": false,
+    "module": false,
+    "exports": false,
+    "__dirname": false,
+    "require": false
+  }
+}

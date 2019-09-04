@@ -4,7 +4,6 @@
     "name": "Alexander Golotenko",
     "email": "alexandergolotenko@gmail.com"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "enko-fundamentals": "git+https://github.com/golotenko/enko-fundamentals.git#6e9511dcb0f74bec8db09b43b7c26e0398134dd6"
   },

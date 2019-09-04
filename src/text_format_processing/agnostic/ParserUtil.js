@@ -31,7 +31,7 @@ exports.parseSequence = (linesLeft, parse) => {
 exports.parseBagAmountCode = (code) => {
 	const match = code.match(/^(\d{0,2})([A-Z]{0,3})$/);
 	if (match) {
-		const [$_, amount, unitsCode] = match;
+		const [, amount, unitsCode] = match;
 		const codeMap = {
 			'P': 'pieces',
 			'PC': 'pieces',
@@ -94,4 +94,101 @@ exports.wrapLinesAt = (str, wrapAt) => {
 		}
 	}
 	return result.join('\n');
+};
+
+const monthIndex = {JAN: 1,FEB: 2,MAR: 3,APR: 4,MAY: 5,JUN: 6,JUL: 7,AUG: 8,SEP: 9,OCT: 10,NOV: 11,DEC: 12};
+
+const gdsMonthToNumber = (str) => {
+	if (php.array_key_exists(str, monthIndex)) {
+		return monthIndex[str];
+	} else {
+		return null;
+	}
+};
+
+/**
+ * Accepts date in format '09FEB' of '9FEB'
+ * and returns in format 'm-d'
+ */
+exports.parsePartialDate = (date) => {
+	date = php.str_pad(date, 5, '0', php.STR_PAD_LEFT);
+	let tokens = php.preg_match(/^(?<day>[0-9]{2})(?<month>[A-Z]{3})$/, date);
+	if (tokens) {
+		const day = tokens.day;
+		const monthRes = gdsMonthToNumber(tokens.month);
+		if (monthRes) {
+			const month = gdsMonthToNumber(tokens.month);
+			// Of course, it can be any year, but it's the easiest way to
+			// validate date: 2016 is a leap year, so if date is valid, it
+			// exists in 2016
+			const fullDate =
+				'2016-' + php.str_pad(php.strval(month), 2, '0', php.STR_PAD_LEFT) + '-' + php.str_pad(php.strval(day), 2, '0', php.STR_PAD_LEFT);
+			if (fullDate === date('Y-m-d', php.strtotime(fullDate))) {
+				return date('m-d', php.strtotime(fullDate));
+			}
+		}
+	}
+	return null;
+};
+
+exports.gdsDayOfWeekToNumber = (str) => {
+	const dayOfWeekIndex = {MO: 1,TU: 2,WE: 3,TH: 4,FR: 5,SA: 6,SU: 7};
+	if (php.array_key_exists(str, dayOfWeekIndex)) {
+		return dayOfWeekIndex[str];
+	} else {
+		return null;
+	}
+};
+
+const convertApolloTo12hModifier = (timeOfDayStr) => {
+	if (timeOfDayStr == 'P' || timeOfDayStr == 'N') {
+		// PM or noon
+		return 'PM';
+	} else if (timeOfDayStr == 'A' || timeOfDayStr == 'M') {
+		// AM or midnight
+		return 'AM';
+	} else {
+		return null;
+	}
+};
+
+const parseGds12hTime = ($timeStr) => {
+	const $paddedTime = php.str_pad($timeStr.trim(), 5, '0', php.STR_PAD_LEFT);
+	const $timeOfDayStr = php.substr($paddedTime, 4);
+	let $hours = php.substr($paddedTime, 0, 2);
+	$hours = $hours === '00' ? '12' : $hours;
+	const $minutes = php.substr($paddedTime, 2, 2);
+	const $hours12ModRes = convertApolloTo12hModifier($timeOfDayStr.trim());
+	if (!$hours12ModRes) {
+		return null;
+	}
+	const $hours12Mod = $hours12ModRes;
+	const $hours12 = $hours + ':' + $minutes + ' ' + $hours12Mod;
+	const $timestamp = php.strtotime($hours12);
+	if ($timestamp) {
+		return php.date('H:i', $timestamp);
+	} else if ($hours > 12 && $hours12Mod === 'AM'){
+		// '1740A', agent mistyped, but I guess there is no harm parsing it...
+		return parseGds24hTime($hours + $minutes);
+	} else {
+		return null;
+	}
+};
+
+const parseGds24hTime = ($timeStr) => {
+	const $paddedTime = php.str_pad($timeStr.trim(), 4, '0', php.STR_PAD_LEFT);
+	const $hours = php.substr($paddedTime, 0, 2);
+	const $minutes = php.substr($paddedTime, 2, 2);
+	return $hours + ':' + $minutes;
+};
+
+exports.decodeGdsTime = (timeStr) => {
+	timeStr = timeStr.trim();
+	if (php.preg_match(/^\d+[A-Z]$/, timeStr)) {
+		return parseGds12hTime(timeStr);
+	} else if (php.preg_match(/^\d+$/, timeStr)) {
+		return parseGds24hTime(timeStr);
+	} else {
+		return null;
+	}
 };
