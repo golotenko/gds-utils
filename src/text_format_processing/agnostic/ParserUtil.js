@@ -123,8 +123,8 @@ exports.parsePartialDate = (date) => {
 			// exists in 2016
 			const fullDate =
 				'2016-' + php.str_pad(php.strval(month), 2, '0', php.STR_PAD_LEFT) + '-' + php.str_pad(php.strval(day), 2, '0', php.STR_PAD_LEFT);
-			if (fullDate === date('Y-m-d', php.strtotime(fullDate))) {
-				return date('m-d', php.strtotime(fullDate));
+			if (fullDate === php.date('Y-m-d', php.strtotime(fullDate))) {
+				return php.date('m-d', php.strtotime(fullDate));
 			}
 		}
 	}
