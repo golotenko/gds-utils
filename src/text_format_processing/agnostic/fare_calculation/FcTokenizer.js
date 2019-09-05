@@ -27,13 +27,20 @@ class FcTokenizer {
 		const getTuple = matches => matches.slice(1);
 		const onlyFareInSegment = ($context) => {
 			const lexemes = $context.lexemes || null;
+			let sideTripDepth = 0;
 			if (lexemes) {
 				for (let i = lexemes.length - 1; i >= 0; --i) {
 					const lexeme = lexemes[i];
-					if (lexeme.lexeme === 'segment') {
-						return true;
-					} else if (lexeme.lexeme === 'fare') {
-						return false;
+					if (lexeme.lexeme === 'sideTripEnd') {
+						++sideTripDepth;
+					} else if (lexeme.lexeme === 'sideTripStart') {
+						--sideTripDepth;
+					} else if (!sideTripDepth) {
+						if (lexeme.lexeme === 'segment') {
+							return true;
+						} else if (lexeme.lexeme === 'fare') {
+							return false;
+						}
 					}
 				}
 			}
