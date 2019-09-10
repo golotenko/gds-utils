@@ -224,6 +224,15 @@ const parseGds24hTime = ($timeStr) => {
 	return $hours + ':' + $minutes;
 };
 
+// '1|3-5'
+exports.parseRange = (expr, delim, thru) => {
+	const parseRange = (text) => {
+		const pair = text.split(thru);
+		return php.range(pair[0], pair[1] || pair[0]);
+	};
+	return expr.trim().split(delim).flatMap(parseRange);
+};
+
 exports.decodeGdsTime = (timeStr) => {
 	timeStr = timeStr.trim();
 	if (php.preg_match(/^\d+[A-Z]$/, timeStr)) {
