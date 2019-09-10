@@ -1,5 +1,5 @@
 const Lexer = require('../../../lexer/Lexer.js');
-const PricingCmdParser = require('./PricingCmdParser.js');
+const PricingCmdParser = require('./Parse_priceItinerary.js');
 const Lexeme = require('../../../lexer/Lexeme.js');
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 const {mkReg} = require('enko-fundamentals/src/Utils/Misc.js');
@@ -85,6 +85,6 @@ const Parse_fareSearch = (cmd) => {
 	};
 };
 
-Parse_fareSearch.getCabinClasses = getCabinClasses();
+Parse_fareSearch.getCabinClasses = getCabinClasses;
 
 module.exports = Parse_fareSearch;

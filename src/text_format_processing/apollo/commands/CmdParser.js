@@ -5,7 +5,7 @@ const Parse_airAvailability = require('./Parse_airAvailability.js');
 const Parse_fareSearch = require('./Parse_fareSearch.js');
 const Parse_changeMp = require('./Parse_changeMp.js');
 const Parse_sell = require('./Parse_sell.js');
-const PricingCmdParser = require('./PricingCmdParser.js');
+const PricingCmdParser = require('./Parse_priceItinerary.js');
 
 const php = require("enko-fundamentals/src/Transpiled/php.js");
 const SimpleTypes = require('./SimpleTypes');
