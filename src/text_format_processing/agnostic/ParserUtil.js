@@ -110,7 +110,7 @@ const gdsMonthToNumber = (str) => {
  * Accepts date in format '09FEB' of '9FEB'
  * and returns in format 'm-d'
  */
-exports.parsePartialDate = (date) => {
+const parsePartialDate = (date) => {
 	date = php.str_pad(date, 5, '0', php.STR_PAD_LEFT);
 	let tokens = php.preg_match(/^(?<day>[0-9]{2})(?<month>[A-Z]{3})$/, date);
 	if (tokens) {
@@ -126,6 +126,21 @@ exports.parsePartialDate = (date) => {
 			if (fullDate === php.date('Y-m-d', php.strtotime(fullDate))) {
 				return php.date('m-d', php.strtotime(fullDate));
 			}
+		}
+	}
+	return null;
+};
+
+/**
+ * It doesn't try to guess anything, so as we have 2-digit year in the
+ * original string, we still do have it in result: 'y-m-d'
+ */
+exports.parseFullDate = (str) => {
+	const match = str.match(/^(?<dateDayAndMonth>\d{1,2}[A-Z]{3})(?<dateYear>\d{2})$/);
+	if (match) {
+		const parsedDayAndMonth = parsePartialDate(match.groups.dateDayAndMonth);
+		if (parsedDayAndMonth){
+			return match.groups.dateYear + '-' + parsedDayAndMonth;
 		}
 	}
 	return null;
@@ -192,3 +207,5 @@ exports.decodeGdsTime = (timeStr) => {
 		return null;
 	}
 };
+
+exports.parsePartialDate = parsePartialDate;
