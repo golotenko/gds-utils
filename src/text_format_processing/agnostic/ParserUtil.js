@@ -135,7 +135,7 @@ const parsePartialDate = (date) => {
  * It doesn't try to guess anything, so as we have 2-digit year in the
  * original string, we still do have it in result: 'y-m-d'
  */
-exports.parseFullDate = (str) => {
+const parseFullDate = (str) => {
 	const match = str.match(/^(?<dateDayAndMonth>\d{1,2}[A-Z]{3})(?<dateYear>\d{2})$/);
 	if (match) {
 		const parsedDayAndMonth = parsePartialDate(match.groups.dateDayAndMonth);
@@ -144,6 +144,33 @@ exports.parseFullDate = (str) => {
 		}
 	}
 	return null;
+};
+
+/**
+    * parses date with year. assumes 20th century if year is 2-digit
+    * '13SEP18' -> '2018-09-13'
+    * '21JUN2021' -> '2021-06-21'
+    * '5APR1921' -> '1921-04-05'
+    * '10MAY21' -> '2021-05-10'
+    */
+exports.parse2kDate = (raw) => {
+	let $century = null;
+	const matches = php.preg_match(/^(\d{1,2})([A-Z]{3})(\d{2})(\d{2})$/, raw);
+	let withoutCentury;
+	if (matches) {
+		// 4 digits in year
+		let $_, $d, $m, $year;
+		[$_, $d, $m, $century, $year] = matches;
+		withoutCentury = $d + $m + $year;
+	} else {
+		withoutCentury = raw;
+	}
+	let parsed = parseFullDate(withoutCentury);
+	if (parsed) {
+		$century = $century || '20';
+		parsed = $century + parsed;
+	}
+	return {raw: raw, parsed: parsed};
 };
 
 exports.gdsDayOfWeekToNumber = (str) => {
@@ -209,3 +236,4 @@ exports.decodeGdsTime = (timeStr) => {
 };
 
 exports.parsePartialDate = parsePartialDate;
+exports.parseFullDate = parseFullDate;
