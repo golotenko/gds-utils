@@ -5,7 +5,7 @@
     "email": "alexandergolotenko@gmail.com"
   },
   "dependencies": {
-    "enko-fundamentals": "git+https://github.com/golotenko/enko-fundamentals.git#6e9511dcb0f74bec8db09b43b7c26e0398134dd6"
+    "enko-fundamentals": "git+https://github.com/golotenko/enko-fundamentals.git#21512f83ebaf68c0727c9cc743292b91bd503685"
   },
   "description": "Some of my personal tools for working with OTA and GDS formats",
   "license": "MIT",
