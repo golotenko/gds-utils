@@ -339,15 +339,16 @@ const parsePricingModifiers = (modsPart) => {
 	return pricingModifiers;
 };
 
+const baseRegex = mkReg([
+	/^/,
+	/(?<baseCmd>\$B(BQ\d+|B[AC0]?)?|P|)/,
+	/\/?/,
+	/(?<pricingModifiers>.*)/,
+	/$/,
+]);
+
 exports.parse = (cmd) => {
-	const regex = mkReg([
-		/^/,
-		/(?<baseCmd>\$B(BQ\d+|B[AC0]?)?|P|)/,
-		/\/?/,
-		/(?<pricingModifiers>.*)/,
-		/$/,
-	]);
-	const match = cmd.match(regex);
+	const match = cmd.match(baseRegex);
 	if (match) {
 		const pricingModifiers = parsePricingModifiers(match.groups.pricingModifiers);
 		return {
