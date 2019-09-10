@@ -1,6 +1,6 @@
 const ParserUtil = require('../agnostic/ParserUtil.js');
 
-const FareConstructionParser = require('../../../../Gds/Parsers/Common/FareConstruction/FareConstructionParser.js');
+const FareConstructionParser = require('../agnostic/fare_calculation/FcParser.js');
 const php = require('enko-fundamentals/src/Transpiled/php.js');
 const {parseSequence, parseBagAmountCode} = ParserUtil;
 
