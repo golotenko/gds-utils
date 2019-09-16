@@ -5,6 +5,22 @@ const php = require('enko-fundamentals/src/Transpiled/php.js');
 const {parseSequence, parseBagAmountCode} = ParserUtil;
 
 /**
+ * @param fb = 'QKE0ZMML'
+ * @param prevLine = 'KE ORL420.00QKE'
+ * @param nextLine = '0ZMML NUC765.00END'
+ */
+const connectsLines = (fb, prevLine, nextLine) => {
+	for (let i = 1; i < fb.length - 1; ++i) {
+		const prefix = fb.slice(0, i);
+		const postfix = fb.slice(i);
+		if (prevLine.endsWith(prefix) && nextLine.startsWith(postfix)) {
+			return true;
+		}
+	}
+	return false;
+};
+
+/**
  * parses output of FX{modifiers} command which contains pricing with fare
  * calculation if there is just one PTC or just a ptc list if there are many
  */
@@ -136,11 +152,15 @@ class FxParser {
 		for (const line of lines) {
 			const nextStartsWith = airline => line.startsWith(airline + ' ');
 			const endsWith = fb => fullLine.endsWith(fb);
+			const isSplitFb = fb => connectsLines(fb, fullLine, line);
 			const wrappedOnLetter = php.preg_match(/[A-Z]$/, fullLine) && php.preg_match(/^[A-Z]/, line);
 			const wrappedOnDigit = php.preg_match(/\d$/, fullLine) && php.preg_match(/^\d/, line);
-			if (fareBases.some(endsWith) || wrappedOnLetter || wrappedOnDigit ||
-				airlines.some(endsWith) || airlines.some(nextStartsWith)
-			) {
+			const shouldSpace =
+				fareBases.some(endsWith) || wrappedOnLetter || wrappedOnDigit ||
+				airlines.some(endsWith) || airlines.some(nextStartsWith);
+			// the Ticketing Handbook format is that all digits and letter usually can
+			// be separated by space, but official format does not count for fare bases
+			if (shouldSpace && !fareBases.some(isSplitFb)) {
 				fullLine += ' ' + line;
 			} else {
 				fullLine += line;
