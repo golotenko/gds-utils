@@ -1,5 +1,6 @@
 
 const Lexeme = require('../../../lexer/Lexeme.js');
+const {mkReg} = require('enko-fundamentals/src/Utils/Misc.js');
 
 /**
  * Whereas Lexer.js works with cases where single text
@@ -77,27 +78,27 @@ class FcTokenizer {
 			(new Lexeme('end', /^(?:(?:-+\s*)+(?<infoMessage>[\s\S]*?)\s*(?:-+\s*)*|)END(?![A-Z])/)).preprocessDataRemoveNumericKeys(),
 			(new Lexeme('rateOfExchange', /^(?:ROE(\d+\.?\d*))/)).preprocessData(getFirst),
 
-			(new Lexeme('segment', '/^' +
-				'(?<airline>[A-Z0-9]{2})' +
-				'(\\s+|\\s*[\\(\\*](?<oceanicFlight>[A-Z]{2})[\\)\\*]\\s*|(?<starMark>\\*))' +
-				'(?<flags>(?:[A-Z]\\/)*)' +
-				'(?<destination>[A-Z]{3})(?![A-Z])/'
-			)).preprocessDataRemoveNumericKeys(),
+			(new Lexeme('segment', mkReg([/^/,
+				/(?<airline>[A-Z0-9]{2})/,
+				/(\s+|\s*[\(\*](?<oceanicFlight>[A-Z]{2})[\)\*]\s*|(?<starMark>\*))/,
+				/(?<flags>(?:[A-Z]\/)*)\s*/,
+				/(?<destination>[A-Z]{3})(?![A-Z])/,
+			]))).preprocessDataRemoveNumericKeys(),
 
 			(new Lexeme('fuelSurcharge', /^Q\s*(\s[A-Z]{3}[A-Z]{3}|)(\d*\.?\d+)/)).preprocessData(getTuple),
 			(new Lexeme('stopoverFee', /^(E\/|)(\d|)S(\d*\.?\d+)/)).preprocessData(getTuple),
 
-			(new Lexeme('fare', '/^' +
-				'(?:' +
-				'(?<mileagePrinciple>\\d*[05]M|M)' +
-				'(?<mileageAirports>\\s+[A-Z]{6}|)\\s*' +
-				'|)' +
-				'(?:' +
-				'(?<from>[A-Z]{3})' +
-				'(?<to>[A-Z]{3})\\s*' +
-				'|)' +
-				'(?<amount>\\d*\\.?\\d+)/'
-			)).hasConstraint(onlyFareInSegment).preprocessDataRemoveNumericKeys(),
+			(new Lexeme('fare', mkReg([/^/,
+				'(?:',
+				/(?<mileagePrinciple>\d*[05]M|M)/,
+				/(?<mileageAirports>\s+[A-Z]{6}|)\s*/,
+				'|)',
+				'(?:',
+				/(?<from>[A-Z]{3})/,
+				/(?<to>[A-Z]{3})\s*/,
+				'|)',
+				/(?<amount>\d*\.?\d+)/,
+			]))).hasConstraint(onlyFareInSegment).preprocessDataRemoveNumericKeys(),
 
 			(new Lexeme('fareBasis', /^([A-Z0-9]+)(?:\/([A-Z0-9]+)|)/)).after(['fare']).preprocessData(getTuple),
 			(new Lexeme('fareBasis', /^\s{1}([A-Z0-9]+)(?:\/([A-Z0-9]+)|)/))
