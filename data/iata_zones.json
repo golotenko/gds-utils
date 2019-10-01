@@ -594,8 +594,16 @@
     {
         "value": "360",
         "name": "TC3 – Russian Federation East of the Urals",
-        "includes": [{"type":"country","value":"RU"},{"type":"country","value":"KZ"}],
-        "excludes": [{"type":"region","value":"33","name":"Europe"}],
+        "includes": [
+            {
+                "type":"zone",
+                "value":"ASIAN_RUSSIA",
+                "includes": [{"type":"country","value":"RU"}],
+                "excludes": [{"type":"region","value":"33","name":"Europe"}],
+            },
+            {"type":"country","value":"KZ"}
+        ],
+        "excludes": [],
         "skippedNames": []
     },
     {
