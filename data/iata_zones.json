@@ -599,7 +599,7 @@
                 "type":"zone",
                 "value":"ASIAN_RUSSIA",
                 "includes": [{"type":"country","value":"RU"}],
-                "excludes": [{"type":"region","value":"33","name":"Europe"}],
+                "excludes": [{"type":"region","value":"33","name":"Europe"}]
             },
             {"type":"country","value":"KZ"}
         ],
