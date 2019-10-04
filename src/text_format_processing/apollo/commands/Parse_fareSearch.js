@@ -31,17 +31,17 @@ const parseDate = (raw) => {
 
 const end = /(?![A-Z0-9])/;
 const lexemes_fareSearch = [
-	new Lexeme('airlines', mkReg([/^(\|[A-Z0-9]{2})+/, end]))
+	new Lexeme('airlines', mkReg([/^(?:\/)*(\|[A-Z0-9]{2})+/, end]))
 		.map((matches) => php.ltrim(matches[0], '|').split('|')),
-	new Lexeme('currency', mkReg([/^:([A-Z]{3})/, end])).map((m) => m[1]),
-	new Lexeme('tripType', mkReg([/^:(RT|OW)/, end])).map((m) => m[1]),
-	new Lexeme('cabinClass', mkReg([/^(\/){0,2}@(?<cabinClass>[A-Z])/, end]))
+	new Lexeme('currency', mkReg([/^(?:\/)*:([A-Z]{3})/, end])).map((m) => m[1]),
+	new Lexeme('tripType', mkReg([/^(?:\/)*:(RT|OW)/, end])).map((m) => m[1]),
+	new Lexeme('cabinClass', mkReg([/^(?:\/)*@(?<cabinClass>[A-Z])/, end]))
 		.map((matches) => getCabinClasses()[matches.cabinClass] || null),
-	new Lexeme('fareType', mkReg([/^:([A-Z])/, end]))
+	new Lexeme('fareType', mkReg([/^(?:\/)*:([A-Z])/, end]))
 		.map((matches) => PricingCmdParser.decodeFareType(matches[1])),
-	new Lexeme('ptc', mkReg([/^-([A-Z][A-Z0-9]{2})/, end])).map((m) => m[1]),
-	new Lexeme('bookingClass', mkReg([/^-([A-Z])/, end])).map((m) => m[1]),
-	new Lexeme('ticketingDate', mkReg([/^T(\d{1,2}[A-Z]{3}\d{2})/, end])).map((m) => parseDate(m[1])),
+	new Lexeme('ptc', mkReg([/^(?:\/)*-([A-Z][A-Z0-9]{2})/, end])).map((m) => m[1]),
+	new Lexeme('bookingClass', mkReg([/^(?:\/)*-([A-Z])/, end])).map((m) => m[1]),
+	new Lexeme('ticketingDate', mkReg([/^(?:\/)*T(\d{1,2}[A-Z]{3}\d{2})/, end])).map((m) => parseDate(m[1])),
 ];
 
 const parseTariffMods = ($modsPart) => {

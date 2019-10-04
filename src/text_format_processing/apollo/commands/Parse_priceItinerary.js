@@ -347,7 +347,7 @@ const baseRegex = mkReg([
 	/$/,
 ]);
 
-exports.parse = (cmd) => {
+const Parse_priceItinerary = (cmd) => {
 	const match = cmd.match(baseRegex);
 	if (match) {
 		const pricingModifiers = parsePricingModifiers(match.groups.pricingModifiers);
@@ -361,7 +361,11 @@ exports.parse = (cmd) => {
 	}
 };
 
-exports.encodeFareType = encodeFareType;
-exports.decodeFareType = decodeFareType;
-exports.getCabinClassMapping = getCabinClassMapping;
-exports.parsePricingModifiers = parsePricingModifiers;
+/** @deprecated - use same way as other parsers - by invoking the module object */
+Parse_priceItinerary.parse = Parse_priceItinerary;
+Parse_priceItinerary.encodeFareType = encodeFareType;
+Parse_priceItinerary.decodeFareType = decodeFareType;
+Parse_priceItinerary.getCabinClassMapping = getCabinClassMapping;
+Parse_priceItinerary.parsePricingModifiers = parsePricingModifiers;
+
+module.exports = Parse_priceItinerary;
