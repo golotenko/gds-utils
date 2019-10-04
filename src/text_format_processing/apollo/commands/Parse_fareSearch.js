@@ -35,7 +35,7 @@ const lexemes_fareSearch = [
 		.map((matches) => php.ltrim(matches[0], '|').split('|')),
 	new Lexeme('currency', mkReg([/^:([A-Z]{3})/, end])).map((m) => m[1]),
 	new Lexeme('tripType', mkReg([/^:(RT|OW)/, end])).map((m) => m[1]),
-	new Lexeme('cabinClass', mkReg([/^(\/\/)?@(?<cabinClass>[A-Z])/, end]))
+	new Lexeme('cabinClass', mkReg([/^(\/){0,2}@(?<cabinClass>[A-Z])/, end]))
 		.map((matches) => getCabinClasses()[matches.cabinClass] || null),
 	new Lexeme('fareType', mkReg([/^:([A-Z])/, end]))
 		.map((matches) => PricingCmdParser.decodeFareType(matches[1])),
