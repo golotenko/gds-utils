@@ -80,7 +80,7 @@ class Lexeme {
 
 	preprocessDataRemoveNumericKeys() {
 		const dataPreprocessor = (data) => {
-			const result = [];
+			const result = {};
 			for (const [key, value] of Object.entries(data)) {
 				if (isNaN(parseInt(key))) {
 					result[key] = value;
