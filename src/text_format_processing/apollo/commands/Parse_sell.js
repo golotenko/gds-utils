@@ -127,12 +127,11 @@ const parse_rebookAll = (textLeft) => {
 };
 
 const Parse_sell = (cmd) => {
-	let $textLeft;
-	if (cmd.startsWith('0')) {
-		$textLeft = php.substr(cmd, 1);
+	if (cmd.startsWith('0') || cmd.startsWith('N')) {
+		const textLeft = php.substr(cmd, 1);
 		return parse_availability(cmd)
-			|| parse_rebookSelective($textLeft)
-			|| parse_rebookAll($textLeft)
+			|| parse_rebookSelective(textLeft)
+			|| parse_rebookAll(textLeft)
 			|| parse_directSell(cmd)
 			|| parse_openSegment(cmd)
 			|| {sellType: null, raw: cmd};
