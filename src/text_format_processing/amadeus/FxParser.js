@@ -84,7 +84,7 @@ class FxParser {
 			notValidAfter: nvaDate ? {raw: split['E'], parsed: nvaDate} : null,
 			freeBaggageAmount: parseBagAmountCode(split['B']),
 		};
-		if (date && time && php.trim(split[' ']) === '' &&
+		if (date && php.trim(split[' ']) === '' &&
 			result.bookingClass && !Object.values(result).some(isEmptyString)
 		) {
 			return result;
