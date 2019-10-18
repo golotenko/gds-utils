@@ -105,7 +105,7 @@ class FcTokenizer {
 				.after(['hiddenInclusiveTourFare', 'hiddenBulkTourFare'])
 				.preprocessData(getTuple),
 
-			(new Lexeme('totalFare', /^((?!ROE)[A-Z]{3})\s*(\d*\.?\d+)/)).preprocessData(getTuple),
+			(new Lexeme('totalFare', /^((?!ROE)[A-Z]{3})\s*(-?\d*\.?\d+)/)).preprocessData(getTuple),
 
 			(new Lexeme('hiddenInclusiveTourFare', /^(?:M\/|)(IT)(?![A-Z])/)).preprocessData(getFirst),
 			(new Lexeme('hiddenBulkTourFare', /^(?:M\/|)(BT)(?![A-Z])/)).preprocessData(getFirst),
