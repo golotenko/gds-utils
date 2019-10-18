@@ -41,6 +41,7 @@ const lexemes_fareSearch = [
 		.map((matches) => PricingCmdParser.decodeFareType(matches[1])),
 	new Lexeme('ptc', mkReg([/^(?:\/)*-([A-Z][A-Z0-9]{2})/, end])).map((m) => m[1]),
 	new Lexeme('bookingClass', mkReg([/^(?:\/)*-([A-Z])/, end])).map((m) => m[1]),
+	new Lexeme('fareBasis', mkReg([/^(?:\/)*@([A-Z][A-Z0-9]*)/, end])).map((m) => m[1]),
 	new Lexeme('ticketingDate', mkReg([/^(?:\/)*T(\d{1,2}[A-Z]{3}\d{2})/, end])).map((m) => parseDate(m[1])),
 ];
 
