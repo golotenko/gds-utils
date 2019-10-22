@@ -132,7 +132,7 @@ const getCabinClassMapping = () => {
 	};
 };
 
-const parseMod = (gluedModsPart) => {
+const parseModifier = (gluedModsPart) => {
 	let matches, raw, type, parsed, mod;
 
 	if (php.preg_match(/^C([A-Z0-9]{2})(?![A-Z0-9])/, gluedModsPart, matches = [])) {
@@ -203,7 +203,7 @@ const Parse_priceItinerary = (cmd) => {
 		const mods = [];
 		for (let gluedModsPart of modsPart.split('/')) {
 			while (gluedModsPart) {
-				const mod = parseMod(gluedModsPart);
+				const mod = parseModifier(gluedModsPart);
 				if (mod.raw) {
 					gluedModsPart = php.substr(gluedModsPart, php.strlen(mod.raw));
 					mods.push(mod);
@@ -221,5 +221,6 @@ const Parse_priceItinerary = (cmd) => {
 };
 
 Parse_priceItinerary.getCabinClassMapping = getCabinClassMapping;
+Parse_priceItinerary.parseModifier = parseModifier;
 
 module.exports = Parse_priceItinerary;
