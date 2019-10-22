@@ -28,6 +28,7 @@ const regex = [
 	[/^FN\d+[\*\/].*/, 'fareRules'],
 	[/^FQP[^0-9]/, 'fareQuotePlanner'],
 	[/^FSK\d+$/, 'sellFromLowFareSearch'],
+	[/^FSOF\d+$/, 'lowFareSearchNavigation'], // (VIEW ADDITIONAL FEE DISPLAY)
 	[/^MORE\*\d+$/, 'lowFareSearchNavigation'],// AT THE SAME PRICE AS PRICING OPTION \d
 	[/^FS\*\d+$/, 'lowFareSearchNavigation'],// VIEW FARE DETAILS FOR PRICING OPTION \d
 	[/^FSMORE$/, 'lowFareSearchNavigation'],// VIEW MORE PRICING OPTIONS
