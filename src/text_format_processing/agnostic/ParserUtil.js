@@ -27,6 +27,24 @@ exports.parseSequence = (linesLeft, parse) => {
 	return [parsedLines, linesLeft];
 };
 
+exports.matchAll = (pattern, str) => {
+	let reg = new RegExp(pattern);
+	if (!reg.flags.includes('g')) {
+		reg = new RegExp(reg.source, reg.flags + 'g');
+	}
+	const records = [];
+	let lastIndex = -1;
+	let matches;
+	while((matches = reg.exec(str)) !== null) {
+		if (lastIndex === reg.lastIndex) {
+			throw new Error('Infinite regex due to empty string match at ' + lastIndex + ' - ' + reg + ' - ' + str);
+		}
+		lastIndex = reg.lastIndex;
+		records.push(matches);
+	}
+	return records;
+};
+
 // '15K', '2P', '1PC', '25', '50'
 exports.parseBagAmountCode = (code) => {
 	const match = code.match(/^(\d{0,2})([A-Z]{0,3})$/);
