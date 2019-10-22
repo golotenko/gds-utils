@@ -25,10 +25,10 @@ const parseDate = (raw) => {
 
 const parseMods = (modsPart) => {
 	const getFirst = (matches) => matches[1];
-	const parseDate = (matches) => parseDate(matches[1]);
+	const parseDateToken = (matches) => parseDate(matches[1]);
 	const end = '(?![A-Z0-9])';
 	const lexer = new Lexer([
-		(new Lexeme('returnDate', '/^¥R(\\d{1,2}[A-Z]{3}\\d{0,2})' + end + '/')).preprocessData(parseDate),
+		(new Lexeme('returnDate', '/^¥R(\\d{1,2}[A-Z]{3}\\d{0,2})' + end + '/')).preprocessData(parseDateToken),
 		(new Lexeme('currency', '/^\\\/([A-Z]{3})' + end + '/')).preprocessData(getFirst),
 		(new Lexeme('tripType', '/^¥(RT|OW)' + end + '/')).preprocessData(getFirst),
 		(new Lexeme('cabinClass', '/^(' + php.implode('|', php.array_values(getCabinClasses())) + ')' + end + '/')).preprocessData((matches) => {
