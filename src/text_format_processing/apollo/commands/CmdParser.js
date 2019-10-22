@@ -148,6 +148,7 @@ class CommandParser {
 		}
 	}
 
+	/** @deprecated - use Parse_fareSearch.js */
 	static getCabinClasses() {
 		return Parse_fareSearch.getCabinClasses();
 	}
