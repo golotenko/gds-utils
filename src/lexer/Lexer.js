@@ -1,20 +1,40 @@
 
 class Lexer {
-
 	/** @param Lexeme[] $lexemes */
 	constructor(lexemes) {
-		this.context = undefined;
 		this.lexemes = lexemes;
 	}
 
-	matchLexeme(text) {
+	* matchLexemes(text, context) {
 		for (const lexeme of this.lexemes) {
-			const result = lexeme.match(text, this.context);
+			const result = lexeme.match(text, context);
 			if (result) {
-				return result;
+				yield result;
 			}
 		}
-		return null;
+	}
+
+	/**
+	 * Lexes all possible combinations going from end to start,
+	 * from top matching lexeme to last+ Supposed to
+	 * be interrupted when result satisfies your needs
+	 */
+	* lexCombinations(text, prevLexemes = []) {
+		const context = {
+			text,
+			lexemes: [...prevLexemes],
+		};
+		for (const lexeme of this.matchLexemes(text, context)) {
+			const textLeft = lexeme.textLeft;
+			delete lexeme.textLeft;
+			const nextLexemes = [...prevLexemes, lexeme];
+			let gotAny = false;
+			for (const subContext of this.lexCombinations(textLeft, nextLexemes)) {
+				gotAny = true;
+				yield subContext;
+			}
+			if (!gotAny) yield {text: textLeft, lexemes: nextLexemes};
+		}
 	}
 
 	/** @return {{
@@ -26,22 +46,12 @@ class Lexer {
 	 *     }[],
 	 * }} */
 	lex(text) {
-		this.context = {text, lexemes: []};
-		while (true) {
-			const lexeme = this.matchLexeme(this.context.text);
-			if (lexeme) {
-				this.context.text = lexeme.textLeft;
-				this.context.lexemes.push(lexeme);
-			} else {
-				break;
-			}
+		const item = this.lexCombinations(text, []).next();
+		if (!item.done) {
+			return item.value;
+		} else {
+			return {text, lexemes: []};
 		}
-		const removeTextLeft = (data) => {
-			delete data.textLeft;
-			return data;
-		};
-		this.context.lexemes = this.context.lexemes.map(removeTextLeft);
-		return this.context;
 	}
 }
 
