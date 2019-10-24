@@ -1,4 +1,4 @@
-
+const Lexer = require('../../../lexer/Lexer.js');
 const Lexeme = require('../../../lexer/Lexeme.js');
 const {mkReg} = require('enko-fundamentals/src/Utils/Misc.js');
 
@@ -26,8 +26,8 @@ class FcTokenizer {
 	static makeLexemes() {
 		const isFirst = context => context && context.lexemes.length === 0;
 		const getTuple = matches => matches.slice(1);
-		const onlyFareInSegment = ($context) => {
-			const lexemes = $context.lexemes || null;
+		const onlyFareInSegment = (context) => {
+			const lexemes = context.lexemes || null;
 			let sideTripDepth = 0;
 			if (lexemes) {
 				for (let i = lexemes.length - 1; i >= 0; --i) {
@@ -119,42 +119,6 @@ class FcTokenizer {
 			|| (this.lexemes = this.constructor.makeLexemes());
 	}
 
-	* matchLexemes(text, context) {
-		for (const lexeme of this.getLexemes()) {
-			const result = lexeme.match(text, context);
-			if (result) {
-				yield result;
-			}
-		}
-	}
-
-	/**
-	 * Lexes all possible combinations going from end to start,
-	 * from top matching lexeme to last+ Supposed to
-	 * be interrupted when result satisfies your needs
-	 */
-	* lexCombinations(text, prevLexemes) {
-		prevLexemes = [...prevLexemes];
-
-		let gotAny, $subContext;
-		const context = {
-			text: text,
-			lexemes: [...prevLexemes],
-		};
-		for (const lexeme of this.matchLexemes(text, context)) {
-			const textLeft = lexeme.textLeft;
-			delete lexeme.textLeft;
-			prevLexemes.push(lexeme);
-			gotAny = false;
-			for ($subContext of this.lexCombinations(textLeft, prevLexemes)) {
-				gotAny = true;
-				yield $subContext;
-			}
-			if (!gotAny) yield {text: textLeft, lexemes: prevLexemes};
-			prevLexemes.pop();
-		}
-	}
-
 	/**
 	 * @return {IterableIterator<{text: '...', lexemes: []}>}
 	 * each yield-ed value is matched lexemes and text left
@@ -162,8 +126,10 @@ class FcTokenizer {
 	 * that means there are more than one way to split
 	 * your text to fare construction tokens - use the fittest of them
 	 */
-	tryTokenCombinations($text) {
-		return this.lexCombinations($text, []);
+	tryTokenCombinations(text) {
+		const lexemes = this.getLexemes();
+		const lexer = new Lexer(lexemes);
+		return lexer.lexCombinations(text, []);
 	}
 }
 
