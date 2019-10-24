@@ -25,8 +25,16 @@ const parseDate = (raw) => {
 	return !raw ? null : {
 		raw: raw,
 		partial: ParserUtil.parsePartialDate(raw),
-		full: ParserUtil.parse2kDate(raw)['parsed'],
+		full: ParserUtil.parse2kDate(raw).parsed,
 	};
+};
+
+const isPositional = (context) => {
+	const prefixes = ['validated', 'travelDate', 'cityPair'];
+	return context && (
+		context.lexemes.length === 0 ||
+		prefixes.includes(context.lexemes.slice(-1)[0].lexeme)
+	);
 };
 
 const end = /(?![A-Z0-9])/;
@@ -43,47 +51,75 @@ const lexemes_fareSearch = [
 	new Lexeme('bookingClass', mkReg([/^(?:\/)*-([A-Z])/, end])).map((m) => m[1]),
 	new Lexeme('fareBasis', mkReg([/^(?:\/)*@([A-Z][A-Z0-9]*)/, end])).map((m) => m[1]),
 	new Lexeme('ticketingDate', mkReg([/^(?:\/)*T(\d{1,2}[A-Z]{3}\d{2})/, end])).map((m) => parseDate(m[1])),
+
+	new Lexeme('validated', /^V(?![A-Z])/).map((m) => parseDate(m[1])).hasConstraint(isPositional),
+	new Lexeme('travelDate', /^(\d{1,2}[A-Z]{3})/).map((m) => parseDate(m[1])).hasConstraint(isPositional),
+	new Lexeme('cityPair', /^([A-Z]{3})([A-Z]{3})/).map((m) => ({
+		departureAirport: m[1], destinationAirport: m[2],
+	})).hasConstraint(isPositional),
+	new Lexeme('travelDate', /^(\d{1,2}[A-Z]{3}\d{2})/).map((m) => parseDate(m[1])).hasConstraint(isPositional),
 ];
 
-const parseTariffMods = ($modsPart) => {
+const parseTariffMods = (modsPart) => {
 	const lexer = new Lexer(lexemes_fareSearch);
-	return lexer.lex($modsPart);
+	const lexOptions = [];
+	for (const lexed of lexer.lexCombinations(modsPart, [])) {
+		if (!lexed.text.trim()) {
+			return lexed;
+		} else {
+			lexOptions.push(lexed);
+		}
+	}
+	return lexOptions.sort((a,b) => a.textLeft - b.textLeft)[0]
+		|| {text: modsPart, lexemes: []};
 };
 
 const Parse_fareSearch = (cmd) => {
-	let returnDate, $matches, $_, departureAirport, destinationAirport, departureDate, $modsPart, $lexed;
-	returnDate = null;
-	// probably should parse token sequence with Lexer.js same as
-	// modifiers, as we know that they may come in nearly any order...
-	// the only rule I see here is that return date can only be specified with "V"-alidated indicator
-	if (php.preg_match(/^\$D([A-Z]{3})([A-Z]{3})(\d{1,2}[A-Z]{3}\d{0,2})(.*)$/, cmd, $matches = [])) {
-		// $DJFKMNL25MAY
-		[$_, departureAirport, destinationAirport, departureDate, $modsPart] = $matches;
-	} else if (php.preg_match(/^\$DV(\d{1,2}[A-Z]{3}\d{0,2})([A-Z]{3})([A-Z]{3})(\d{1,2}[A-Z]{3}\d{0,2})(.*)$/, cmd, $matches = [])) {
-		// $DV25MAYJFKMNL28MAY
-		[$_, departureDate, departureAirport, destinationAirport, returnDate, $modsPart] = $matches;
-	} else if (php.preg_match(/^\$DV?(\d{1,2}[A-Z]{3}\d{0,2})([A-Z]{3})([A-Z]{3})(.*)$/, cmd, $matches = [])) {
-		// $DV25MAYJFKMNL, $D25MAYJFKMNL
-		[$_, departureDate, departureAirport, destinationAirport, $modsPart] = $matches;
-	} else if (php.preg_match(/^\$D([A-Z]{3})([A-Z]{3})V(\d{1,2}[A-Z]{3})(\d{1,2}[A-Z]{3}){0,1}(.*)$/, cmd, $matches = [])) {
-		// $DJFKMNLV25MAY27MAY, $DJFKMNLV25MAY
-		[$_, departureAirport, destinationAirport, departureDate, returnDate, $modsPart] = $matches;
-	} else {
+	if (!cmd.startsWith('$D')) {
 		return null;
 	}
+	const modsPart = cmd.slice('$D'.length);
+	const lexed = parseTariffMods(modsPart);
 
-	const lexed = parseTariffMods($modsPart);
+	const result = {};
+	const modifiers = [];
+	for (const lexeme of lexed.lexemes) {
+		if (lexeme.lexeme === 'travelDate') {
+			if (!result.departureDate) {
+				result.departureDate = lexeme.data;
+			} else if (!result.returnDate) {
+				result.returnDate = lexeme.data;
+			} else {
+				// matches three dates, likely a typo
+				return null;
+			}
+		} else if (lexeme.lexeme === 'validated') {
+			if (!result.validated) {
+				result.validated = true;
+			} else {
+				// 2 "V" modifiers, likely a typo
+				return null;
+			}
+		} else if (lexeme.lexeme === 'cityPair') {
+			if (!result.departureAirport) {
+				result.departureAirport = lexeme.data.departureAirport;
+				result.destinationAirport = lexeme.data.destinationAirport;
+			} else {
+				// 4 city codes matched, likely some wrong text matched
+				return null;
+			}
+		} else {
+			modifiers.push({
+				type: lexeme.lexeme,
+				raw: lexeme.raw,
+				parsed: lexeme.data,
+			});
+		}
+	}
+	result.modifiers = modifiers;
+	result.unparsed = lexed.text;
 
-	return {
-		departureDate: parseDate(departureDate),
-		returnDate: parseDate(returnDate),
-		departureAirport: departureAirport,
-		destinationAirport: destinationAirport,
-		modifiers: lexed.lexemes.map((rec) => ({
-			type: rec.lexeme, raw: rec.raw, parsed: rec.data,
-		})),
-		unparsed: lexed.text,
-	};
+	return result;
 };
 
 Parse_fareSearch.getCabinClasses = getCabinClasses;
