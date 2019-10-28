@@ -28,24 +28,23 @@ const parseMods = (modsPart) => {
 	const parseDateToken = (matches) => parseDate(matches[1]);
 	const end = '(?![A-Z0-9])';
 	const lexer = new Lexer([
-		(new Lexeme('returnDate', '/^¥R(\\d{1,2}[A-Z]{3}\\d{0,2})' + end + '/')).preprocessData(parseDateToken),
-		(new Lexeme('currency', '/^\\\/([A-Z]{3})' + end + '/')).preprocessData(getFirst),
-		(new Lexeme('tripType', '/^¥(RT|OW)' + end + '/')).preprocessData(getFirst),
-		(new Lexeme('cabinClass', '/^(' + php.implode('|', php.array_values(getCabinClasses())) + ')' + end + '/')).preprocessData((matches) => {
-			return (php.array_flip(getCabinClasses()) || {})[matches[1]];
-		}),
-		(new Lexeme('fareType', '/^¥(PV|PL)' + end + '/')).preprocessData((matches) => {
+		(new Lexeme('returnDate', /^¥R(\d{1,2}[A-Z]{3})(?:\d{2}|)/)).map(parseDateToken),
+		(new Lexeme('currency', '/^\\\/([A-Z]{3})' + end + '/')).map(getFirst),
+		(new Lexeme('tripType', '/^¥(RT|OW)' + end + '/')).map(getFirst),
+		(new Lexeme('cabinClass', '/^(' + Object.values(getCabinClasses()).join('|') + ')' + end + '/'))
+			.map((matches) => (php.array_flip(getCabinClasses()) || {})[matches[1]]),
+		(new Lexeme('fareType', '/^¥(PV|PL)' + end + '/')).map((matches) => {
 			return {
 				PV: 'private', PL: 'public',
 			}[matches[1]];
 		}),
-		(new Lexeme('accountCode', '/^¥RR\\*([A-Z0-9]+)' + end + '/')).preprocessData(getFirst),
-		(new Lexeme('ptc', '/^¥P([A-Z][A-Z0-9]{2})' + end + '/')).preprocessData(getFirst),
-		(new Lexeme('fareBasis', '/^¥Q([A-Z][A-Z0-9]*)' + end + '/')).preprocessData(getFirst),
-		(new Lexeme('airlines', '/^(-[A-Z0-9]{2})+' + end + '/')).preprocessData((matches) => {
+		(new Lexeme('accountCode', '/^¥RR\\*([A-Z0-9]+)' + end + '/')).map(getFirst),
+		(new Lexeme('ptc', '/^¥P([A-Z][A-Z0-9]{2})' + end + '/')).map(getFirst),
+		(new Lexeme('fareBasis', '/^¥Q([A-Z][A-Z0-9]*)' + end + '/')).map(getFirst),
+		(new Lexeme('airlines', '/^(-[A-Z0-9]{2})+' + end + '/')).map((matches) => {
 			return php.explode('-', php.ltrim(matches[0], '-'));
 		}),
-		(new Lexeme('bookingClass', /^¥B([A-Z])/)).preprocessData(getFirst),
+		(new Lexeme('bookingClass', /^¥B([A-Z])/)).map(getFirst),
 	]);
 	return lexer.lex(modsPart);
 };
