@@ -2,7 +2,7 @@ const Parse_priceItinerary = require('./Parse_priceItinerary.js');
 const Parse_fareSearch = require('./Parse_fareSearch.js');
 const Parse_airAvailability = require('./Parse_airAvailability.js');
 const SimpleTypes = require('./SimpleTypes.js');
-const php = require('klesun-node-tools/src/Transpiled/php.js');
+const php = require('enko-fundamentals/src/Transpiled/php.js');
 
 /**
  * takes terminal command typed by a user and returns it's type

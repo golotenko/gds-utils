@@ -1,7 +1,7 @@
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 const Lexeme = require('../../../lexer/Lexeme.js');
 const Lexer = require('../../../lexer/Lexer.js');
-const php = require('klesun-node-tools/src/Transpiled/php.js');
+const php = require('enko-fundamentals/src/Transpiled/php.js');
 
 const getCabinClasses = () => {
 	return {

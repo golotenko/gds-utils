@@ -1,4 +1,4 @@
-const php = require('klesun-node-tools/src/Transpiled/php.js');
+const php = require('enko-fundamentals/src/Transpiled/php.js');
 const Parse_apollo_priceItinerary = require('../../apollo/commands/Parse_priceItinerary.js');
 
 const parsePModPtcGroup = (ptcToken) => {

@@ -1,6 +1,6 @@
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 
-const php = require('klesun-node-tools/src/Transpiled/php.js');
+const php = require('enko-fundamentals/src/Transpiled/php.js');
 
 const parseDate = (raw) => {
 	const partial = ParserUtil.parsePartialDate(raw);

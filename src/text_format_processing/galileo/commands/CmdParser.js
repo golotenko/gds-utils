@@ -5,7 +5,7 @@ const SimpleTypes = require('./SimpleTypes.js');
 const Lexeme = require('../../../lexer/Lexeme.js');
 const Lexer = require('../../../lexer/Lexer.js');
 
-const php = require('klesun-node-tools/src/Transpiled/php.js');
+const php = require('enko-fundamentals/src/Transpiled/php.js');
 
 // 'UA12345876490/BD/LH/AC', 'AA423188DLM', 'UA/TG/SK'
 const parseMmAir = (airPart) => {

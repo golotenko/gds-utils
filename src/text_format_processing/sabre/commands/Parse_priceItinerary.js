@@ -1,5 +1,5 @@
 
-const php = require('klesun-node-tools/src/Transpiled/php.js');
+const php = require('enko-fundamentals/src/Transpiled/php.js');
 const {mkReg} = require('klesun-node-tools/src/Utils/Misc.js');
 
 /** @param expr = '1/3/5-7/9' */
