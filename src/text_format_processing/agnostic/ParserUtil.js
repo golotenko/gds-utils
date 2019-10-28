@@ -165,6 +165,23 @@ const parseFullDate = (str) => {
 };
 
 /**
+ * adds century if needed: 19 or 20 depending on current year
+ * '01FEB46' -> '1946-03-01'
+ */
+const parsePastFullDate = (raw) => {
+	let matches, parsed;
+	if (matches = php.preg_match(/^(\d{1,2}[A-Z]{3})(\d{2}|)(\d{2})$/, raw)) {
+		let [, partial, century, year] = matches;
+		century = century || (year > php.date('y') ? '19' : '20');
+		const partialParsed = parsePartialDate(partial);
+		parsed = partialParsed ? century + year + '-' + partialParsed : null;
+	} else {
+		parsed = null;
+	}
+	return {raw: raw,parsed: parsed};
+};
+
+/**
     * parses date with year. assumes 20th century if year is 2-digit
     * '13SEP18' -> '2018-09-13'
     * '21JUN2021' -> '2021-06-21'
@@ -264,3 +281,4 @@ exports.decodeGdsTime = (timeStr) => {
 
 exports.parsePartialDate = parsePartialDate;
 exports.parseFullDate = parseFullDate;
+exports.parsePastFullDate = parsePastFullDate;
