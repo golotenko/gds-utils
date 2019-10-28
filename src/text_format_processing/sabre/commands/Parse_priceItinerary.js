@@ -1,6 +1,6 @@
 
 const php = require('enko-fundamentals/src/Transpiled/php.js');
-const {mkReg} = require('klesun-node-tools/src/Utils/Misc.js');
+const {mkReg} = require('enko-fundamentals/src/Utils/Misc.js');
 
 /** @param expr = '1/3/5-7/9' */
 const parseRanges = (expr) => {

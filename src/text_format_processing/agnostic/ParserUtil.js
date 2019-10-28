@@ -182,12 +182,12 @@ const parsePastFullDate = (raw) => {
 };
 
 /**
-    * parses date with year. assumes 20th century if year is 2-digit
-    * '13SEP18' -> '2018-09-13'
-    * '21JUN2021' -> '2021-06-21'
-    * '5APR1921' -> '1921-04-05'
-    * '10MAY21' -> '2021-05-10'
-    */
+ * parses date with year. assumes 20th century if year is 2-digit
+ * '13SEP18' -> '2018-09-13'
+ * '21JUN2021' -> '2021-06-21'
+ * '5APR1921' -> '1921-04-05'
+ * '10MAY21' -> '2021-05-10'
+ */
 exports.parse2kDate = (raw) => {
 	let $century = null;
 	const matches = php.preg_match(/^(\d{1,2})([A-Z]{3})(\d{2})(\d{2})$/, raw);

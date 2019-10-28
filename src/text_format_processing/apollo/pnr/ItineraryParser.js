@@ -1,8 +1,8 @@
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 const {decodeDayOffset} = require('../Helpers.js');
 
-const php = require('klesun-node-tools/src/Transpiled/php.js');
-const {mkReg} = require('klesun-node-tools/src/Utils/Misc.js');
+const php = require('enko-fundamentals/src/Transpiled/php.js');
+const {mkReg} = require('enko-fundamentals/src/Utils/Misc.js');
 
 const {
 	array_filter, array_key_exists,

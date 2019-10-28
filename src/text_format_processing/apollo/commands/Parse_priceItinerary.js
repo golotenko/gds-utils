@@ -1,7 +1,7 @@
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 const Lexeme = require('../../../lexer/Lexeme.js');
 const Lexer = require('../../../lexer/Lexer.js');
-const {mkReg} = require('klesun-node-tools/src/Utils/Misc.js');
+const {mkReg} = require('enko-fundamentals/src/Utils/Misc.js');
 const php = require("enko-fundamentals/src/Transpiled/php.js");
 
 const fareTypes = {
