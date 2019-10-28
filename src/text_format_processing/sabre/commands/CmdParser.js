@@ -18,7 +18,7 @@ class CommandParser {
 			}
 		}
 		const startTuples = Object.entries(SimpleTypes.start)
-		// put longest start patterns first
+			// put longest start patterns first
 			.sort((a,b) => b[0].length - a[0].length);
 		for (const [pattern, type] of startTuples) {
 			if (cmd.startsWith(pattern)) {

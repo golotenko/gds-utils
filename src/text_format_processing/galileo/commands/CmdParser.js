@@ -95,18 +95,19 @@ class CommandParser {
 		cmd = php.strtoupper(cmd);
 		cmd = php.trim(cmd);
 
-		for (const [pattern, type] of Object.entries(SimpleTypes.exact)) {
+		const startTuples = Object.entries(SimpleTypes.start)
+		// put longest start patterns first
+			.sort((a,b) => b[0].length - a[0].length);
+		for (const [pattern, type] of startTuples) {
 			if (cmd === pattern) {
 				return type;
 			}
 		}
-
 		for (const [pattern, name] of SimpleTypes.regex) {
 			if (php.preg_match(pattern, cmd)) {
 				return name;
 			}
 		}
-
 		const starts = Object.keys(SimpleTypes.start)
 			.sort((a,b) => b.length - a.length); // longest matched first
 

@@ -4,9 +4,8 @@ const ParserUtil = require('../../agnostic/ParserUtil.js');
 const SimpleTypes = require('./SimpleTypes.js');
 const php = require('enko-fundamentals/src/Transpiled/php.js');
 
-class CommandParser
-{
-	static parseChangePcc(cmd)  {
+class CommandParser {
+	static parseChangePcc(cmd) {
 		let matches;
 
 		if (php.preg_match(/^JU[IM]\/-([A-Z0-9]+)$/, cmd, matches = [])) {
@@ -16,7 +15,7 @@ class CommandParser
 		}
 	}
 
-	static parseChangeArea(cmd)  {
+	static parseChangeArea(cmd) {
 		let matches;
 
 		if (php.preg_match(/^JM([A-Z])$/, cmd, matches = [])) {
@@ -26,7 +25,7 @@ class CommandParser
 		}
 	}
 
-	static parseOpenPnr(cmd)  {
+	static parseOpenPnr(cmd) {
 		let matches;
 
 		if (php.preg_match(/^RT\s*([A-Z0-9]{6})$/, cmd, matches = [])) {
@@ -36,14 +35,14 @@ class CommandParser
 		}
 	}
 
-	static parseSearchPnr(cmd)  {
+	static parseSearchPnr(cmd) {
 		let matches, searchTokens;
 
 		if (php.preg_match(/^RT\s*(.*\S+.*)$/, cmd, matches = [])) {
 			searchTokens = matches[1].split('-').map(t => t.trim());
 			if (php.count(searchTokens) > 1 ||
-                php.in_array(searchTokens[0], ['U', '*E']) ||
-                php.preg_match(/\/\s*\S/, searchTokens[0])
+				php.in_array(searchTokens[0], ['U', '*E']) ||
+				php.preg_match(/\/\s*\S/, searchTokens[0])
 			) {
 				return {searchTokens: searchTokens};
 			} else {
@@ -54,7 +53,7 @@ class CommandParser
 		}
 	}
 
-	static parseDisplayPnrFromList(cmd)  {
+	static parseDisplayPnrFromList(cmd) {
 		let matches;
 
 		if (php.preg_match(/^RT\s*(\d+)$/, cmd, matches = [])) {
@@ -65,7 +64,7 @@ class CommandParser
 	}
 
 	/** @param expr = '1-2,5-7' */
-	static parseRange(expr)  {
+	static parseRange(expr) {
 		const parseRange = (text) => {
 			const pair = php.explode('-', text);
 			return php.range(pair[0], pair[1] || pair[0]);
@@ -75,16 +74,16 @@ class CommandParser
 
 	// 'FFNPS-1005775190', 'FFNUA-123456778910,UA,LH/P1',
 	// 'FFNQR-525433075/P1', 'FFNUA-12345678910,UA,LH'
-	static parseAddFrequentFlyerNumber(cmd)  {
+	static parseAddFrequentFlyerNumber(cmd) {
 		let regex, matches;
 
 		regex =
-            '/^FFN'+
-            '(?<airline>[A-Z0-9]{2})-'+
-            '(?<code>[A-Z0-9]+)'+
-            '(?<partners>(,[A-Z0-9]{2})*)'+
-            '(\\\/P(?<majorPaxNum>\\d+))?'+
-            '$/';
+			'/^FFN' +
+			'(?<airline>[A-Z0-9]{2})-' +
+			'(?<code>[A-Z0-9]+)' +
+			'(?<partners>(,[A-Z0-9]{2})*)' +
+			'(\\\/P(?<majorPaxNum>\\d+))?' +
+			'$/';
 		if (php.preg_match(regex, cmd, matches = [])) {
 			return {
 				airline: matches.airline,
@@ -98,7 +97,7 @@ class CommandParser
 		}
 	}
 
-	static parseDeletePnrField(cmd)  {
+	static parseDeletePnrField(cmd) {
 		let matches, ranges, lineNumbers, range, bounds, from, to, num, pair;
 
 		if (php.preg_match(/^XE(\d*\.?\d+[\d\.,-]*)$/, cmd, matches = [])) {
@@ -113,14 +112,16 @@ class CommandParser
 					lineNumbers.push({
 						major: pair[0],
 						minor: pair[1],
-					});}}
+					});
+				}
+			}
 			return {lineNumbers: lineNumbers};
 		} else {
 			return null;
 		}
 	}
 
-	static parseChangePnrField(cmd)  {
+	static parseChangePnrField(cmd) {
 		let matches, $_, major, minor, content;
 
 		if (php.preg_match(/^\s*(\d+)(\.\d+|)\/(.+)$/, cmd, matches = [])) {
@@ -135,16 +136,17 @@ class CommandParser
 		}
 	}
 
-	static parseRequestSeats(cmd)  {
-		let regex, matches, seatCodesStr, seatCodeGroups, seatCodes, group, seatMatches, $_, rowNumber, letters, letter, paxNums;
+	static parseRequestSeats(cmd) {
+		let regex, matches, seatCodesStr, seatCodeGroups, seatCodes, group, seatMatches, $_, rowNumber, letters, letter,
+			paxNums;
 
 		regex =
-            '/^ST'+
-            '(\\\/(?<location>[AWB]))?'+
-            '(?<seatCodes>(\\\/\\d+[A-Z]+)*)'+
-            '(\\\/P(?<paxNums>\\d+[-,\\d]*))?'+
-            '(\\\/S(?<segNums>\\d+[-,\\d]*))?'+
-            '$/';
+			'/^ST' +
+			'(\\\/(?<location>[AWB]))?' +
+			'(?<seatCodes>(\\\/\\d+[A-Z]+)*)' +
+			'(\\\/P(?<paxNums>\\d+[-,\\d]*))?' +
+			'(\\\/S(?<segNums>\\d+[-,\\d]*))?' +
+			'$/';
 		if (php.preg_match(regex, cmd, matches = [])) {
 			seatCodesStr = php.ltrim(matches.seatCodes || '', '/');
 			seatCodeGroups = seatCodesStr ? php.explode('/', seatCodesStr) : [];
@@ -153,7 +155,10 @@ class CommandParser
 				php.preg_match_all(/(\d+)([A-Z]+)/, group, seatMatches = [], php.PREG_SET_ORDER);
 				for ([$_, rowNumber, letters] of Object.values(seatMatches)) {
 					for (letter of Object.values(php.str_split(letters, 1))) {
-						seatCodes.push(rowNumber+letter);}}}
+						seatCodes.push(rowNumber + letter);
+					}
+				}
+			}
 
 			paxNums = php.empty(matches.paxNums) ? [] :
 				this.parseRange(matches.paxNums);
@@ -176,14 +181,14 @@ class CommandParser
 		}
 	}
 
-	static parseCancelSeats(cmd)  {
+	static parseCancelSeats(cmd) {
 		let regex, matches, paxNums;
 
 		regex =
-            '/^SX'+
-            '(\\\/P(?<paxNums>\\d+[-,\\d]*))?'+
-            '(\\\/S(?<segNums>\\d+[-,\\d]*))?'+
-            '$/';
+			'/^SX' +
+			'(\\\/P(?<paxNums>\\d+[-,\\d]*))?' +
+			'(\\\/S(?<segNums>\\d+[-,\\d]*))?' +
+			'$/';
 		if (php.preg_match(regex, cmd, matches = [])) {
 			paxNums = php.empty(matches.paxNums) ? [] :
 				this.parseRange(matches.paxNums);
@@ -204,7 +209,7 @@ class CommandParser
 	}
 
 	// 'FXX/P1/RYTH//P2/RMIL'
-	static parsePriceItinerary(cmd)  {
+	static parsePriceItinerary(cmd) {
 		return Parse_priceItinerary(cmd);
 	}
 
@@ -261,27 +266,31 @@ class CommandParser
 		}
 	}
 
-	static detectCommandType(cmd)  {
-		cmd = php.trim(cmd);
+	static detectCommandType(cmd) {
+		cmd = cmd.trim();
 		for (const [pattern, type] of Object.entries(SimpleTypes.exact)) {
 			if (cmd === pattern) {
 				return type;
-			}}
-
-		for (const [pattern, type] of Object.entries(SimpleTypes.start)) {
+			}
+		}
+		const startTuples = Object.entries(SimpleTypes.start)
+			// put longest start patterns first
+			.sort((a,b) => b[0].length - a[0].length);
+		for (const [pattern, type] of startTuples) {
 			if (cmd.startsWith(pattern)) {
 				return type;
-			}}
-
+			}
+		}
 		for (const [pattern, name] of SimpleTypes.regex) {
 			if (php.preg_match(pattern, cmd)) {
 				return name;
-			}}
+			}
+		}
 
 		return null;
 	}
 
-	static parseSingleCommand(cmd)  {
+	static parseSingleCommand(cmd) {
 		let data, type;
 
 		cmd = php.trim(php.strtoupper(cmd));
@@ -338,7 +347,7 @@ class CommandParser
 		};
 	}
 
-	static parse(cmd)  {
+	static parse(cmd) {
 		const flatCmds = cmd.split(';')
 			.map(c => this.parseSingleCommand(c));
 		const result = flatCmds.shift();
@@ -346,4 +355,5 @@ class CommandParser
 		return result;
 	}
 }
+
 module.exports = CommandParser;

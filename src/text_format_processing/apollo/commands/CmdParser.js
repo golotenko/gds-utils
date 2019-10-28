@@ -10,10 +10,6 @@ const PricingCmdParser = require('./Parse_priceItinerary.js');
 const php = require("enko-fundamentals/src/Transpiled/php.js");
 const SimpleTypes = require('./SimpleTypes');
 
-const simpleTypeExact = SimpleTypes.exact;
-const simpleTypeStart = SimpleTypes.start;
-const simpleTypeRegex = SimpleTypes.regex;
-
 /**
  * takes terminal command typed by a user and returns it's type
  * and probably some more info in future, like Sabre-version of
@@ -23,12 +19,15 @@ class CommandParser {
 	static detectCommandType(cmd) {
 		cmd = php.strtoupper(cmd);
 		cmd = php.trim(cmd);
-		for (const [pattern, type] of Object.entries(simpleTypeStart)) {
+		const startTuples = Object.entries(SimpleTypes.start)
+			// put longest start patterns first
+			.sort((a,b) => b[0].length - a[0].length);
+		for (const [pattern, type] of startTuples) {
 			if (cmd.startsWith(pattern)) {
 				return type;
 			}
 		}
-		for (const [pattern, name] of simpleTypeRegex) {
+		for (const [pattern, name] of SimpleTypes.regex) {
 			if (cmd.match(pattern)) {
 				return name;
 			}
@@ -273,7 +272,7 @@ class CommandParser {
 
 	static parseSingleCommand(cmd) {
 		let data, type, parsed;
-		if (type = simpleTypeExact[cmd]) {
+		if (type = SimpleTypes.exact[cmd]) {
 			data = null;
 		} else if (data = this.parseArea(cmd)) {
 			type = 'changeArea';
