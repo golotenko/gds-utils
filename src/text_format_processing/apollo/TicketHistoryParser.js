@@ -12,7 +12,8 @@ class TicketHistoryParser {
 		let tz = null;
 		let matches;
 		if (php.preg_match(/(\d{1,2}[A-Z]{3})(\d{1,4}[A-Z]??)(.*)/, raw, matches = [])) {
-			let [, date, time, tz] = matches;
+			let date, time;
+			[, date, time, tz] = matches;
 			date = ParserUtil.parsePartialDate(date);
 			time = ParserUtil.decodeGdsTime(time);
 			if (date && time) {
