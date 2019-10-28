@@ -1,9 +1,6 @@
+const GdsConstants = require('../../agnostic/GdsConstants.js');
 
 const php = require('enko-fundamentals/src/Transpiled/php.js');
-
-const STATUS_EXECUTED = 'EXECUTED';
-const STATUS_SIMULTANEOUS_CHANGES = 'SIMULTANEOUS_CHANGES';
-const STATUS_GDS_ERROR = 'GDS_ERROR';
 
 const checkPnrDumpIsRestricted = (dump) => {
 	dump = php.preg_replace(/\s*(><)?\s*$/, '', dump);
@@ -44,7 +41,7 @@ const parseErrorType = ($dump) => {
 	let $clean;
 	$clean = php.preg_replace(/(\)?><)$/, '', $dump);
 	if (php.trim($clean) === 'SIMULT CHGS TO PNR') {
-		return STATUS_SIMULTANEOUS_CHANGES;
+		return GdsConstants.SAVE_PNR_SIMULTANEOUS_CHANGES;
 	} else {
 		return null;
 	}
@@ -55,7 +52,7 @@ const parseSavePnr = (dump) => {
 	if (php.preg_match(/^OK - (?<recordLocator>[A-Z0-9]{6})-/, dump, matches = [])) {
 		return {
 			success: true,
-			status: STATUS_EXECUTED,
+			status: GdsConstants.SAVE_PNR_EXECUTED,
 			recordLocator: matches.recordLocator,
 			raw: dump,
 		};
@@ -72,6 +69,3 @@ const parseSavePnr = (dump) => {
 exports.parseSavePnr = parseSavePnr;
 exports.detectOpenPnrStatus = detectOpenPnrStatus;
 
-exports.STATUS_EXECUTED = STATUS_EXECUTED;
-exports.STATUS_SIMULTANEOUS_CHANGES = STATUS_SIMULTANEOUS_CHANGES;
-exports.STATUS_GDS_ERROR = STATUS_GDS_ERROR;
