@@ -3,7 +3,7 @@
  * parses output of >$TA{ptcNumber}/{storeNumber}
  * it is tax breakdown of a manual pricing
  */
-const php = require('klesun-node-tools/src/Transpiled/php.js');
+const php = require('enko-fundamentals/src/Transpiled/php.js');
 
 class TaScreenParser {
 	// 'T1 ;   11.20;AY T2 ;   36.00;US T3 ;    3.96;XA T4 ;   13.50;XF',
@@ -12,9 +12,9 @@ class TaScreenParser {
 		const taxList = [];
 		const taxPattern = 'T\\d+\\s*;\\s*(\\d*\\.?\\d+|\\.+);([A-Z0-9]{2}|\\.{2})\\s*';
 		let matches;
-		if (php.preg_match('\/\\s*((?:' + taxPattern + ')+)\\s*$\/', line, matches = [])) {
+		if (php.preg_match('/\\s*((?:' + taxPattern + ')+)\\s*$/', line, matches = [])) {
 			let taxTokens;
-			php.preg_match_all('\/' + taxPattern + '\/', matches[1], taxTokens = [], php.PREG_SET_ORDER);
+			php.preg_match_all('/' + taxPattern + '/', matches[1], taxTokens = [], php.PREG_SET_ORDER);
 			for (const [, amount, taxCode] of Object.values(taxTokens)) {
 				if (taxCode !== '..') {
 					taxList.push({taxCode, amount});
@@ -72,7 +72,7 @@ class TaScreenParser {
 	static parse(dump) {
 		const lines = dump.split('\n');
 		const header = lines.shift();
-		if (!header.contains('TAX BREAKDOWN SCREEN')) {
+		if (!header.includes('TAX BREAKDOWN SCREEN')) {
 			return {error: 'Unexpected start of dump - ' + php.trim(header)};
 		}
 
@@ -84,7 +84,7 @@ class TaScreenParser {
 
 		const taxList = [];
 		let line;
-		while (line = php.array_shift(lines)) {
+		while (line = lines.shift()) {
 			const taxChunk = this.parseTaxLine(line);
 			if (taxChunk) {
 				taxList.push(...taxChunk);
