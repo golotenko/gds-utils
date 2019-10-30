@@ -2,8 +2,6 @@
 const PnrParser = require("../../../../src/text_format_processing/apollo/pnr/PnrParser.js");
 const php = require('enko-fundamentals/src/Transpiled/php.js');
 
-// klesun-node-tools/src/Transpiled/Lib/TestCase.js
-
 class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCase.js') {
 	provideTreeTestCases() {
 		let $list;
