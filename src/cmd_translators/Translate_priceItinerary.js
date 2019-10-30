@@ -513,7 +513,7 @@ const fromData = (toGds, normalized) => {
 	}[toGds](normalized);
 };
 
-const Translate_pricingCmd = ({
+const Translate_priceItinerary = ({
 	cmdRq, fromGds, toGds, parsed,
 	baseDate = null,
 }) => {
@@ -537,12 +537,12 @@ const Translate_pricingCmd = ({
 };
 
 // ... probably should start splitting GDS-es to separate files...
-Translate_pricingCmd.subMod_amadeus = subMod_amadeus;
-Translate_pricingCmd.mod_amadeus = mod_amadeus;
-Translate_pricingCmd.mod_sabre = mod_sabre;
-Translate_pricingCmd.mod_galileo = mod_galileo;
+Translate_priceItinerary.subMod_amadeus = subMod_amadeus;
+Translate_priceItinerary.mod_amadeus = mod_amadeus;
+Translate_priceItinerary.mod_sabre = mod_sabre;
+Translate_priceItinerary.mod_galileo = mod_galileo;
 
-Translate_pricingCmd.fromData = fromData;
-Translate_pricingCmd.translatePaxes = translatePaxes;
+Translate_priceItinerary.fromData = fromData;
+Translate_priceItinerary.translatePaxes = translatePaxes;
 
-module.exports = Translate_pricingCmd;
+module.exports = Translate_priceItinerary;
