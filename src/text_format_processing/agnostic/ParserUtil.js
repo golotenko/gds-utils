@@ -208,6 +208,53 @@ exports.parse2kDate = (raw) => {
 	return {raw: raw, parsed: parsed};
 };
 
+/**
+ * @param date is relative date in format 'm-d', which we'd like to make absolute
+ * @param baseDate is a date strictly in the past of what $date is assumed to be
+ * I.e. if baseDate == '2014-12-14', then '12-17' --> '2014-12-17',
+ *                                    but '01-17' --> '2015-01-17'
+ */
+const addYear = (date, baseDate) => {
+	if (!php.preg_match(/^\d{2}\-\d{2}$/, date) ||
+		php.strtotime(baseDate) === false
+	) {
+		// safe check against dead locks
+		return null;
+	}
+	baseDate = php.date('Y-m-d', php.strtotime(baseDate));
+	let $assumedDate;
+	let $assumedYear = php.intval(php.date('Y', php.strtotime(baseDate)));
+	do {
+		$assumedDate = php.date('Y-m-d', php.strtotime(php.strval($assumedYear) + '-' + date));
+		++$assumedYear;
+	} while ($assumedDate < baseDate || php.date('m-d', php.strtotime($assumedDate)) != date);
+	return $assumedDate;
+};
+
+/**
+ * @param date is relative date in format 'm-d', which we'd like to make absolute
+ * @param baseDate is a date strictly in the future of what $date is assumed to be
+ * I.e. if baseDate == '2014-12-14', then '01-17' --> '2014-01-17',
+ *                                    but '12-17' --> '2013-12-17'
+ * Algorithm is essentially identical to addYear.
+ */
+const addPastYear = (date, baseDate) => {
+	if (!php.preg_match(/^\d{2}\-\d{2}$/, date) ||
+		php.strtotime(baseDate) === false
+	) {
+		// safe check against dead locks
+		return null;
+	}
+	baseDate = php.date('Y-m-d', php.strtotime(baseDate));
+	let assumedDate;
+	let assumedYear = php.intval(php.date('Y', php.strtotime(baseDate)));
+	do {
+		assumedDate = php.date('Y-m-d', php.strtotime(php.strval(assumedYear) + '-' + date));
+		--assumedYear;
+	} while (assumedDate > baseDate || php.date('m-d', php.strtotime(assumedDate)) != date);
+	return assumedDate;
+};
+
 exports.gdsDayOfWeekToNumber = (str) => {
 	const dayOfWeekIndex = {MO: 1,TU: 2,WE: 3,TH: 4,FR: 5,SA: 6,SU: 7};
 	if (php.array_key_exists(str, dayOfWeekIndex)) {
@@ -282,3 +329,5 @@ exports.decodeGdsTime = (timeStr) => {
 exports.parsePartialDate = parsePartialDate;
 exports.parseFullDate = parseFullDate;
 exports.parsePastFullDate = parsePastFullDate;
+exports.addYear = addYear;
+exports.addPastYear = addPastYear;
