@@ -128,6 +128,8 @@ const getCabinClassMapping = () => {
 		PREME: 'premiumEconomy',
 		BUSNS: 'business',
 		FIRST: 'first',
+		PREMF: 'premiumFirst',
+		UPPER: 'upper',
 		AB: 'sameAsBooked',
 	};
 };
