@@ -14,6 +14,7 @@ const exact = {
 	'*I': 'itinerary',
 	'*IA': 'airItinerary',
 	'*MM': 'frequentFlyerData',
+	'*SI': 'ssrList',
 	'FQ*': 'redisplayPriceItinerary',
 	'FQA*': 'redisplayPriceItinerary',
 	'FQBB*': 'redisplayPriceItinerary',

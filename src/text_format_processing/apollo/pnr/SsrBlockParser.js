@@ -362,16 +362,14 @@ class SsrBlockParser {
 				//?? static::parseSsrAdmdLine(line)
 				;
 			}
-			if (lineData && extracted && extracted.pnrPaxName) {
-				lineData.pnrPaxName = extracted.pnrPaxName;
-			}
 			ssrs.push({
 				lineNumber: lineNumber,
 				airline: airline,
 				ssrCode: ssrCode,
 				content: extracted ? extracted.content : null,
 				data: lineData,
-				line: line,
+				/** the link that tells to which passenger in PNR does this SSR relate */
+				pnrPaxName: !extracted ? null : extracted.pnrPaxName,
 			});
 		}
 		return ssrs;
