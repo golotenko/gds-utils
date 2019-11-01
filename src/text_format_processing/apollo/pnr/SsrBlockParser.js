@@ -302,11 +302,11 @@ class SsrBlockParser {
 			'/^\\s*' +
 			'(?<lineNumber>GFAX|\\d+)[\\s\\-]*SSR\\s*' +
 			'(?<ssrCode>[A-Z]{4})\\s*' +
-			'(?<airline>[A-Z0-9]{2}|)\\s*' +
+			'(?<airline>[A-Z0-9]{2}|)' +
 			'(' +
-			'TO(?<toAirline>[A-Z0-9]{2})\\s*' +
+			'\\s{0,1}TO(?<toAirline>[A-Z0-9]{2})\\s*' +
 			'|' +
-			'(?<status>[A-Z]{2})' +
+			'\\s{0,1}(?<status>[A-Z]{2})' +
 			'(?<statusNumber>\\d*)' +
 			')?' +
 			'(?<content>.*?)' +
@@ -367,6 +367,7 @@ class SsrBlockParser {
 				airline: airline,
 				ssrCode: ssrCode,
 				content: extracted ? extracted.content : null,
+				comment: extracted ? extracted.comment : null,
 				data: lineData,
 				/** the link that tells to which passenger in PNR does this SSR relate */
 				pnrPaxName: !extracted ? null : extracted.pnrPaxName,
