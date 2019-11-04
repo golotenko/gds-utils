@@ -1,14 +1,11 @@
+const ParserUtil = require('../../agnostic/ParserUtil.js');
 
 const php = require('enko-fundamentals/src/Transpiled/php.js');
 const {mkReg} = require('enko-fundamentals/src/Utils/Misc.js');
 
 /** @param expr = '1/3/5-7/9' */
 const parseRanges = (expr) => {
-	const parseRange = (text) => {
-		const pair = text.split('-');
-		return php.range(pair[0], pair[1] || pair[0]);
-	};
-	return expr.trim().split('/').flatMap(parseRange);
+	return ParserUtil.parseRange(expr, '/', '-');
 };
 
 // 'N1.1/1.2/2.1'

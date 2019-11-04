@@ -218,11 +218,7 @@ class CommandParser {
 		if (!expr) {
 			return [];
 		}
-		const parseRange = (text) => {
-			const pair = text.split('-');
-			return php.range(pair[0], pair[1] || pair[0]);
-		};
-		return php.trim(expr).split('.').flatMap(parseRange);
+		return ParserUtil.parseRange(expr, '.', '-');
 	}
 
 	static parseChangePnrRemarks(cmd) {

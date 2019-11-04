@@ -1,3 +1,4 @@
+const ParserUtil = require('../../agnostic/ParserUtil.js');
 const Parse_priceItinerary = require('./Parse_priceItinerary.js');
 const Parse_fareSearch = require('./Parse_fareSearch.js');
 const Parse_airAvailability = require('./Parse_airAvailability.js');
@@ -178,11 +179,7 @@ class CommandParser {
 		if (!expr) {
 			return [];
 		}
-		const parseRange = (text) => {
-			const pair = text.split('-');
-			return php.range(pair[0], pair[1] || pair[0]);
-		};
-		return expr.trim().split(',').flatMap(parseRange);
+		return ParserUtil.parseRange(expr, ',', '-');
 	}
 
 	/**

@@ -41,11 +41,7 @@ const StoredPtcPricingBlockParser = require('./StoredPtcPricingBlockParser.js');
 class StoredPricingListParser {
 	/** @param query = '1-2.4' */
 	static parseRange(query) {
-		const parseRange = (text) => {
-			const pair = text.split('-');
-			return php.range(pair[0], pair[1] || pair[0]);
-		};
-		return query.trim().split('.').flatMap(parseRange);
+		return ParserUtil.parseRange(query, '.', '-');
 	}
 
 	// 'FQ1  - S1-2                                       13MAR18 WS/AG'

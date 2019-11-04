@@ -14,11 +14,7 @@ const parseDate = (raw) => {
 
 /** @param expr = '1-2,5-7' */
 const parseRange = (expr) => {
-	const parseRange = (text) => {
-		const pair = php.explode('-', text);
-		return php.range(pair[0], pair[1] || pair[0]);
-	};
-	return expr.trim().split(',').flatMap(parseRange);
+	return ParserUtil.parseRange(expr, ',', '-');
 };
 
 const parseRSubModifier = (rSubMod) => {

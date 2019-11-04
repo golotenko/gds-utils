@@ -332,11 +332,7 @@ class FxParser {
 	/** @param query = '1' || '' || '1,3-4' */
 	static parseCmdPaxNums(query) {
 		if (php.preg_match(/^\s*(\d[\d,-]*)\s*$/, query)) {
-			const parseRange = (text) => {
-				const pair = text.split('-');
-				return php.range(pair[0], pair[1] || pair[0]);
-			};
-			return query.trim().split(',').flatMap(parseRange);
+			return ParserUtil.parseRange(query, ',', '-');
 		} else {
 			return null;
 		}
