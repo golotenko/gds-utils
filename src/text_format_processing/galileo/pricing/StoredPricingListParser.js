@@ -77,7 +77,8 @@ class StoredPricingListParser {
 		//              ' P2  LIBERMANE/ZIMICH          INF   G  14MAR18 *  USD   81.00 '
 		//              ' P4  LIBERMANE/STAS            MIS   X             USD  892.70  '
 		//              '                               ITX   Z  19JUN18 *  GBP 1110.21 ',
-		const pattern = ' _NN FFFFFFFFFFFFFFFFFFFFFFFFFFPPP   G  DDDDDDD *  CCCAAAAAAAAAAAA';
+		//              ' P1  WALTERS/PATRICKA          ADT37 A  13AUG19 *  USD 1018.83 '
+		const pattern = ' _NN FFFFFFFFFFFFFFFFFFFFFFFFFFPPPQQ G  DDDDDDD *  CCCAAAAAAAAAAAA';
 		const split = ParserUtil.splitByPosition(line, pattern, null, true);
 		const result = {
 			passengerNumber: split['N'],
@@ -111,7 +112,7 @@ class StoredPricingListParser {
 
 	static parseTicketedPassengerLine(line) {
 		//              ' P1  THOMAS/HERMENAURINA       ITX   Z   E   0012667560437     '
-		const pattern = ' _NN FFFFFFFFFFFFFFFFFFFFFFFFFFPPP   G   E   TTTTTTTTTTTTT';
+		const pattern = ' _NN FFFFFFFFFFFFFFFFFFFFFFFFFFPPPQQ G   E   TTTTTTTTTTTTT';
 		const split = ParserUtil.splitByPosition(line, pattern, null, true);
 		const result = {
 			passengerNumber: split['N'],

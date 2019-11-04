@@ -127,7 +127,7 @@ class StoredPtcPricingBlockParser {
 				break;
 			}
 		}
-		if (!segments) {
+		if (segments.length === 0) {
 			return null;
 		}
 		const lastDateToPurchaseLine = linesLeft.pop();
