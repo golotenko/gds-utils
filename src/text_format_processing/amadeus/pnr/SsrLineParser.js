@@ -180,7 +180,7 @@ class SsrLineParser
 	}
 
 	static parse(line)  {
-		line = php.str_replace(/\r\n|\r|\n/, '', line);
+		line = line.replace(/\r\n|\r|\n/g, '');
 		const filterOsi = '#^'+
             '\\s{0,2}'+
             '(?<lineNumber>\\d{1,2})\\s'+
