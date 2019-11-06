@@ -27,3 +27,11 @@ exports.MEAL_DUTY_FREE_SALES_AVAILABLE = 'DUTY_FREE_SALES_AVAILABLE'; // only in
 exports.SAVE_PNR_EXECUTED = 'EXECUTED';
 exports.SAVE_PNR_SIMULTANEOUS_CHANGES = 'SIMULTANEOUS_CHANGES';
 exports.SAVE_PNR_GDS_ERROR = 'GDS_ERROR';
+
+exports.SEG_AIR = 'AIR';
+exports.SEG_OTH = 'OTH';
+exports.SEG_TUR = 'TUR';
+exports.SEG_ARNK = 'ARNK'; // stands for "Arrival Unknown"
+exports.SEG_CAR = 'CAR';
+exports.SEG_HOTEL = 'HOTEL';
+exports.SEG_FAKE = 'FAKE'; // segment without times, not operable usually
