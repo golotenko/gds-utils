@@ -312,13 +312,4 @@ class ItineraryParser {
 	}
 }
 
-/** @deprecated - use from GdsConstants directly */
-ItineraryParser.SEGMENT_TYPE_AIR = GdsConstants.SEG_AIR;
-/** @deprecated - use from GdsConstants directly */
-ItineraryParser.SEGMENT_TYPE_OTH = GdsConstants.SEG_OTH;
-/** @deprecated - use from GdsConstants directly */
-ItineraryParser.SEGMENT_TYPE_ARNK = GdsConstants.SEG_ARNK;
-/** @deprecated - use from GdsConstants directly */
-ItineraryParser.SEGMENT_TYPE_HOTEL = GdsConstants.SEG_HOTEL;
-
 module.exports = ItineraryParser;

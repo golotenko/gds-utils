@@ -1,3 +1,4 @@
+const GdsConstants = require('../../agnostic/GdsConstants.js');
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 const FlightInfoParser = require('../FlightInfoParser.js');
 const GenericRemarkParser = require('../../agnostic/GenericRemarkParser.js');
@@ -437,7 +438,7 @@ class PnrParser
 		const textLeft = split['M'] + line.slice(pattern.length).trim();
 		const result = {
 			lineNumber: split['#'],
-			segmentType: this.ITINERARY_SEGMENT,
+			segmentType: GdsConstants.SEG_AIR,
 			displayFormat: this.FORMAT_DAY_OFFSET,
 			airline: split['A'],
 			flightNumber: split['F'],
@@ -545,7 +546,7 @@ class PnrParser
 		if (php.preg_match(regex, line, tokens = [])) {
 			return {
 				lineNumber: tokens.lineNumber,
-				segmentType: this.ITINERARY_SEGMENT,
+				segmentType: GdsConstants.SEG_AIR,
 				displayFormat: this.FORMAT_EXTENDED,
 				airline: tokens.airline,
 				flightNumber: tokens.flightNumber,
@@ -596,7 +597,7 @@ class PnrParser
 		if (php.preg_match(regex, line, tokens = [])) {
 			return {
 				lineNumber: tokens.lineNumber,
-				segmentType: this.SEGMENT_TYPE_OTH,
+				segmentType: GdsConstants.SEG_OTH,
 				text: line,
 			};
 		} else {
@@ -633,7 +634,7 @@ class PnrParser
 		if (php.preg_match(regex, line, tokens = [])) {
 			return {
 				lineNumber: tokens.lineNumber,
-				segmentType: this.FLWN_SEGMENT,
+				segmentType: GdsConstants.SEG_FLWN,
 				airline: tokens.airline,
 				flightNumber: tokens.flightNumber,
 				bookingClass: tokens.bookingClass,
@@ -797,12 +798,9 @@ class PnrParser
 		}
 	}
 }
-PnrParser.ITINERARY_SEGMENT = 'ITINERARY_SEGMENT';
 PnrParser.FORMAT_DAY_OFFSET = 'DAY_OFFSET';
-PnrParser.FLWN_SEGMENT = 'FLWN_SEGMENT';
 PnrParser.FORMAT_EXTENDED = 'EXTENDED';
 // It is called MIS in Amadeus, but since we have OTH segment in Apollo
 // & Sabre w/ essentially the same meaning, lets call it OTH
-PnrParser.SEGMENT_TYPE_OTH = 'OTH';
 
 module.exports = PnrParser;

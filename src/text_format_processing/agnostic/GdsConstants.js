@@ -35,3 +35,4 @@ exports.SEG_ARNK = 'ARNK'; // stands for "Arrival Unknown"
 exports.SEG_CAR = 'CAR';
 exports.SEG_HOTEL = 'HOTEL';
 exports.SEG_FAKE = 'FAKE'; // segment without times, not operable usually
+exports.SEG_FLWN = 'FLWN'; // flown segment, usually displayed only in Amadeus

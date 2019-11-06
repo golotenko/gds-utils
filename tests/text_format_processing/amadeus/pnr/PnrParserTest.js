@@ -377,7 +377,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					'itinerary': [
 						{
 							'lineNumber': '2',
-							'segmentType': 'FLWN_SEGMENT',
+							'segmentType': 'FLWN',
 							'airline': 'W3',
 							'flightNumber': '108',
 							'bookingClass': 'M',
@@ -392,7 +392,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '3',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'airline': 'W3',
 							'flightNumber': '107',
 							'bookingClass': 'O',
@@ -612,7 +612,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					'itinerary': [
 						{
 							'lineNumber': '2',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'airline': 'W3',
 							'flightNumber': '108',
 							'bookingClass': 'U',
@@ -643,7 +643,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '3',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'airline': 'W3',
 							'flightNumber': '302',
 							'bookingClass': 'T',
@@ -747,7 +747,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					'itinerary': [
 						{
 							'lineNumber': '2',
-							'segmentType': 'FLWN_SEGMENT',
+							'segmentType': 'FLWN',
 							'airline': 'W3',
 							'flightNumber': '108',
 							'bookingClass': 'M',
@@ -762,7 +762,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '3',
-							'segmentType': 'FLWN_SEGMENT',
+							'segmentType': 'FLWN',
 							'airline': 'W3',
 							'flightNumber': '107',
 							'bookingClass': 'O',
@@ -843,7 +843,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					'itinerary': [
 						{
 							'lineNumber': '2',
-							'segmentType': 'FLWN_SEGMENT',
+							'segmentType': 'FLWN',
 							'airline': 'QR',
 							'flightNumber': '708',
 							'bookingClass': 'O',
@@ -858,7 +858,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '3',
-							'segmentType': 'FLWN_SEGMENT',
+							'segmentType': 'FLWN',
 							'airline': 'QR',
 							'flightNumber': '1427',
 							'bookingClass': 'O',
@@ -873,7 +873,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '4',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'airline': 'QR',
 							'flightNumber': '1428',
 							'bookingClass': 'O',
@@ -905,7 +905,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '5',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'airline': 'QR',
 							'flightNumber': '707',
 							'bookingClass': 'O',
@@ -1131,7 +1131,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					'itinerary': [
 						{
 							'lineNumber': '2',
-							'segmentType': 'FLWN_SEGMENT',
+							'segmentType': 'FLWN',
 							'airline': 'LH',
 							'flightNumber': '1309',
 							'bookingClass': 'T',
@@ -1146,7 +1146,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '3',
-							'segmentType': 'FLWN_SEGMENT',
+							'segmentType': 'FLWN',
 							'airline': 'UA',
 							'flightNumber': '9066',
 							'bookingClass': 'T',
@@ -1161,7 +1161,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '4',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'airline': 'LH',
 							'flightNumber': '483',
 							'bookingClass': 'L',
@@ -1192,7 +1192,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '5',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'airline': 'ME',
 							'flightNumber': '218',
 							'bookingClass': 'L',
@@ -1835,7 +1835,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					'itinerary': [
 						{
 							'lineNumber': '1',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'displayFormat': 'DAY_OFFSET',
 							'airline': 'PS',
 							'flightNumber': '898',
@@ -1859,7 +1859,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						{'departureAirport': 'SYD', 'destinationAirport': 'AKL', 'segmentStatus': 'GK'},
 						{
 							'lineNumber': '6',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'displayFormat': 'DAY_OFFSET',
 							'airline': 'VA',
 							'flightNumber': '165',
@@ -1941,7 +1941,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					'itinerary': [
 						{
 							'lineNumber': '1',
-							'segmentType': 'ITINERARY_SEGMENT',
+							'segmentType': 'AIR',
 							'displayFormat': 'EXTENDED',
 							'airline': 'AY',
 							'flightNumber': '099',
@@ -2637,12 +2637,12 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						"ageGroup": null,
 					}],
 					itinerary: [
-						{"lineNumber":"2","segmentType":"FLWN_SEGMENT","airline":"AS","flightNumber":"1959","bookingClass":"K","departureDate":{"raw":"29MAY","parsed":"05-29"},"dayOfWeek":"3","departureAirport":"SAN","destinationAirport":"SFO","raw":"  2  AS1959 K 29MAY 3 SANSFO         FLWN"},
-						{"lineNumber":"3","segmentType":"FLWN_SEGMENT","airline":"TK","flightNumber":"080","bookingClass":"L","departureDate":{"raw":"29MAY","parsed":"05-29"},"dayOfWeek":"3","departureAirport":"SFO","destinationAirport":"IST","raw":"  3  TK 080 L 29MAY 3 SFOIST         FLWN"},
-						{"lineNumber":"4","segmentType":"FLWN_SEGMENT","airline":"TK","flightNumber":"467","bookingClass":"L","departureDate":{"raw":"30MAY","parsed":"05-30"},"dayOfWeek":"4","departureAirport":"IST","destinationAirport":"ODS","raw":"  4  TK 467 L 30MAY 4 ISTODS         FLWN"},
-						{"lineNumber":"5", marriage: '01', "segmentType":"ITINERARY_SEGMENT","displayFormat":"DAY_OFFSET","airline":"TK","flightNumber":"466","bookingClass":"M","departureDate":{"raw":"29AUG","parsed":"08-29"},"dayOfWeek":"4","departureAirport":"ODS","destinationAirport":"IST","segmentStatus":"HK","seatCount":"1","terminalTime":null,"terminal":"","departureTime":{"raw":"1020A","parsed":"10:20"},"destinationTime":{"raw":"1155A","parsed":"11:55"},"dayOffset":0,"eticket":true,"confirmationAirline":null,"confirmationNumber":null,"textLeft":"","gds":"1A"},
-						{"lineNumber":"6", marriage: '01', "segmentType":"ITINERARY_SEGMENT","displayFormat":"DAY_OFFSET","airline":"TK","flightNumber":"079","bookingClass":"M","departureDate":{"raw":"29AUG","parsed":"08-29"},"dayOfWeek":"4","departureAirport":"IST","destinationAirport":"SFO","segmentStatus":"HK","seatCount":"1","terminalTime":null,"terminal":"","departureTime":{"raw":"105P","parsed":"13:05"},"destinationTime":{"raw":"430P","parsed":"16:30"},"dayOffset":0,"eticket":true,"confirmationAirline":null,"confirmationNumber":null,"textLeft":"","gds":"1A"},
-						{"lineNumber":"7","segmentType":"ITINERARY_SEGMENT","displayFormat":"DAY_OFFSET","airline":"AS","flightNumber":"1962","bookingClass":"Z","departureDate":{"raw":"29AUG","parsed":"08-29"},"dayOfWeek":"4","departureAirport":"SFO","destinationAirport":"SAN","segmentStatus":"HK","seatCount":"1","terminalTime":null,"terminal":"2","departureTime":{"raw":"645P","parsed":"18:45"},"destinationTime":{"raw":"820P","parsed":"20:20"},"dayOffset":0,"eticket":true,"confirmationAirline":null,"confirmationNumber":null,"textLeft":"","gds":"1A"},
+						{"lineNumber":"2","segmentType":"FLWN","airline":"AS","flightNumber":"1959","bookingClass":"K","departureDate":{"raw":"29MAY","parsed":"05-29"},"dayOfWeek":"3","departureAirport":"SAN","destinationAirport":"SFO","raw":"  2  AS1959 K 29MAY 3 SANSFO         FLWN"},
+						{"lineNumber":"3","segmentType":"FLWN","airline":"TK","flightNumber":"080","bookingClass":"L","departureDate":{"raw":"29MAY","parsed":"05-29"},"dayOfWeek":"3","departureAirport":"SFO","destinationAirport":"IST","raw":"  3  TK 080 L 29MAY 3 SFOIST         FLWN"},
+						{"lineNumber":"4","segmentType":"FLWN","airline":"TK","flightNumber":"467","bookingClass":"L","departureDate":{"raw":"30MAY","parsed":"05-30"},"dayOfWeek":"4","departureAirport":"IST","destinationAirport":"ODS","raw":"  4  TK 467 L 30MAY 4 ISTODS         FLWN"},
+						{"lineNumber":"5", marriage: '01', "segmentType":'AIR',"displayFormat":"DAY_OFFSET","airline":"TK","flightNumber":"466","bookingClass":"M","departureDate":{"raw":"29AUG","parsed":"08-29"},"dayOfWeek":"4","departureAirport":"ODS","destinationAirport":"IST","segmentStatus":"HK","seatCount":"1","terminalTime":null,"terminal":"","departureTime":{"raw":"1020A","parsed":"10:20"},"destinationTime":{"raw":"1155A","parsed":"11:55"},"dayOffset":0,"eticket":true,"confirmationAirline":null,"confirmationNumber":null,"textLeft":"","gds":"1A"},
+						{"lineNumber":"6", marriage: '01', "segmentType":'AIR',"displayFormat":"DAY_OFFSET","airline":"TK","flightNumber":"079","bookingClass":"M","departureDate":{"raw":"29AUG","parsed":"08-29"},"dayOfWeek":"4","departureAirport":"IST","destinationAirport":"SFO","segmentStatus":"HK","seatCount":"1","terminalTime":null,"terminal":"","departureTime":{"raw":"105P","parsed":"13:05"},"destinationTime":{"raw":"430P","parsed":"16:30"},"dayOffset":0,"eticket":true,"confirmationAirline":null,"confirmationNumber":null,"textLeft":"","gds":"1A"},
+						{"lineNumber":"7","segmentType":'AIR',"displayFormat":"DAY_OFFSET","airline":"AS","flightNumber":"1962","bookingClass":"Z","departureDate":{"raw":"29AUG","parsed":"08-29"},"dayOfWeek":"4","departureAirport":"SFO","destinationAirport":"SAN","segmentStatus":"HK","seatCount":"1","terminalTime":null,"terminal":"2","departureTime":{"raw":"645P","parsed":"18:45"},"destinationTime":{"raw":"820P","parsed":"20:20"},"dayOffset":0,"eticket":true,"confirmationAirline":null,"confirmationNumber":null,"textLeft":"","gds":"1A"},
 						{"lineNumber":"8","segmentType":"OTH","text":"  8 MIS 1A HK1 SFO 13MAR-PRESERVEPNR"},
 						{"lineNumber":"9","segmentType":"OTH","text":"  9 MIS 1A HK1 SFO 26JUN-PRESERVEPNR"},
 					],
