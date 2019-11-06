@@ -8,19 +8,7 @@ class SsrBlockParser {
 	// 07AUG55 = 1955-08-07
 	// 15AUG2016 = 2016-08-15
 	static parseDateOfBirth(raw) {
-		let century, matches, $_, d, m, year, parsedDob;
-		century = null;
-		if (php.preg_match(/^(\d{1,2})([A-Z]{3})(\d{2})(\d{2})$/, raw, matches = [])) {
-			// 4 digits in year
-			[$_, d, m, century, year] = matches;
-			raw = d + m + year;
-		}
-		if (parsedDob = ParserUtil.parseFullDate(raw)) {
-			year = php.substr(parsedDob, 0, 2);
-			century = century || (year > php.date('y') ? '19' : '20');
-			parsedDob = century + parsedDob;
-		}
-		return parsedDob;
+		return ParserUtil.parsePastFullDate(raw).parsed;
 	}
 
 	/**
