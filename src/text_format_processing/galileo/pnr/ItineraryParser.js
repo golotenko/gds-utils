@@ -1,3 +1,4 @@
+const GdsConstants = require('../../agnostic/GdsConstants.js');
 const TpFormats = require('../../travelport/pnr/TpFormats.js');
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 const php = require('enko-fundamentals/src/Transpiled/php.js');
@@ -72,8 +73,8 @@ class ItineraryParser {
 			const confirmedByAirline = matches.confirmedByAirline === '*';
 			return {
 				segmentType: php.empty(matches.departureTime)
-					? this.SEGMENT_TYPE_FAKE
-					: this.SEGMENT_TYPE_ITINERARY_SEGMENT,
+					? GdsConstants.SEG_FAKE
+					: GdsConstants.SEG_AIR,
 				segmentNumber: php.intval(php.trim(matches.segmentNumber)),
 				airline: php.trim(matches.airline),
 				flightNumber: php.trim(matches.flightNumber),
@@ -191,7 +192,7 @@ class ItineraryParser {
 		if (php.preg_match(regex, fullLine, matches = [])) {
 			return {
 				segmentNumber: php.trim(matches.segmentNumber),
-				segmentType: this.SEGMENT_TYPE_HOTEL,
+				segmentType: GdsConstants.SEG_HOTEL,
 				hotelType: matches.hotelType,
 				hotel: php.trim(matches.hotel),
 				segmentStatus: php.trim(matches.segmentStatus),
@@ -254,7 +255,7 @@ class ItineraryParser {
 				php.explode('/', $matches['fields']))));
 			return {
 				segmentNumber: php.trim($matches['segmentNumber']),
-				segmentType: this.SEGMENT_TYPE_HOTEL,
+				segmentType: GdsConstants.SEG_HOTEL,
 				hotelType: $matches['hotelType'],
 				hotel: php.trim($matches['hotel']),
 				segmentStatus: php.trim($matches['segmentStatus']),
@@ -307,7 +308,7 @@ class ItineraryParser {
 			return {
 				success: true,
 				segmentNumber: php.trim($matches['segmentNumber']),
-				segmentType: this.SEGMENT_TYPE_CAR,
+				segmentType: GdsConstants.SEG_CAR,
 				vendorCode: php.trim($matches['vendorCode']),
 				segmentStatus: php.trim($matches['segmentStatus']),
 				seatCount: php.intval(php.trim($matches['seatCount'])),
@@ -369,9 +370,13 @@ class ItineraryParser {
 	}
 }
 
-ItineraryParser.SEGMENT_TYPE_CAR = 'CAR';
-ItineraryParser.SEGMENT_TYPE_FAKE = 'FAKE'; // segment without times
-ItineraryParser.SEGMENT_TYPE_ITINERARY_SEGMENT = 'SEGMENT_TYPE_ITINERARY_SEGMENT';
-ItineraryParser.SEGMENT_TYPE_HOTEL = 'HOTEL';
+/** @deprecated - use from GdsConstants directly */
+ItineraryParser.SEGMENT_TYPE_CAR = GdsConstants.SEG_CAR;
+/** @deprecated - use from GdsConstants directly */
+ItineraryParser.SEGMENT_TYPE_FAKE = GdsConstants.SEG_FAKE;
+/** @deprecated - use from GdsConstants directly */
+ItineraryParser.SEGMENT_TYPE_AIR = GdsConstants.SEG_AIR;
+/** @deprecated - use from GdsConstants directly */
+ItineraryParser.SEGMENT_TYPE_HOTEL = GdsConstants.SEG_HOTEL;
 
 module.exports = ItineraryParser;

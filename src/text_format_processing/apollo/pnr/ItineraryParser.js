@@ -1,3 +1,4 @@
+const GdsConstants = require('../../agnostic/GdsConstants.js');
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 const {decodeDayOffset} = require('../Helpers.js');
 
@@ -15,15 +16,6 @@ const {
 	explode, in_array,
 	trim,
 } = php;
-
-
-const SEGMENT_TYPE_ITINERARY_SEGMENT = 'SEGMENT_TYPE_ITINERARY_SEGMENT';
-const SEGMENT_TYPE_OTH = 'OTH';
-const SEGMENT_TYPE_TUR = 'TUR';
-const SEGMENT_TYPE_ARNK = 'ARNK';
-const SEGMENT_TYPE_CAR = 'CAR';
-const SEGMENT_TYPE_HOTEL = 'HOTEL';
-const SEGMENT_TYPE_FAKE = 'FAKE'; // segment without times
 
 const joinIndentedLines = (lines) => {
 	const blocks = [];
@@ -79,7 +71,7 @@ const parseSegmentLine = (line) => {
 		const confirmedByAirline = in_array('*', [matches.confirmedByAirline1, matches.confirmedByAirline2, matches.confirmedByAirline3]);
 		return {
 			segmentNumber: intval(trim(matches.segmentNumber)),
-			segmentType: SEGMENT_TYPE_ITINERARY_SEGMENT,
+			segmentType: GdsConstants.SEG_AIR,
 			airline: trim(matches.airline),
 			flightNumber: trim(matches.flightNumber),
 			bookingClass: trim(matches.bookingClass || ''),
@@ -244,7 +236,7 @@ class ItineraryParser {
 		let matches;
 		if (matches = preg_match(regex, line, matches)) {
 			return {
-				segmentType: SEGMENT_TYPE_OTH,
+				segmentType: GdsConstants.SEG_OTH,
 				segmentNumber: trim(matches.segmentNumber),
 				text: trim(matches.text),
 			};
@@ -270,7 +262,7 @@ class ItineraryParser {
 		if (matches = preg_match(regex, line)) {
 			return {
 				segmentNumber: matches.segmentNumber,
-				segmentType: SEGMENT_TYPE_TUR,
+				segmentType: GdsConstants.SEG_TUR,
 				vendor: matches.vendor,
 				segmentStatus: matches.segmentStatus,
 				seatCount: matches.seatCount,
@@ -291,7 +283,7 @@ class ItineraryParser {
 		let matches;
 		if (matches = preg_match(regex, line, matches)) {
 			return {
-				segmentType: SEGMENT_TYPE_ARNK,
+				segmentType: GdsConstants.SEG_ARNK,
 				segmentNumber: trim(matches.segmentNumber),
 			};
 		} else {
@@ -326,7 +318,7 @@ class ItineraryParser {
 			const modifiers = this.parseCarSegmentModifiers(matches.modifiers);
 			return {
 				segmentNumber: trim(matches.segmentNumber),
-				segmentType: SEGMENT_TYPE_CAR,
+				segmentType: GdsConstants.SEG_CAR,
 				vendorCode: trim(matches.vendorCode),
 				segmentStatus: trim(matches.segmentStatus),
 				seatCount: intval(trim(matches.seatCount)),
@@ -449,7 +441,7 @@ class ItineraryParser {
 			)));
 			return {
 				segmentNumber: trim(matches.segmentNumber),
-				segmentType: SEGMENT_TYPE_HOTEL,
+				segmentType: GdsConstants.SEG_HOTEL,
 				hotelType: matches.hotelType,
 				hotel: trim(matches.hotel),
 				segmentStatus: trim(matches.segmentStatus),
@@ -495,7 +487,7 @@ class ItineraryParser {
 		if (matches = preg_match(regex, line)) {
 			return {
 				segmentNumber: trim(matches.segmentNumber),
-				segmentType: SEGMENT_TYPE_HOTEL,
+				segmentType: GdsConstants.SEG_HOTEL,
 				hotelType: matches.hotelType,
 				hotel: trim(matches.hotel),
 				segmentStatus: trim(matches.segmentStatus),
@@ -536,7 +528,7 @@ class ItineraryParser {
 		if (matches = preg_match(regex, line)) {
 			return {
 				segmentNumber: intval(trim(matches.segmentNumber)),
-				segmentType: SEGMENT_TYPE_FAKE,
+				segmentType: GdsConstants.SEG_FAKE,
 				airline: trim(matches.airline),
 				flightNumber: trim(matches.flightNumber),
 				bookingClass: trim(matches.bookingClass || ''),
@@ -596,12 +588,19 @@ class ItineraryParser {
 
 const parser = new ItineraryParser();
 
-parser.SEGMENT_TYPE_ITINERARY_SEGMENT = SEGMENT_TYPE_ITINERARY_SEGMENT;
-parser.SEGMENT_TYPE_OTH = SEGMENT_TYPE_OTH;
-parser.SEGMENT_TYPE_TUR = SEGMENT_TYPE_TUR;
-parser.SEGMENT_TYPE_ARNK = SEGMENT_TYPE_ARNK;
-parser.SEGMENT_TYPE_CAR = SEGMENT_TYPE_CAR;
-parser.SEGMENT_TYPE_HOTEL = SEGMENT_TYPE_HOTEL;
-parser.SEGMENT_TYPE_FAKE = SEGMENT_TYPE_FAKE;
+/** @deprecated - use from GdsConstants directly */
+parser.SEGMENT_AIR = GdsConstants.SEG_AIR;
+/** @deprecated - use from GdsConstants directly */
+parser.SEGMENT_TYPE_OTH = GdsConstants.SEG_OTH;
+/** @deprecated - use from GdsConstants directly */
+parser.SEGMENT_TYPE_TUR = GdsConstants.SEG_TUR;
+/** @deprecated - use from GdsConstants directly */
+parser.SEGMENT_TYPE_ARNK = GdsConstants.SEG_ARNK;
+/** @deprecated - use from GdsConstants directly */
+parser.SEGMENT_TYPE_CAR = GdsConstants.SEG_CAR;
+/** @deprecated - use from GdsConstants directly */
+parser.SEGMENT_TYPE_HOTEL = GdsConstants.SEG_HOTEL;
+/** @deprecated - use from GdsConstants directly */
+parser.SEGMENT_TYPE_FAKE = GdsConstants.SEG_FAKE;
 
 module.exports = parser;

@@ -115,7 +115,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						'daysOfWeek': {'raw': 'TU', 'parsed': '2'},
 						'marriage': '1',
 						'raw': ' 1. ET  509 M  20MAR EWRADD HK1   915P # 935P O*         TU  1',
-						'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT',
+						'segmentType': 'AIR',
 					},
 					{
 						'segmentNumber': 2,
@@ -134,7 +134,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						'daysOfWeek': {'raw': 'TH', 'parsed': '4'},
 						'marriage': '1',
 						'raw': ' 2. ET  921 M  22MAR ADDACC HK1   840A  1120A O*         TH  1',
-						'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT',
+						'segmentType': 'AIR',
 					},
 					{
 						'segmentNumber': 3,
@@ -153,7 +153,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						'daysOfWeek': {'raw': 'SU', 'parsed': '7'},
 						'marriage': '',
 						'raw': ' 3. SA  209 M  15APR ACCIAD HK1  1135P # 625A O*         SU',
-						'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT',
+						'segmentType': 'AIR',
 					},
 					{
 						'segmentNumber': 4,
@@ -175,7 +175,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 							' 4. SA 7416 Y  16APR IADLAX HK1   833A  1112A O*         MO',
 							'         OPERATED BY UNITED AIRLINES INC',
 						]),
-						'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT',
+						'segmentType': 'AIR',
 						'operatedBy': 'UNITED AIRLINES INC',
 					},
 				],
@@ -780,8 +780,8 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						'seatCount': 1,
 						'daysOfWeek': {'raw': 'WE'}
 					},
-					{'segmentNumber': 2, 'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT'},
-					{'segmentNumber': 3, 'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT'},
+					{'segmentNumber': 2, 'segmentType': 'AIR'},
+					{'segmentNumber': 3, 'segmentType': 'AIR'},
 				],
 			},
 		]);
@@ -1001,8 +1001,8 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			]),
 			{
 				'itineraryData': [
-					{'segmentNumber': 1, 'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT'},
-					{'segmentNumber': 2, 'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT'},
+					{'segmentNumber': 1, 'segmentType': 'AIR'},
+					{'segmentNumber': 2, 'segmentType': 'AIR'},
 					{'segmentNumber': '3', 'segmentType': 'HOTEL'},
 					{'segmentNumber': '4', 'segmentType': 'CAR'},
 				],
@@ -1040,8 +1040,8 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			]),
 			{
 				'itineraryData': [
-					{'segmentNumber': 1, 'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT'},
-					{'segmentNumber': 2, 'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT'},
+					{'segmentNumber': 1, 'segmentType': 'AIR'},
+					{'segmentNumber': 2, 'segmentType': 'AIR'},
 					{'segmentNumber': '3', 'segmentType': 'CAR'},
 					{'segmentNumber': '4', 'segmentType': 'HOTEL'},
 				],
@@ -1157,7 +1157,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			]),
 			{
 				'itineraryData': [
-					{'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT', 'segmentNumber': 1,},
+					{'segmentType': 'AIR', 'segmentNumber': 1,},
 					{
 						'segmentNumber': '2',
 						'segmentType': 'HOTEL',
@@ -1182,7 +1182,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 							'    RQ-GBP31.41/CF-150658393700',
 						]),
 					},
-					{'segmentType': 'SEGMENT_TYPE_ITINERARY_SEGMENT', 'segmentNumber': 3,},
+					{'segmentType': 'AIR', 'segmentNumber': 3,},
 				],
 			},
 		]);
