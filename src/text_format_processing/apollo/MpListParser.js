@@ -5,7 +5,7 @@ const php = require('enko-fundamentals/src/Transpiled/php.js');
 // '01. KIANI    S UA       NS171261*                              '
 const parseMileageProgramWithPassengerLine = (line) => {
 	let matches;
-	if (php.preg_match(/^(\d{2})\.\s([A-Z\s|]{10})\s([A-Z]{2})\s+([A-Z\d\*]+)(.*)/, line, matches = [])) {
+	if (php.preg_match(/^(\d{2})\.\s([A-Z\s|]{10})\s([A-Z]{2})\s+([A-Z\d]+)(.*?)\s*$/, line, matches = [])) {
 		return {
 			passengerNumber: matches[1],
 			passengerName: matches[2],
@@ -23,7 +23,7 @@ const parseMileageProgramWithPassengerLine = (line) => {
 // '               KL     2105653453** -I 0                        '
 const parseMileageProgramWithoutPassengerLine = (line) => {
 	let matches;
-	if (php.preg_match(/^\s{15}([A-Z]{2})\s+([A-Z\d*]+)(.*)/, line, matches = [])) {
+	if (php.preg_match(/^\s{15}([A-Z]{2})\s+([A-Z\d]+)(.*?)\s*$/, line, matches = [])) {
 		return {
 			airline: matches[1],
 			code: matches[2],

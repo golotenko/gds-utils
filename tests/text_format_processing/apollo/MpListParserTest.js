@@ -22,7 +22,7 @@ class MpListParserTest extends require('enko-fundamentals/src/Transpiled/Lib/Tes
 			[
 				{
 					'passengerNumber': '01','passengerName': 'KYI      K',
-					'mileagePrograms': [{'airline': 'SQ','code': '8793170086*'}],
+					'mileagePrograms': [{'airline': 'SQ','code': '8793170086'}],
 				},
 			],
 		]);
@@ -40,19 +40,19 @@ class MpListParserTest extends require('enko-fundamentals/src/Transpiled/Lib/Tes
 			[
 				{
 					'passengerNumber': '01','passengerName': 'KIANI    S',
-					'mileagePrograms': [{'airline': 'UA','code': 'NS171261*'}],
+					'mileagePrograms': [{'airline': 'UA','code': 'NS171261'}],
 				},
 				{
 					'passengerNumber': '02','passengerName': 'KHAN     M',
-					'mileagePrograms': [{'airline': 'UA','code': 'NS171261*'}],
+					'mileagePrograms': [{'airline': 'UA','code': 'NS171261'}],
 				},
 				{
 					'passengerNumber': '03','passengerName': 'KHAN     E',
-					'mileagePrograms': [{'airline': 'UA','code': 'BY824242*'}],
+					'mileagePrograms': [{'airline': 'UA','code': 'BY824242'}],
 				},
 				{
 					'passengerNumber': '04','passengerName': 'KHAN     Z',
-					'mileagePrograms': [{'airline': 'UA','code': 'VL430402*'}],
+					'mileagePrograms': [{'airline': 'UA','code': 'VL430402'}],
 				},
 			],
 		]);
@@ -72,19 +72,19 @@ class MpListParserTest extends require('enko-fundamentals/src/Transpiled/Lib/Tes
 				{
 					'passengerNumber': '01','passengerName': 'NEDZA    E',
 					'mileagePrograms': [
-						{'airline': 'DL','code': '2380160040*'},
-						{'airline': 'KL','code': '2105653453**'},
+						{'airline': 'DL','code': '2380160040'},
+						{'airline': 'KL','code': '2105653453'},
 					],
 				},
 				{
 					'passengerNumber': '02','passengerName': 'NEDZA    D',
-					'mileagePrograms': [{'airline': 'DL','code': '2380160248*'}],
+					'mileagePrograms': [{'airline': 'DL','code': '2380160248'}],
 				},
 				{
 					'passengerNumber': '03','passengerName': 'NEDZA    F',
 					'mileagePrograms': [
-						{'airline': 'DL','code': '2380160370*'},
-						{'airline': 'KL','code': '2109163205**'},
+						{'airline': 'DL','code': '2380160370'},
+						{'airline': 'KL','code': '2109163205'},
 					],
 				},
 			],
@@ -100,7 +100,7 @@ class MpListParserTest extends require('enko-fundamentals/src/Transpiled/Lib/Tes
 			[
 				{
 					'passengerNumber': '01','passengerName': 'BUENAVEN|C',
-					'mileagePrograms': [{'airline': 'CX','code': '1062203188*'}],
+					'mileagePrograms': [{'airline': 'CX','code': '1062203188'}],
 				},
 			],
 		]);
@@ -115,7 +115,7 @@ class MpListParserTest extends require('enko-fundamentals/src/Transpiled/Lib/Tes
 			[
 				{
 					'passengerNumber': '01','passengerName': 'RAIGRODS|A',
-					'mileagePrograms': [{'airline': 'UA','code': 'CW042158*'}],
+					'mileagePrograms': [{'airline': 'UA','code': 'CW042158'}],
 				},
 			],
 		]);
@@ -132,11 +132,14 @@ class MpListParserTest extends require('enko-fundamentals/src/Transpiled/Lib/Tes
 			[
 				{
 					'passengerNumber': '01','passengerName': 'LEBARON  L',
-					'mileagePrograms': [{'airline': 'AS','code': '77639844*'}],
+					'mileagePrograms': [{'airline': 'AS','code': '77639844'}],
 				},
 				{
 					'passengerNumber': '02','passengerName': 'CRADDOCK|R',
-					'mileagePrograms': [{'airline': 'UA','code': 'JMV94139*'},{'airline': 'DL','code': '9363469447*'}],
+					'mileagePrograms': [
+						{'airline': 'UA','code': 'JMV94139'},
+						{'airline': 'DL','code': '9363469447'},
+					],
 				},
 			],
 		]);
@@ -151,7 +154,7 @@ class MpListParserTest extends require('enko-fundamentals/src/Transpiled/Lib/Tes
 			[
 				{
 					'passengerNumber': '01','passengerName': 'OSMAN    D',
-					'mileagePrograms': [{'airline': 'AF','code': '8950097504**'}],
+					'mileagePrograms': [{'airline': 'AF','code': '8950097504'}],
 				},
 			],
 		]);
@@ -166,7 +169,7 @@ class MpListParserTest extends require('enko-fundamentals/src/Transpiled/Lib/Tes
 			[
 				{
 					'passengerNumber': '01','passengerName': 'DJITRINO|V',
-					'mileagePrograms': [{'airline': 'AF','code': '1383180550**'}],
+					'mileagePrograms': [{'airline': 'AF','code': '1383180550'}],
 				},
 			],
 		]);
@@ -181,7 +184,7 @@ class MpListParserTest extends require('enko-fundamentals/src/Transpiled/Lib/Tes
 			[
 				{
 					'passengerNumber': '01','passengerName': 'KOUASSIK|E',
-					'mileagePrograms': [{'airline': 'LH','code': '992225349814577**'}],
+					'mileagePrograms': [{'airline': 'LH','code': '992225349814577'}],
 				},
 			],
 		]);
