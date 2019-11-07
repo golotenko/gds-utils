@@ -2,6 +2,7 @@ const ParserUtil = require('../agnostic/ParserUtil.js');
 
 const FareConstructionParser = require('../agnostic/fare_calculation/FcParser.js');
 const php = require('enko-fundamentals/src/Transpiled/php.js');
+const Rej = require('enko-fundamentals/src/Rej.js');
 const {parseSequence, parseBagAmountCode} = ParserUtil;
 
 /**
@@ -33,8 +34,8 @@ class FxParser {
 		return ParserUtil.splitByPosition(line, pattern, null, true);
 	}
 
-	static isEmptyLine($line) {
-		return php.trim($line) === '';
+	static isEmptyLine(line) {
+		return line.trim() === '';
 	}
 
 	static parseSegmentLine(line) {
@@ -349,7 +350,8 @@ class FxParser {
 		//              "03 WALTERS/PATRI*    IN      1       3086    8974      12060",
 		//              '04 SOUFFRONT/SEBAS*  CH33*   1     509.00  118.03     627.03',
 		//              '                   TOTALS    5    2239.00  268.44    2507.44','
-		const pattern = 'NN FFFFFFFFFFFFFFFFF.PPPPPP QQ BBBBBBBBBB TTTTTTT CCCCCCCCCC';
+		//              '02 2                 ADT   * 1     696.00  513.60    1209.60',
+		const pattern = 'NN FFFFFFFFFFFFFFFFF.PPPPPP*QQ BBBBBBBBBB TTTTTTT CCCCCCCCCC';
 		const split = this.splitByPositionLetters($line, pattern);
 
 		const lname = php.explode('/', split['F'])[0];
@@ -401,11 +403,12 @@ class FxParser {
 	static parsePtcList(lines) {
 		let passengers, emptyLines;
 
-		[passengers, lines] = parseSequence(lines, (...args) => this.parsePassengerLine(...args));
-		[emptyLines, lines] = parseSequence(lines, (...args) => this.isEmptyLine(...args));
-		const totals = this.parsePassengerLine(php.array_shift(lines));
+		[passengers, lines] = parseSequence(lines, l => this.parsePassengerLine(l));
+		[emptyLines, lines] = parseSequence(lines, l => this.isEmptyLine(l));
+		const totalsLine = lines.shift();
+		const totals = this.parsePassengerLine(totalsLine);
 		if (!totals) {
-			throw new Error('Failed to parse FXX TOTALS line - ' + lines[0]);
+			throw Rej.NotImplemented.makeExc('Failed to parse FXX TOTALS line - ' + totalsLine);
 		}
 		[emptyLines, lines] = parseSequence(lines, (...args) => this.isEmptyLine(...args));
 		return {
