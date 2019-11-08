@@ -1,12 +1,12 @@
 
+const php = require('enko-fundamentals/src/Transpiled/php.js');
+
 /**
  * Apollo : MPN1*@LH12345678910
  * Sabre  : FFAA987654321/CX,AS,EI,QF-2.2
  * Amadeus: FFNUA-123456778910,UA,LH/P1
  * Galileo: M+P1/UA12345876490/BD/LH/AC
  */
-const php = require('klesun-node-tools/src/Transpiled/php.js');
-
 class Translate_addFrequentFlyerNumber {
 	static normalizeData(parsedData, gds) {
 		if (!parsedData) {
