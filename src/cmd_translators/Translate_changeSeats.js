@@ -3,11 +3,9 @@ const php = require('enko-fundamentals/src/Transpiled/php.js');
 
 class Translate_changeSeats {
 	static flattenPaxNums(paxRanges) {
-		let paxNums, range, isGrouped;
-
-		paxNums = [];
-		for (range of Object.values(paxRanges)) {
-			isGrouped = (minor) => {
+		let paxNums = [];
+		for (const range of Object.values(paxRanges)) {
+			const isGrouped = (minor) => {
 				return minor !== null && minor != '1';
 			};
 			if (isGrouped(range.fromMinor) ||
@@ -16,16 +14,14 @@ class Translate_changeSeats {
 				// 1.0, 2.2, ... - grouped pax names, unsupported
 				return null;
 			} else {
-				paxNums = php.array_merge(paxNums, php.range(range.from, range.to));
+				paxNums.push(...php.range(range.from, range.to));
 			}
 		}
 		return paxNums;
 	}
 
 	static glueApolloCmd(data, cancel, paxNums) {
-		let cmd, segNums, seatCodes;
-
-		cmd = '9';
+		let cmd = '9';
 		if (cancel) {
 			if (php.count(data.seatCodes) > 1) {
 				return null; // DOES NOT EXIST
@@ -37,10 +33,12 @@ class Translate_changeSeats {
 		if (!php.empty(paxNums)) {
 			cmd += '/N' + paxNums.join('|');
 		}
-		if (!php.empty(segNums = data.segNums || [])) {
+		const segNums = data.segNums || [];
+		if (!php.empty(segNums)) {
 			cmd += '/S' + segNums.join('|');
 		}
-		if (!php.empty(seatCodes = data.seatCodes || [])) {
+		const seatCodes = data.seatCodes || [];
+		if (!php.empty(seatCodes)) {
 			cmd += '/' + seatCodes.join('');
 		}
 		const locType = (data.location || {}).parsed;
@@ -53,16 +51,16 @@ class Translate_changeSeats {
 	}
 
 	static glueGalileoCmd(data, cancel, paxNums) {
-		let cmd, segNums, seatCodes, location, hasParams, locLetter;
-
-		cmd = 'S.';
+		let cmd = 'S.';
 		if (!php.empty(paxNums)) {
 			cmd += 'P' + paxNums.join('.');
 		}
-		if (!php.empty(segNums = data.segNums || [])) {
+		const segNums = data.segNums || [];
+		if (!php.empty(segNums)) {
 			cmd += 'S' + segNums.join('.', );
 		}
-		if (!php.empty(seatCodes = data.seatCodes || [])) {
+		const seatCodes = data.seatCodes || [];
+		if (!php.empty(seatCodes)) {
 			cmd += '/' + seatCodes.join('/');
 		}
 		if (cancel) {
@@ -73,9 +71,9 @@ class Translate_changeSeats {
 		} else {
 			// can't specify location with seat codes obviously
 			if (php.empty(data.seatCodes)) {
-				location = (data.location || {}).parsed || 'window';
-				hasParams = !php.empty(data.paxRanges) || !php.empty(data.segNums);
-				locLetter = {window: 'W', aisle: 'A', bulkhead: 'B'}[location];
+				const location = (data.location || {}).parsed || 'window';
+				const hasParams = !php.empty(data.paxRanges) || !php.empty(data.segNums);
+				const locLetter = {window: 'W', aisle: 'A', bulkhead: 'B'}[location];
 				cmd += (hasParams ? '/' : '') + 'N' + locLetter;
 			}
 		}
@@ -94,7 +92,7 @@ class Translate_changeSeats {
 		if (!php.empty(seatCodes)) {
 			cmd += '/' + seatCodes.join('');
 		} else if (!cancel) {
-			location = (data.location || {}).parsed || 'window';
+			const location = (data.location || {}).parsed || 'window';
 			cmd += '/' + {aisle: 'A', window: 'W', bulkhead: 'X'}[location];
 		}
 		if (!php.empty(paxNums)) {
@@ -118,7 +116,7 @@ class Translate_changeSeats {
 		if (!php.empty(seatCodes)) {
 			cmd += '/' + seatCodes.join('/');
 		} else if (!cancel) {
-			location = (data.location || {}).parsed || 'window';
+			const location = (data.location || {}).parsed || 'window';
 			cmd += '/' + {aisle: 'A', window: 'W', bulkhead: 'B'}[location];
 		}
 		if (!php.empty(paxNums)) {
