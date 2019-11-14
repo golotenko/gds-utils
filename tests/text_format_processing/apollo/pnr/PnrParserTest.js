@@ -4,9 +4,9 @@ const php = require('enko-fundamentals/src/Transpiled/php.js');
 
 class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCase.js') {
 	provideTreeTestCases() {
-		let $list;
-		$list = [];
-		$list.push([
+		let list;
+		list = [];
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'SUPVR INST                                                  ',
 				'WCCBRA/JB DTWOU UD3/JB  AG 23860281 12AUG',
@@ -135,7 +135,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'tktgData': {'fpInitials': 'VB'},
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'** THIS PNR IS CURRENTLY IN USE **',
 				'SAWYER/EXCH',
@@ -203,7 +203,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 6 HOURS HOLD',
 				'2G2H - SKYBIRD                  SFO',
@@ -278,7 +278,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'dataExistsInfo': {'dividedBookingExists': true, 'linearFareDataExists': true},
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'CFRM TO PSGR                                                ',
 				' 6 H WAIT',
@@ -313,7 +313,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				},
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'** THIS PNR IS CURRENTLY IN USE **',
 				'ELVIS@SLT',
@@ -360,7 +360,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				},
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'1 OF 3 CC IS DECLINED',
 				'PSK5H4/LD QSBSB DYBLD   AG 05578602 13AUG',
@@ -406,7 +406,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				},
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'** THIS PNR IS CURRENTLY IN USE **',
 				'N5JNNK/6Y QSBSB DYB6Y   AG 23854526 11NOV',
@@ -420,7 +420,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			]),
 			{'atfqData': {'0': {'pricingModifiers': {'2': {'type': 'validatingCarrier', 'parsed': 'TK'}}}}},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'SYLVANA',
 				'J7Q4TU/AA QSBSB MA 26DEC',
@@ -508,7 +508,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RICO',
 				'QKJCXA/MI QSBSB DYBMI   AG 05578602 29NOV',
@@ -586,7 +586,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'** THIS PNR IS CURRENTLY IN USE **',
 				'L1C44A/JQ QSBSB DYBJQ   AG 05578602 17SEP',
@@ -639,7 +639,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				},
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'** THIS PNR HAS BEEN CHANGED - IGNORE BEFORE PROCEEDING ** >IR;',
 				'MWVC11/WS QSBYC DPBVWS  AG 05578602 21FEB',
@@ -655,7 +655,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			]),
 			{'headerData': {'reservationInfo': {'recordLocator': 'MWVC11'}}},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'** THIS PNR IS CURRENTLY IN USE **',
 				'JEY',
@@ -715,7 +715,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'NO NAMES',
 				' 1 9W4795C 15JUN JFKCDG LL1   420P  545A|       TH/FR',
@@ -732,7 +732,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'FRAI',
 				'2CV4 - TRAVEL SHOP              SFO',
@@ -792,7 +792,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RICO',
 				'2G55 - INTERNATIONAL TVL NETWOR SFO',
@@ -834,7 +834,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'ticketListData': [{'lastName': 'FERNER', 'ticketNumber': '1577920695178'}],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'** THIS PNR HAS BEEN CHANGED - IGNORE BEFORE PROCEEDING ** >IR\u00B7',
 				'ZTKVX0/WS QSBYC DPBVWS  AG 05578602 15MAY',
@@ -861,7 +861,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'ZCZC1W/WS QSBYC DPBVWS  AG 05578602 15MAY',
 				' 1.1JOHNSON/ELDAR ',
@@ -887,7 +887,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'CREATED IN GDS DIRECT BY STANISLAW',
 				'NO NAMES',
@@ -912,7 +912,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'KITS@EXCH',
 				'2G55 - INTERNATIONAL TVL NETWOR SFO',
@@ -1023,7 +1023,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'R09HS0/AM XDBSP MTRAM   AG 05578602 23AUG',
 				' 1.1PUPKIN/ALICEANNMRS ',
@@ -1090,7 +1090,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'CREATED IN GDS DIRECT BY AKLESUNS',
 				'VSKJ2A/WS QSBYC DPBVWS  AG 05578602 23OCT',
@@ -1120,7 +1120,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'CREATED IN GDS DIRECT BY AKLESUNS',
 				'NO NAMES',
@@ -1144,7 +1144,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'D/C WL CFM                                                  ',
 				'RUBEN',
@@ -1232,7 +1232,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'1 AA 112Q 13APR MIABCN HK1   605P  910A|*      FR/SA   E',
 				'2 AA 113O 22APR BCNMIA HK1  1110A  325P *         SU   E',
@@ -1279,7 +1279,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'CREATED IN GDS DIRECT BY STANISLAW',
 				'NO NAMES',
@@ -1302,7 +1302,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'CREATED IN GDS DIRECT BY KUNKKA',
 				'NO NAMES',
@@ -1325,7 +1325,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DEV TESTING PLS IGNORE',
 				'1O3K - INTERNATIONAL TRAVEL NET SFO',
@@ -1371,7 +1371,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'TAM                                                         ',
 				'P3VJ2D/DL QSBSB DYBDL   AG 0 10JUL',
@@ -1400,7 +1400,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				},
 			},
 		]);
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'1 DL1853T 29DEC IAHATL SS1   705A 1011A *         SA   E',
 				'',
@@ -1555,7 +1555,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		// possibly, that would imply that it has same last name as previous
 		// pax same as in Amadeus, but maybe it's just a bug in Apollo...
 		// see session #162040
-		$list.push([
+		list.push([
 			[
 				" 1.1PUPKIN/GEMMA LUMINARIO ",
 				" 2.I/1PUPKINMEGANGIFT LUMINARIO*21JAN19 ",
@@ -1580,7 +1580,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 
 		// ATFQ FQ line containing just "USD" - should not cause
 		// "TypeError: Cannot convert undefined or null to object [object Promise]" error
-		$list.push([
+		list.push([
 			[
 				'** THIS PNR IS CURRENTLY IN USE **',
 				'SPLINTER',
@@ -1654,17 +1654,65 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		]);
 
-		return $list;
+		// segment from glued OPERATED BY should not get into the _raw_ of preceding segment
+		list.push([
+			[
+				"** THIS PNR IS CURRENTLY IN USE **",
+				"CREATED IN GDS DIRECT BY MACARENA",
+				"P8222Y/WS QSBYC DPBVWS  AG 05578602 12NOV",
+				" 1.1MEJIAREYES/SANTOS ",
+				" 1 AV 575P 17NOV JFKSAL HK1   145A  700A *         SU   E",
+				"         OPERATED BY TACA INTERNATIONAL AIRLINES - TACA  JFK-SAP         OPERATED BY TACA INTERNATIONAL AIRLINES - TACA  SAP-SAL 2 AV 670T 24NOV SALJFK HK1   759P  130A|*      SU/MO   E",
+				"         OPERATED BY AVIANCA COSTA RICA S.A.",
+				"FONE-SFOAS/800-750-2238 ASAP CUSTOMER SUPPORT",
+				"TKTG-TAU/12NOV",
+				"*** LINEAR FARE DATA EXISTS *** >*LF; ",
+				"ATFQ-OK/$BN1-1*ADT/Z$0/ET/TA2F3K/CAV",
+				" FQ-USD 503.00/USD 37.20US/USD 66.08XT/USD 606.28 - 12NOV *ADT-PMA00TIF.TZA07TIF",
+				"GFAX-SSRADTK1VTOTA BY 13NOV 2300 ZZZ TIME ZONE OTHERWISE WILL BE XLD",
+				"   2 SSRADTK1VTOTA BY 13NOV 2300 ZZZ TIME ZONE OTHERWISE WILL BE XLD",
+				"RMKS-GD-MACARENA/103067/FOR MACARENA/103067/LEAD-13351538 IN 2F3K",
+				"ACKN-1A PE4JZ5   12NOV 1656",
+				"   2 1A PE4JZ5   12NOV 1656",
+				"   3 1A PE4JZ5   12NOV 1706",
+				"   4 1A PE4JZ5   12NOV 1706",
+				"",
+			].join("\n"),
+			{
+				itineraryData: [
+					{
+						segmentNumber: 1,
+						airline: 'AV',
+						flightNumber: '575',
+						raw: [
+							" 1 AV 575P 17NOV JFKSAL HK1   145A  700A *         SU   E",
+							"         OPERATED BY TACA INTERNATIONAL AIRLINES - TACA  JFK-SAP",
+							"         OPERATED BY TACA INTERNATIONAL AIRLINES - TACA  SAP-SAL",
+						].join("\n"),
+					},
+					{
+						segmentNumber: 2,
+						airline: 'AV',
+						flightNumber: '670',
+						raw: [
+							" 2 AV 670T 24NOV SALJFK HK1   759P  130A|*      SU/MO   E",
+							"         OPERATED BY AVIANCA COSTA RICA S.A.",
+						].join("\n"),
+					},
+				],
+			},
+		]);
+
+		return list;
 	}
 
 	/**
 	 * @test
 	 * @dataProvider provideTreeTestCases
 	 */
-	testParser($dump, $expected) {
-		let $actual;
-		$actual = PnrParser.parse($dump);
-		this.assertArrayElementsSubset($expected, $actual);
+	testParser(dump, expected) {
+		let actual = PnrParser.parse(dump);
+		this.assertArrayElementsSubset(expected, actual);
 	}
 
 	getTestMapping() {

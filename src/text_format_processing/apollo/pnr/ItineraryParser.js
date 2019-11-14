@@ -291,12 +291,6 @@ class ItineraryParser {
 		}
 	}
 
-	// '         OPERATED BY SKYWEST DBA DELTA CONNECTION',
-	// '         OPERATED BY UNITED AIRLINES FOR AIR MICRONESIA  MNL-ROR         OPERATED BY UNITED AIRLINES FOR AIR MICRONESIA  ROR-GUM 5 UA 196K 28JUN GUMNRT HK4  1200N  255P *         WE   E  1',
-	parseOperatedByLine(line) {
-		return parseOperatedByLines(line);
-	}
-
 	// ' 1 CCR ZE KK1 QRL 23FEB-25FEB MCMR/RG-EUR39.42DY-UNL 39.42XH/BS-05578602/PUP-QRLC60/ARR-1337/RC-AEXXMC/DT-0800/NM-PUGACOVS GENADIJS/CF-H1282505939 OSI '
 	// ' 1 CCR ET SS1 REK  10MAY - 20MAY  SDAR/BS-05578602/PUP-REKC61/ARR-1200/RC-ER8IS/DT-1200/NM-TEST TEST/RG-ISK169400.00WY-UNL FK XD24200.00-UNL FK/CF-1918832450COUNT/AT-ISK300080.00-UNL FM 10DY 0HR 58080.00MC *'
 	parseCarSegmentLine(line) {
@@ -566,14 +560,15 @@ class ItineraryParser {
 				|| this.parseFakeSegmentLine(block)
 			;
 			if (segment) {
-				segment.raw = block;
-				segments.push(segment);
 				const linesLeft = (segment.linesLeft || []).filter(l => l.trim());
 				if (linesLeft.length > 0) {
 					// sometimes 2 OPERATED BY lines get joined into
 					// one together with following segment line
 					blocks.unshift(linesLeft.join('\n'));
+				} else {
+					segment.raw = block;
 				}
+				segments.push(segment);
 			} else {
 				blocks.unshift(block);
 				break;
