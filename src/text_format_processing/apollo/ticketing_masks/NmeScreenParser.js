@@ -175,7 +175,7 @@ class NmeScreenParser {
 			return parsed;
 		} else if (php.preg_match(/^\s*;?([.OX])\s+([A-Z]{3})(?:\s|\.)+VOID(?:\s|\.)+$/, line, matches = [])) {
 			return {type: 'void', departureCity: matches[2], isStopover: matches[1] !== 'X'};
-		} else if (php.preg_match(/(?:\s|\.)+VOID(?:\s|\.)+$/, line)) {
+		} else if (php.preg_match(/^(?:\s|\.)+VOID(?:\s|\.)+$/, line)) {
 			return {type: 'void', departureCity: null, isStopover: true};
 		} else {
 			return null;
