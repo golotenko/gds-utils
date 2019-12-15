@@ -630,21 +630,72 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			'data': {
 				'departureAirport': 'SYD',
 				'destinationAirport': 'SJC',
-				'modifiers': [{'type': 'travelDates', 'raw': '19AUG'}],
+				'modifiers': [
+					{'type': 'travelDates', 'raw': '19AUG'},
+					{'type': 'airlines', 'raw': 'AVA'},
+					{'type': 'generic', 'raw': 'R,U+-ITX'},
+				],
 			},
 		}]);
 		list.push(['FQDLAXAKL/17SEP/AVA/R,P', {'type': 'fareSearch',
 			'data': {
 				'departureAirport': 'LAX',
 				'destinationAirport': 'AKL',
-				'modifiers': [{'type': 'travelDates', 'raw': '17SEP'}],
+				'modifiers': [
+					{'type': 'travelDates', 'raw': '17SEP'},
+					{'type': 'airlines', 'raw': 'AVA'},
+					{'type': 'generic', 'raw': 'R,P'},
+				],
 			},
 		}]);
 		list.push(['FQDLAXAKL/17SEP/AVA/R,U', {'type': 'fareSearch',
 			'data': {
 				'departureAirport': 'LAX',
 				'destinationAirport': 'AKL',
-				'modifiers': [{'type': 'travelDates', 'raw': '17SEP'}],
+				'modifiers': [
+					{'type': 'travelDates', 'raw': '17SEP'},
+					{'type': 'airlines', 'raw': 'AVA'},
+					{'type': 'generic', 'raw': 'R,U'},
+				],
+			},
+		}]);
+		// likely an account code
+		list.push(['FQDLAXAKL/17SEP/AVA/R,U12345', {'type': 'fareSearch',
+			'data': {
+				'departureAirport': 'LAX',
+				'destinationAirport': 'AKL',
+				'modifiers': [
+					{'type': 'travelDates', 'raw': '17SEP'},
+					{'type': 'airlines', 'raw': 'AVA'},
+					{'type': 'generic', 'raw': 'R,U12345', parsed: {
+						rSubModifiers: [
+							{type: 'fareType', parsed: 'private', raw: 'U12345', extraData: {
+								// this "extraData" is a hackish way to add more parsed data without breaking
+								//compatibility (who knew this format may have more to it than just U/P/UP)
+								accountCode: '12345',
+							}},
+						],
+					}},
+				],
+			},
+		}]);
+		// CORPORATE CODES/NAMES
+		list.push(['FQDLAXAKL/17SEP/R,U*000001-000002-*IBM', {'type': 'fareSearch',
+			'data': {
+				'departureAirport': 'LAX',
+				'destinationAirport': 'AKL',
+				'modifiers': [
+					{'type': 'travelDates', 'raw': '17SEP'},
+					{'type': 'generic', 'raw': 'R,U*000001-000002-*IBM', parsed: {
+						rSubModifiers: [
+							{type: 'fareType', parsed: 'private', raw: 'U*000001-000002-*IBM', extraData: {
+								// this "extraData" is a hackish way to add more parsed data without breaking
+								//compatibility (who knew this format may have more to it than just U/P/UP)
+								accountCode: '000001-000002-*IBM',
+							}},
+						],
+					}},
+				],
 			},
 		}]);
 		list.push(['FQDSYDSJC/19AUG/AVA/R,IT', {'type': 'fareSearch',

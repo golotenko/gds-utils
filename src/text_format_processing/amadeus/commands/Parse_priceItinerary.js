@@ -17,27 +17,31 @@ const parseRange = (expr) => {
 	return ParserUtil.parseRange(expr, ',', '-');
 };
 
-const parseRSubModifier = (rSubMod) => {
-	let type, parsed, matches;
+const parseRSubModifier = (raw) => {
+	let type, parsed, matches, extraData = undefined;
 
-	if (rSubMod === 'P') {
+	const asFareType = raw.match(/^(U|P|UP)\*(.+)$/)
+					|| raw.match(/^(U|P|UP)(\d*)$/);
+	if (asFareType) {
+		const [, letter, accountCode] = asFareType;
 		type = 'fareType';
-		parsed = 'public';
-	} else if (rSubMod === 'U') {
-		type = 'fareType';
-		parsed = 'private';
-	} else if (rSubMod === 'UP') {
-		type = 'fareType';
-		parsed = 'privateOrPublic';
-	} else if (rSubMod === '*BD') {
+		parsed = {
+			'P': 'public',
+			'U': 'private',
+			'UP': 'privateOrPublic',
+		}[letter];
+		if (accountCode) {
+			extraData = {accountCode};
+		}
+	} else if (raw === '*BD') {
 		type = 'forceProperEconomy';
 		parsed = true;
-	} else if (parsed = parseDate(rSubMod)) {
+	} else if (parsed = parseDate(raw)) {
 		type = 'ticketingDate';
-	} else if (matches = rSubMod.match(/^FC-([A-Z]{3})$/)) {
+	} else if (matches = raw.match(/^FC-([A-Z]{3})$/)) {
 		type = 'currency';
 		parsed = matches[1];
-	} else if (php.preg_match(/^-([A-Z0-9]{3})$/, rSubMod, matches = [])) {
+	} else if (php.preg_match(/^-([A-Z0-9]{3})$/, raw, matches = [])) {
 		// relevant only in tariff display I believe...
 		type = 'ptc';
 		parsed = matches[1];
@@ -45,9 +49,7 @@ const parseRSubModifier = (rSubMod) => {
 		type = null;
 		parsed = null;
 	}
-	return {
-		raw: rSubMod, type: type, parsed: parsed,
-	};
+	return {raw, type, parsed, extraData};
 };
 
 const getCabinClassMapping = () => {
@@ -133,6 +135,7 @@ const Parse_priceItinerary = (cmd) => {
 	}
 };
 
+Parse_priceItinerary.parseRSubModifier = parseRSubModifier;
 Parse_priceItinerary.getCabinClassMapping = getCabinClassMapping;
 
 module.exports = Parse_priceItinerary;

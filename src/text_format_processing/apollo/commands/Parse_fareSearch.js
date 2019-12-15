@@ -39,6 +39,8 @@ const isPositional = (context) => {
 
 const end = /(?![A-Z0-9])/;
 const lexemes_fareSearch = [
+	(new Lexeme('accountCodes', mkReg([/^-PRI((-[A-Z0-9]+)*)/, end])))
+		.map((matches) => matches[1] ? php.ltrim(matches[1], '-').split('-') : []),
 	new Lexeme('airlines', mkReg([/^(?:\/)*(\|[A-Z0-9]{2})+/, end]))
 		.map((matches) => php.ltrim(matches[0], '|').split('|')),
 	new Lexeme('currency', mkReg([/^(?:\/)*:([A-Z]{3})/, end])).map((m) => m[1]),

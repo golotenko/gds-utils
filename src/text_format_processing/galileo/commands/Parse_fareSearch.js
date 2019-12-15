@@ -4,6 +4,7 @@ const Parse_apollo_fareSearch = require('../../apollo/commands/Parse_fareSearch.
 const Lexeme = require('../../../lexer/Lexeme.js');
 const Lexer = require('../../../lexer/Lexer.js');
 const php = require('enko-fundamentals/src/Transpiled/php.js');
+const {mkReg} = require('enko-fundamentals/src/Utils/Misc.js');
 
 const parseDate = (raw) => {
 	return !raw ? null : {
@@ -15,11 +16,14 @@ const parseDate = (raw) => {
 
 const getFirst = (matches) => matches[1];
 const parseDateToken = (matches) => parseDate(matches[1]);
-const end  = '(?![A-Z0-9])';
+const endReg  = /(?![A-Z0-9])/;
+const end  = endReg.source;
 
 const lexer = new Lexer([
-	(new Lexeme('tripType', '/^-(RT|OW)'+ end +'/')).map(getFirst),
-	(new Lexeme('bookingClass', '/^-([A-Z])'+ end +'/')).map(getFirst),
+	(new Lexeme('accountCodes', mkReg([/^-PRI((-[A-Z0-9]+)*)/, endReg])))
+		.map((matches) => matches[1] ? php.ltrim(matches[1], '-').split('-') : []),
+	(new Lexeme('tripType', mkReg([/^-(RT|OW)/, endReg]))).map(getFirst),
+	(new Lexeme('bookingClass', mkReg([/^-([A-Z])/, endReg]))).map(getFirst),
 	(new Lexeme('cabinClass', '/^@([A-Z])'+ end +'/'))
 		.map((matches) => (Parse_apollo_fareSearch.getCabinClasses() || {})[matches[1]]),
 	(new Lexeme('fareBasis', '/^@([A-Z][A-Z0-9]*)'+ end +'/')).map(getFirst),
@@ -31,8 +35,6 @@ const lexer = new Lexer([
 	(new Lexeme('fareType', '/^:([A-Z])'+ end +'/'))
 		.map((matches) => Parse_apollo_priceItinerary.decodeFareType(matches[1])),
 	(new Lexeme('ptc', '/^\\*([A-Z0-9]{3})'+ end +'/')).map(getFirst),
-	(new Lexeme('accountCodes', '/^-PRI((-[A-Z0-9]+)*)'+ end +'/'))
-		.map((matches) => matches[1] ? php.explode('-', php.ltrim(matches[1], '-')) : []),
 	// base mods follows (may preceed a letter)
 	(new Lexeme('dates', '/^(\\d{1,2}[A-Z]{3}\\d{0,2})/')).map(matches => ({
 		departureDate: parseDate(matches[1]),

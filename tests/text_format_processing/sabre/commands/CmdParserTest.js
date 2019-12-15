@@ -830,6 +830,18 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		}]);
+		$list.push(['FQSFOBGI24NOV¥R29NOV¥RR*BSAG', {
+			'type': 'fareSearch',
+			'data': {
+				'departureAirport': 'SFO',
+				'destinationAirport': 'BGI',
+				'departureDate': {'raw': '24NOV'},
+				'modifiers': [
+					{raw: '¥R29NOV', type: 'returnDate'},
+					{raw: '¥RR*BSAG', type: 'accountCode'},
+				],
+			},
+		}]);
 		// invalid tariff cmd - departure date can't be before airports in Sabre
 		$list.push(['FQ10MAYJFKMNL', {
 			'type': 'fareSearch',

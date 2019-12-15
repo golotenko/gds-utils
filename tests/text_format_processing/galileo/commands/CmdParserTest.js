@@ -99,7 +99,6 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		list.push(['FN1*16', {'type': 'fareRules'}]);
 		list.push(['FD11DECMADATH', {'type': 'fareSearch'}]);
 		list.push(['FD11DECHELFRA/AY', {'type': 'fareSearch'}]);
-
 		list.push(['SI.P2S5@', {'type': 'cancelSsr'}]);
 		list.push(['SI.YY*VIP ROCK STAR', {'type': 'addSsr'}]);
 		list.push(['SI.1@YY*VIP SCREEN STAR', {'type': 'cancelSsr'}]); // change SSR contents
@@ -891,6 +890,30 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		return list;
 	}
 
+	provideTestCases() {
+		const list = [];
+
+		list.push({
+			title: 'Account code',
+			input: 'FD20MAYLONJFK-PRI-TPACK:P',
+			output: {
+				type: 'fareSearch',
+				data: {
+					departureDate: {raw: '20MAY'},
+					departureAirport: 'LON',
+					destinationAirport: 'JFK',
+					modifiers: [
+						{raw: '-PRI-TPACK', type: 'accountCodes', parsed: ['TPACK']},
+						{raw: ':P', type: 'fareType', parsed: 'private'},
+					],
+					unparsed: '',
+				},
+			},
+		});
+
+		return list.map(c => [c]);
+	}
+
 	/**
 	 * @test
 	 * @dataProvider provideCommands
@@ -904,9 +927,19 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		}
 	}
 
+	testCase(testCase)  {
+		let actual = CmdParser.parse(testCase.input);
+		try {
+			this.assertArrayElementsSubset(testCase.output, actual);
+		} catch (exc) {
+			throw exc;
+		}
+	}
+
 	getTestMapping() {
 		return [
 			[this.provideCommands, this.testParser],
+			[this.provideTestCases, this.testCase],
 		];
 	}
 }

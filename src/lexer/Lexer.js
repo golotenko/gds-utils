@@ -1,6 +1,6 @@
 
 class Lexer {
-	/** @param Lexeme[] $lexemes */
+	/** @param {Lexeme[]} lexemes */
 	constructor(lexemes) {
 		this.lexemes = lexemes;
 	}

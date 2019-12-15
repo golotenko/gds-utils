@@ -1311,6 +1311,20 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		});
 
+		list.push({
+			title: 'Account code (I guess format is this)',
+			input: '$D20MAYLONJFK-PRI-TPACK',
+			output: {
+				departureDate: {raw: '20MAY'},
+				departureAirport: 'LON',
+				destinationAirport: 'JFK',
+				modifiers: [
+					{raw: '-PRI-TPACK', type: 'accountCodes', parsed: ['TPACK']},
+				],
+				unparsed: '',
+			},
+		});
+
 		return list.map(a => [a]);
 	}
 

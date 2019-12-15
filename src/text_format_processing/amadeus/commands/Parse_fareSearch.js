@@ -1,3 +1,4 @@
+const Parse_priceItinerary = require('./Parse_priceItinerary.js');
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 
 const php = require('enko-fundamentals/src/Transpiled/php.js');
@@ -24,29 +25,6 @@ const parseTravelDatesMod = (rawMod) => {
 	}
 };
 
-const parseRSubModifier = (rSubMod) => {
-	let type, parsed, matches;
-
-	if (rSubMod === 'P') {
-		type = 'fareType';
-		parsed = 'public';
-	} else if (rSubMod === 'U') {
-		type = 'fareType';
-		parsed = 'private';
-	} else if (parsed = parseDate(rSubMod)) {
-		type = 'ticketingDate';
-	} else if (php.preg_match(/^-([A-Z0-9]{3})$/, rSubMod, matches = [])) {
-		type = 'ptc';
-		parsed = matches[1];
-	} else {
-		type = null;
-		parsed = null;
-	}
-	return {
-		raw: rSubMod, type: type, parsed: parsed,
-	};
-};
-
 const parseMods = (rawMod) => {
 	let parsed, type, matches, rMods;
 
@@ -54,8 +32,7 @@ const parseMods = (rawMod) => {
 		type = 'travelDates';
 	} else if (php.preg_match(/^R,(.+)$/, rawMod, matches = [])) {
 		type = 'generic';
-		rMods = php.array_map(s => parseRSubModifier(s),
-			php.explode(',', matches[1]));
+		rMods = matches[1].split(',').map(Parse_priceItinerary.parseRSubModifier);
 		parsed = {rSubModifiers: rMods};
 	} else if (php.preg_match(/^A([A-Z0-9]{2}(,[A-Z0-9]{2})*)$/, rawMod, matches = [])) {
 		type = 'airlines';
