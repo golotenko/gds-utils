@@ -14,6 +14,10 @@ const inApollo = (cmdData) => {
 		php.array_column(cmdData.modifiers || [], 'type'),
 		php.array_column(cmdData.modifiers || [], 'parsed')
 	);
+	if (!php.empty(cmdData.typeToData.accountCodes)) {
+		cmdData.typeToData.accountCode = php.array_shift(cmdData.typeToData.accountCodes);
+		delete cmdData.typeToData.accountCodes;
+	}
 	return cmdData;
 };
 
@@ -37,12 +41,21 @@ const inAmadeus = (cmdData) => {
 	if (!cmdData) {
 		return null;
 	}
-	typeToData = php.array_combine(php.array_column(cmdData.modifiers, 'type'),
-		php.array_column(cmdData.modifiers, 'parsed'));
+	typeToData = php.array_combine(
+		php.array_column(cmdData.modifiers, 'type'),
+		php.array_column(cmdData.modifiers, 'parsed')
+	);
+	const subMods = (typeToData.generic || {}).rSubModifiers || [];
 	typeToData = php.array_merge(typeToData, php.array_combine(
-		php.array_column((typeToData.generic || {}).rSubModifiers || [], 'type'),
-		php.array_column((typeToData.generic || {}).rSubModifiers || [], 'parsed')
+		php.array_column(subMods, 'type'),
+		php.array_column(subMods, 'parsed')
 	));
+	const accountCode = subMods
+		.filter(subMod => subMod.type === 'fareType')
+		.map(ftMod => (ftMod.extraData || {}).accountCode)[0];
+	if (accountCode) {
+		typeToData.accountCode = accountCode;
+	}
 	if (php.array_key_exists(null, typeToData)) {
 		return null; // failed to parse some modifiers
 	}

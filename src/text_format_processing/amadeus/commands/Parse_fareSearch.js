@@ -36,7 +36,7 @@ const parseMods = (rawMod) => {
 		parsed = {rSubModifiers: rMods};
 	} else if (php.preg_match(/^A([A-Z0-9]{2}(,[A-Z0-9]{2})*)$/, rawMod, matches = [])) {
 		type = 'airlines';
-		parsed = php.explode(',', matches[1]);
+		parsed = matches[1].split(',');
 	} else if (php.preg_match(/^I([OR])$/, rawMod, matches = [])) {
 		type = 'tripType';
 		parsed = {O: 'OW', R: 'RT'}[matches[1]];
