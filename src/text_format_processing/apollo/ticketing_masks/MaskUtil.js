@@ -197,7 +197,7 @@ class MaskUtil
 			}
 			const value = this._getPositionValue(mask, start, length);
 			const enabled = mask[start - 1] === ';';
-			items.push({key, value, enabled});
+			items.push({key, value, size: length, enabled});
 		}
 		return Promise.resolve(items);
 	}
