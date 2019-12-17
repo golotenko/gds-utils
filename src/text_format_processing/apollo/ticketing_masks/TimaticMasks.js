@@ -71,6 +71,24 @@ const TimaticMasks = {
 				'   *--REQUIRED FIELD                                            ',
 			].join(''),
 		},
+		{
+			cmd: 'TI-MC',
+			pattern: [
+				'TI-RCC           TIMATIC COUNTRY CODE INFORMATION REQUEST',
+				'0 COUNTRY         :/;___',
+				'',
+				'   0--OPTIONAL FIELD...BLANK ASSUMES ALL COUNTRIES',
+			].join(''),
+		},
+		{
+			cmd: 'TI-MG',
+			pattern: [
+				'TI-RGL           TIMATIC GROUP NAMES DISPLAY REQUEST',
+				'0 GROUP CODE      :/;____',
+				'',
+				'   0--OPTIONAL FIELD...BLANK ASSUMES ALL GROUP LISTS',
+			].join('')
+		}
 	],
 };
 
