@@ -180,7 +180,10 @@ class MaskUtil
 	}
 
 	// async to return errors
-	static async getPositionValues({mask, positions, fields}) {
+	static async getPositionValues({mask, positions, fields = undefined}) {
+		if (!fields) {
+			fields = positions.map((p,i) => i);
+		}
 		if (positions.length !== fields.length) {
 			const error = 'Number of passed positions ' + positions.length +
 				' does not match number of fields ' + fields.length;
@@ -197,7 +200,7 @@ class MaskUtil
 			}
 			const value = this._getPositionValue(mask, start, length);
 			const enabled = mask[start - 1] === ';';
-			items.push({key, value, size: length, enabled});
+			items.push({key, value, size: length, enabled, start});
 		}
 		return Promise.resolve(items);
 	}
