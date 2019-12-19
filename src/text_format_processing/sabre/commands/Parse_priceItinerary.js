@@ -62,6 +62,32 @@ const parseSegmentQualifier = (token) => {
 	}
 };
 
+/**
+ * @param token = 'TX0.10TX/1.00XX' || 'TX0.10YY'
+ */
+const parseTaxQualifier = (token) => {
+	if (!token.startsWith('TX')) {
+		return null;
+	}
+	const taxes = token
+		.slice('TX'.length)
+		.split('/')
+		.map(part => {
+			const match = part.match(/^(\d*\.?\d+)([A-Z0-9]{2})$/);
+			if (match) {
+				const [, amount, taxCode] = match;
+				return {amount, taxCode};
+			} else {
+				return null;
+			}
+		});
+	if (taxes.every(t => t != null)) {
+		return {taxes};
+	} else {
+		return null;
+	}
+};
+
 // 'PADT', 'PINF'
 // 'PADT/CMP' // companion
 // 'PJCB/2JNF' // 1 JCB (adult) and 2 JNF (infants)
@@ -100,68 +126,68 @@ const cabinClassMapping = {
 /**
  * @see https://formatfinder.sabre.com/Content/Pricing/PricingOptionalQualifiers.aspx?ItemID=7481cca11a7449a19455dc598d5e3ac9
  */
-const parsePricingQualifier = (token) => {
+const parsePricingQualifier = (raw) => {
 	let matches;
-	let [name, data] = [null, null];
-	if (token === 'RQ') {
-		[name, data] = ['createPriceQuote', true];
-	} else if (token === 'ETR') {
-		[name, data] = ['areElectronicTickets', true];
-	} else if (token === 'FXD') {
-		[name, data] = ['forceProperEconomy', true];
-	} else if (php.preg_match(/^MPC-(?<mpc>[A-Z0-9]+)$/, token, matches = [])) {
-		[name, data] = ['maxPenaltyForChange', {
+	let [type, parsed] = [null, null];
+	if (raw === 'RQ') {
+		[type, parsed] = ['createPriceQuote', true];
+	} else if (raw === 'ETR') {
+		[type, parsed] = ['areElectronicTickets', true];
+	} else if (raw === 'FXD') {
+		[type, parsed] = ['forceProperEconomy', true];
+	} else if (php.preg_match(/^MPC-(?<mpc>[A-Z0-9]+)$/, raw, matches = [])) {
+		[type, parsed] = ['maxPenaltyForChange', {
 			value: matches['mpc'],
 		}];
-	} else if (php.in_array(token, ['PL', 'PV'])) {
-		[name, data] = ['fareType', token === 'PL' ? 'public' : 'private'];
-	} else if (data = parseNameQualifier(token)) {
-		name = 'names';
-	} else if (data = parsePtcQualifier(token)) {
-		name = 'ptc';
-	} else if (data = parseSegmentQualifier(token)) {
-		name = 'segments';
-	} else if (php.preg_match(/^PU\*(\d*\.?\d+)(\/[A-Z0-9]+|)$/, token, matches = [])) {
-		[name, data] = ['markup', matches[1]];
-	} else if (php.preg_match(/^K(P|)([A-Z]*)(\d*\.?\d+)$/, token, matches = [])) {
+	} else if (php.in_array(raw, ['PL', 'PV'])) {
+		[type, parsed] = ['fareType', raw === 'PL' ? 'public' : 'private'];
+	} else if (parsed = parseNameQualifier(raw)) {
+		type = 'names';
+	} else if (parsed = parsePtcQualifier(raw)) {
+		type = 'ptc';
+	} else if (parsed = parseSegmentQualifier(raw)) {
+		type = 'segments';
+	} else if (parsed = parseTaxQualifier(raw)) {
+		type = 'overrideTaxes';
+	} else if (php.preg_match(/^PU\*(\d*\.?\d+)(\/[A-Z0-9]+|)$/, raw, matches = [])) {
+		[type, parsed] = ['markup', matches[1]];
+	} else if (php.preg_match(/^K(P|)([A-Z]*)(\d*\.?\d+)$/, raw, matches = [])) {
 		const [, percentMarker, region, amount] = matches;
-		[name, data] = ['commission', {
+		[type, parsed] = ['commission', {
 			units: percentMarker ? 'percent' : 'amount',
 			region: region || null,
 			value: amount,
 		}];
-	} else if (php.preg_match(/^A([A-Z0-9]{2})$/, token, matches = [])) {
-		[name, data] = ['validatingCarrier', matches[1]];
-	} else if (php.preg_match(/^C-([A-Z0-9]{2})$/, token, matches = [])) {
-		[name, data] = ['overrideCarrier', matches[1]];
-	} else if (php.preg_match(/^M([A-Z]{3})$/, token, matches = [])) {
-		[name, data] = ['currency', matches[1]];
-	} else if (php.preg_match(/^AC\*([A-Z0-9]+)$/, token, matches = [])) {
-		[name, data] = ['accountCode', matches[1]];
-	} else if (php.preg_match(/^ST(\d+[\d\/\-]*)$/, token, matches = [])) {
-		[name, data] = ['sideTrip', parseRanges(matches[1])];
-	} else if (php.preg_match(/^W(TKT)$/, token, matches = [])) {
-		[name, data] = ['exchange', matches[1]];
-	} else if (php.preg_match(/^NC$/, token, matches = [])) {
-		[name, data] = ['lowestFare', true];
-	} else if (php.preg_match(/^NCS$/, token, matches = [])) {
-		[name, data] = ['lowestFareIgnoringAvailability', true];
-	} else if (php.preg_match(/^NCB$/, token, matches = [])) {
-		[name, data] = ['lowestFareAndRebook', true];
-	} else if (php.preg_match(/^Q([A-Z][A-Z0-9]*)$/, token, matches = [])) {
-		[name, data] = ['fareBasis', matches[1]];
-	} else if (php.preg_match(/^B(\d{1,2}[A-Z]{3}\d*)$/, token, matches = [])) {
-		[name, data] = ['ticketingDate', {raw: matches[1]}];
-	} else if (php.preg_match(/^TC-([A-Z]{2})$/, token, matches = [])) {
-		const raw = matches[1];
-		const parsed = cabinClassMapping[raw];
-		[name, data] = ['cabinClass', {raw, parsed}];
+	} else if (php.preg_match(/^A([A-Z0-9]{2})$/, raw, matches = [])) {
+		[type, parsed] = ['validatingCarrier', matches[1]];
+	} else if (php.preg_match(/^C-([A-Z0-9]{2})$/, raw, matches = [])) {
+		[type, parsed] = ['overrideCarrier', matches[1]];
+	} else if (php.preg_match(/^M([A-Z]{3})$/, raw, matches = [])) {
+		[type, parsed] = ['currency', matches[1]];
+	} else if (php.preg_match(/^AC\*([A-Z0-9]+)$/, raw, matches = [])) {
+		[type, parsed] = ['accountCode', matches[1]];
+	} else if (php.preg_match(/^ST(\d+[\d\/\-]*)$/, raw, matches = [])) {
+		[type, parsed] = ['sideTrip', parseRanges(matches[1])];
+	} else if (php.preg_match(/^W(TKT)$/, raw, matches = [])) {
+		[type, parsed] = ['exchange', matches[1]];
+	} else if (php.preg_match(/^NC$/, raw, matches = [])) {
+		[type, parsed] = ['lowestFare', true];
+	} else if (php.preg_match(/^NCS$/, raw, matches = [])) {
+		[type, parsed] = ['lowestFareIgnoringAvailability', true];
+	} else if (php.preg_match(/^NCB$/, raw, matches = [])) {
+		[type, parsed] = ['lowestFareAndRebook', true];
+	} else if (php.preg_match(/^Q([A-Z][A-Z0-9]*)$/, raw, matches = [])) {
+		[type, parsed] = ['fareBasis', matches[1]];
+	} else if (php.preg_match(/^B(\d{1,2}[A-Z]{3}\d*)$/, raw, matches = [])) {
+		[type, parsed] = ['ticketingDate', {raw: matches[1]}];
+	} else if (php.preg_match(/^TC-([A-Z]{2})$/, raw, matches = [])) {
+		const code = matches[1];
+		const parsed = cabinClassMapping[code];
+		[type, parsed] = ['cabinClass', {raw: code, parsed}];
+	} else if (php.preg_match(/^OC-B([A-Z])$/, raw, matches = [])) {
+		[type, parsed] = ['bookingClass', matches[1]];
 	}
-	return {
-		raw: token,
-		type: name,
-		parsed: data,
-	};
+	return {raw, type, parsed};
 };
 
 const parsePricingQualifiers = (modsStr) => {
