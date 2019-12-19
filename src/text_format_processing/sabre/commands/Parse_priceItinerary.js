@@ -182,8 +182,8 @@ const parsePricingQualifier = (raw) => {
 		[type, parsed] = ['ticketingDate', {raw: matches[1]}];
 	} else if (php.preg_match(/^TC-([A-Z]{2})$/, raw, matches = [])) {
 		const code = matches[1];
-		const parsed = cabinClassMapping[code];
-		[type, parsed] = ['cabinClass', {raw: code, parsed}];
+		const meaning = cabinClassMapping[code];
+		[type, parsed] = ['cabinClass', {raw: code, parsed: meaning}];
 	} else if (php.preg_match(/^OC-B([A-Z])$/, raw, matches = [])) {
 		[type, parsed] = ['bookingClass', matches[1]];
 	}

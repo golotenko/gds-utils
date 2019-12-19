@@ -42,6 +42,17 @@ const provide_call = () => {
 		},
 	});
 
+	testCases.push({
+		title: 'cabin class modifier example',
+		input: 'WPNC¥TC-BB',
+		output: {
+			pricingModifiers: [
+				{raw: 'NC'},
+				{type: 'cabinClass', parsed: {raw: 'BB', parsed: 'business'}},
+			],
+		},
+	});
+
 	return testCases.map(c => [c]);
 };
 
