@@ -28,6 +28,7 @@ const exact = {
 	'OP/W*': 'workAreas',
 	'F': 'fileDividedBooking',
 	'HHMCO': 'requestMcoMask',
+	'EMDL': 'openEmdList',
 };
 
 const start = {
