@@ -5,6 +5,141 @@ const provide_parse = () => {
 	const testCases = [];
 
 	testCases.push({
+		title: 'the most popular command ever',
+		input: '*R',
+		output: {type: 'redisplayPnr'},
+	});
+
+	return testCases.map(c => [c]);
+};
+
+const provide_parse_deletePnrField = () => {
+	const testCases = [];
+
+	testCases.push({input: 'X1-2|4',
+		output: {type: 'deletePnrField'},
+	});
+	testCases.push({input:'XI', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			applyToAllAir: true,
+		},
+	}});
+	testCases.push({input:'XA', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			applyToAllAir: true,
+		},
+	}});
+	testCases.push({input:'X5', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			segmentNumbers: [5],
+		},
+	}});
+	testCases.push({input:'X1|4', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			segmentNumbers: [1, 4],
+		},
+	}});
+	testCases.push({input:'X1-3|5', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			segmentNumbers: [1, 2, 3, 5],
+		},
+	}});
+	testCases.push({input:'X2/01B1', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			segmentNumbers: [2],
+			sell: {
+				sellType: 'availability',
+				seatCount: '1',
+				segments: [
+					{bookingClass: 'B', lineNumber: '1'},
+				],
+			},
+		},
+	}});
+	testCases.push({input:'X2-5/02F1', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			segmentNumbers: [2, 3, 4, 5],
+			sell: {
+				sellType: 'availability',
+				seatCount: '2',
+				segments: [
+					{bookingClass: 'F', lineNumber: '1'},
+				],
+			},
+		},
+	}});
+	testCases.push({input:'X4/0SK93F8NOVLAXCPHNN2', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			segmentNumbers: [4],
+			sell: {
+				sellType: 'directSell',
+			},
+		},
+	}});
+	testCases.push({input:'XI/02Y3Y4', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			applyToAllAir: true,
+			sell: {
+				sellType: 'availability',
+				seatCount: '2',
+				segments: [
+					{bookingClass: 'Y', lineNumber: '3'},
+					{bookingClass: 'Y', lineNumber: '4'},
+				],
+			},
+		},
+	}});
+	testCases.push({input:'XI/01Y3*', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			applyToAllAir: true,
+			sell: {
+				sellType: 'availability',
+				seatCount: '1',
+				segments: [
+					{bookingClass: 'Y', lineNumber: '3'},
+				],
+				includeConnections: true,
+			},
+		},
+	}});
+	testCases.push({input:'X1|2/01M|2B', output: {
+		type: 'deletePnrField',
+		data: {
+			field: 'itinerary',
+			segmentNumbers: [1, 2],
+			sell: {
+				sellType: 'rebookSelective',
+				segments: [
+					{segmentNumber: '1', bookingClass: 'M'},
+					{segmentNumber: '2', bookingClass: 'B'},
+				],
+			},
+		},
+	}});
+
+	// rebookAll follow
+
+	testCases.push({
 		title: 'rebook all to different class',
 		input: 'XA/0B',
 		output: {
@@ -30,6 +165,21 @@ const provide_parse = () => {
 				sell: {
 					sellType: 'rebookAll',
 					bookingClasses: ['Y', 'N'],
+				},
+			},
+		},
+	});
+	testCases.push({
+		title: 'and one more',
+		input: 'X7/0CN',
+		output: {
+			type: 'deletePnrField',
+			data: {
+				field: 'itinerary',
+				segmentNumbers: [7],
+				sell: {
+					sellType: 'rebookAll',
+					bookingClasses: ['C', 'N'],
 				},
 			},
 		},
@@ -73,10 +223,6 @@ const provide_parse = () => {
 class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCase.js') {
 	provideTestDumpList() {
 		const list = [];
-		list.push([
-			'*R',
-			{type: 'redisplayPnr'},
-		]);
 		list.push([
 			'*P|N|I',
 			{
@@ -142,10 +288,6 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		list.push([
 			'MVT/|*JEAN',
 			{type: 'addAgencyInfo'},
-		]);
-		list.push([
-			'X1-2|4',
-			{type: 'deletePnrField'},
 		]);
 		list.push([
 			'R:SUE|QEP/43|86|CA3/4',
@@ -439,123 +581,6 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		}]);
 		list.push(['Y', {type: 'sell', data: {sellType: 'arrivalUnknown'}}]);
-		list.push(['XI', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				applyToAllAir: true,
-			},
-		}]);
-		list.push(['XA', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				applyToAllAir: true,
-			},
-		}]);
-		list.push(['X5', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				segmentNumbers: [5],
-			},
-		}]);
-		list.push(['X1|4', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				segmentNumbers: [1, 4],
-			},
-		}]);
-		list.push(['X1-3|5', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				segmentNumbers: [1, 2, 3, 5],
-			},
-		}]);
-		list.push(['X2/01B1', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				segmentNumbers: [2],
-				sell: {
-					sellType: 'availability',
-					seatCount: '1',
-					segments: [
-						{bookingClass: 'B', lineNumber: '1'},
-					],
-				},
-			},
-		}]);
-		list.push(['X2-5/02F1', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				segmentNumbers: [2, 3, 4, 5],
-				sell: {
-					sellType: 'availability',
-					seatCount: '2',
-					segments: [
-						{bookingClass: 'F', lineNumber: '1'},
-					],
-				},
-			},
-		}]);
-		list.push(['X4/0SK93F8NOVLAXCPHNN2', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				segmentNumbers: [4],
-				sell: {
-					sellType: 'directSell',
-				},
-			},
-		}]);
-		list.push(['XI/02Y3Y4', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				applyToAllAir: true,
-				sell: {
-					sellType: 'availability',
-					seatCount: '2',
-					segments: [
-						{bookingClass: 'Y', lineNumber: '3'},
-						{bookingClass: 'Y', lineNumber: '4'},
-					],
-				},
-			},
-		}]);
-		list.push(['XI/01Y3*', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				applyToAllAir: true,
-				sell: {
-					sellType: 'availability',
-					seatCount: '1',
-					segments: [
-						{bookingClass: 'Y', lineNumber: '3'},
-					],
-					includeConnections: true,
-				},
-			},
-		}]);
-		list.push(['X1|2/01M|2B', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				segmentNumbers: [1, 2],
-				sell: {
-					sellType: 'rebookSelective',
-					segments: [
-						{segmentNumber: '1', bookingClass: 'M'},
-						{segmentNumber: '2', bookingClass: 'B'},
-					],
-				},
-			},
-		}]);
 		list.push(['/2|Y', {
 			type: 'insertSegments',
 			data: {
@@ -1391,6 +1416,7 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		return [
 			[this.provideTestDumpList, this.testParserOutputAgainstTree],
 			[provide_parse, this.test_parse],
+			[provide_parse_deletePnrField, this.test_parse],
 			[this.provideParseFareSearch, this.testParseParseFareSearch],
 		];
 	}
