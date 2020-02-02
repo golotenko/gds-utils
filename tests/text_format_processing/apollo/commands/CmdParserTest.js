@@ -1,10 +1,78 @@
 const Parse_fareSearch = require('../../../../src/text_format_processing/apollo/commands/Parse_fareSearch.js');
 const CommandParser = require('../../../../src/text_format_processing/apollo/commands/CmdParser.js');
 
+const provide_parse = () => {
+	const testCases = [];
+
+	testCases.push({
+		title: 'rebook all to different class',
+		input: 'XA/0B',
+		output: {
+			type: 'deletePnrField',
+			data: {
+				field: 'itinerary',
+				applyToAllAir: true,
+				sell: {
+					sellType: 'rebookAll',
+					bookingClasses: ['B'],
+				},
+			},
+		},
+	});
+	testCases.push({
+		title: 'Request to rebook to multiple classes. Has a tendency to cause bugs in Apollo',
+		input: 'X3/0YN',
+		output: {
+			type: 'deletePnrField',
+			data: {
+				field: 'itinerary',
+				segmentNumbers: [3],
+				sell: {
+					sellType: 'rebookAll',
+					bookingClasses: ['Y', 'N'],
+				},
+			},
+		},
+	});
+	testCases.push({
+		title: 'rebook to different date',
+		input: 'X3/025FEB',
+		output: {
+			type: 'deletePnrField',
+			data: {
+				field: 'itinerary',
+				segmentNumbers: [3],
+				sell: {
+					sellType: 'rebookAll',
+					departureDate: {raw: '25FEB'},
+					bookingClasses: [],
+				},
+			},
+		},
+	});
+	testCases.push({
+		title: 'rebook to different date and class in one format',
+		input: 'X1/025AUG/Q',
+		output: {
+			type: 'deletePnrField',
+			data: {
+				field: 'itinerary',
+				segmentNumbers: [1],
+				sell: {
+					sellType: 'rebookAll',
+					departureDate: {raw: '25AUG'},
+					bookingClasses: ['Q'],
+				},
+			},
+		},
+	});
+
+	return testCases.map(c => [c]);
+};
+
 class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCase.js') {
 	provideTestDumpList() {
-		let list;
-		list = [];
+		const list = [];
 		list.push([
 			'*R',
 			{type: 'redisplayPnr'},
@@ -462,40 +530,6 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						{bookingClass: 'Y', lineNumber: '3'},
 					],
 					includeConnections: true,
-				},
-			},
-		}]);
-		list.push(['X3/025FEB', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				segmentNumbers: [3],
-				sell: {
-					sellType: 'rebookAll',
-					departureDate: {raw: '25FEB'},
-				},
-			},
-		}]);
-		list.push(['XA/0B', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				applyToAllAir: true,
-				sell: {
-					sellType: 'rebookAll',
-					bookingClass: 'B',
-				},
-			},
-		}]);
-		list.push(['X1/025AUG/Q', {
-			type: 'deletePnrField',
-			data: {
-				field: 'itinerary',
-				segmentNumbers: [1],
-				sell: {
-					sellType: 'rebookAll',
-					departureDate: {raw: '25AUG'},
-					bookingClass: 'Q',
 				},
 			},
 		}]);
@@ -1328,13 +1362,15 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		return list.map(a => [a]);
 	}
 
-	/**
-	 * @test
-	 * @dataProvider provideTestDumpList
-	 */
+	/** @deprecated - use test_parse() instead, as it allows using `title` for comments */
 	testParserOutputAgainstTree(dump, expected) {
 		const actual = CommandParser.parse(dump);
 		this.assertArrayElementsSubset(expected, actual, '>' + dump + ';\n');
+	}
+
+	test_parse({input, output}) {
+		const actual = CommandParser.parse(input);
+		this.assertArrayElementsSubset(output, actual, '>' + input + ';\n');
 	}
 
 	testParseParseFareSearch({input, output}) {
@@ -1345,6 +1381,7 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 	getTestMapping() {
 		return [
 			[this.provideTestDumpList, this.testParserOutputAgainstTree],
+			[provide_parse, this.test_parse],
 			[this.provideParseFareSearch, this.testParseParseFareSearch],
 		];
 	}

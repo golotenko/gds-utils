@@ -104,25 +104,25 @@ const parse_rebookSelective = (textLeft) => {
 	};
 };
 
-// '25AUG/Q', 'B', '25FEB'
+// '25AUG/Q', 'B', '25FEB', 'YN'
 const parse_rebookAll = (textLeft) => {
 	const values = textLeft.split('/');
-	let date = null;
-	let bookingClass = null;
+	let departureDate = null;
+	let bookingClasses = [];
 	for (const value of values) {
 		let matches;
 		if (php.preg_match(/^(\d{1,2}[A-Z]{3})$/, value, matches = [])) {
-			date = {raw: matches[1]};
-		} else if (php.preg_match(/^([A-Z]|)$/, value, matches = [])) {
-			bookingClass = value;
+			departureDate = {raw: matches[1]};
+		} else if (php.preg_match(/^([A-Z]*)$/, value, matches = [])) {
+			bookingClasses = value.split('');
 		} else {
 			return null;
 		}
 	}
 	return {
 		sellType: 'rebookAll',
-		departureDate: date,
-		bookingClass: bookingClass,
+		departureDate,
+		bookingClasses,
 	};
 };
 
