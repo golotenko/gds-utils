@@ -299,17 +299,15 @@ const parseSingleCommand = (cmd) => {
  * and probably some more info in future, like Sabre-version of
  * this command, maybe description what it does, link to HELP, etc...
  */
-class CommandParser {
+const CommandParser = {
 	/** @deprecated - use Parse_fareSearch.js */
-	static getCabinClasses() {
-		return Parse_fareSearch.getCabinClasses();
-	}
+	getCabinClasses: Parse_fareSearch.getCabinClasses,
 
-	static parse($cmd) {
-		$cmd = php.str_replace('+', '|', $cmd);
-		$cmd = php.str_replace('\u00A4', '@', $cmd);
-		return parseBulkCommand($cmd);
-	}
-}
+	parse: (cmd) => {
+		cmd = cmd.replace(/\+/g, '|');
+		cmd = cmd.replace(/¤/g, '@');
+		return parseBulkCommand(cmd);
+	},
+};
 
 module.exports = CommandParser;

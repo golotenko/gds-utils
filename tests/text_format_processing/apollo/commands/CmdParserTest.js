@@ -287,6 +287,15 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				newText: 'NEW DATA',
 			},
 		}]);
+		list.push(['C:1¤:5NEW DATA', {
+			type: 'changePnrRemarks',
+			data: {
+				ranges: [
+					{from: '1', to: '1'},
+				],
+				newText: 'NEW DATA',
+			},
+		}]);
 		list.push(['C:@:5', {
 			type: 'changePnrRemarks',
 			data: {
