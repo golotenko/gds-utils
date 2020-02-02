@@ -9,7 +9,6 @@ const exact = {
 	'T:R': 'restoreTicketedPricing',
 	'QXI': 'leaveQueue',
 	'QR': 'removeFromQueue',
-	'.IHK': 'confirmScheduleChange',
 	'MT': 'moveTop',
 	'MB': 'moveBottom',
 	'MR': 'moveRest',
@@ -85,7 +84,6 @@ const start = {
 	'A*': 'moreAirAvailability',
 	'A-': 'lessAirAvailability',
 	'A': 'airAvailability', // HELP AVAILABILITY-STANDARD
-	'.': 'changeSegmentStatus', // HELP PNR-CHANGE SEGMENT STATUS
 	'C:PS': 'changePsRemark',
 	'CAL': 'carAvailability', // HELP CAR-AVAILABILITY
 	'FZ': 'convertCurrency', // HELP FZS (currency conversion)
@@ -127,6 +125,8 @@ const regex = [
 	// there are also "HELP FSP and HELP FSC" for filters when working within a reservation,
 	// but i believe we don't use them much, please, add the regex-es here if i am wrong
 	[/^FS.*/, 'lowFareSearchUnclassified'],
+	// '.6LL', HELP PNR-CHANGE SEGMENT STATUS
+	[/^\.[1-9IA]/, 'changeSegmentStatus'],
 ];
 
 exports.exact = exact;

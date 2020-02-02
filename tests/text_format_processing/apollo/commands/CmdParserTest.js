@@ -54,6 +54,34 @@ const provide_parse = () => {
 			},
 		},
 	});
+	testCases.push({
+		title: '*LF with a typo - should not result in "changeSegmentStatus" type',
+		input: '.*LF',
+		output: {type: null},
+	});
+	testCases.push({
+		title: '*R with a typo - should not result in "changeSegmentStatus" type',
+		input: '.*R',
+		output: {type: null},
+	});
+	testCases.push({
+		title: '*R with a typo - should not result in "changeSegmentStatus" type',
+		input: '.N:ALEGRE/LAURA RICO',
+		output: {type: null},
+	});
+
+	testCases.push({
+		input: '.IHK',
+		output: {type: 'changeSegmentStatus'},
+	});
+	testCases.push({
+		input: '.2HK',
+		output: {type: 'changeSegmentStatus'},
+	});
+	testCases.push({
+		input: '.7LL',
+		output: {type: 'changeSegmentStatus'},
+	});
 
 	return testCases.map(c => [c]);
 };
@@ -1088,7 +1116,6 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		}]);
 		list.push(['DC*TOL', {type: 'directConnectionList'}]);
 		list.push(['$V2/16', {type: 'fareRulesFromTariff'}]);
-		list.push(['.2HK', {type: 'changeSegmentStatus'}]);
 		list.push(['$V1/', {type: 'fareRulesMenuFromTariff'}]);
 		list.push(['* MNMGHS', {type: 'openPnr'}]);
 		list.push(['M*MIAPBI', {type: 'determineMileage'}]);
