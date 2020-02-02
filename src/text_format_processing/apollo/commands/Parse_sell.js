@@ -21,8 +21,8 @@ const parse_availability = (cmd) => {
 		const segments = [];
 		let tuples;
 		php.preg_match_all(regex_availability_seg, groups.segments, tuples = [], php.PREG_SET_ORDER);
-		for (const [, $bookingClass, $lineNumber] of tuples) {
-			segments.push({bookingClass: $bookingClass, lineNumber: $lineNumber});
+		for (const [, bookingClass, lineNumber] of tuples) {
+			segments.push({bookingClass, lineNumber});
 		}
 		return {
 			sellType: 'availability',
@@ -91,9 +91,9 @@ const parse_rebookSelective = (textLeft) => {
 	const segments = [];
 	for (const rawSeg of textLeft.split('|')) {
 		let matches;
-		if (php.preg_match(/^(\d{1,2})([A-Z])$/, rawSeg, matches = [])) {
-			const [, segmentNumber, bookingClass] = matches;
-			segments.push({segmentNumber, bookingClass});
+		if (php.preg_match(/^(\d{1,2})([A-Z]{1,2})$/, rawSeg, matches = [])) {
+			const [, segmentNumber, clsStr] = matches;
+			segments.push({segmentNumber, bookingClasses: clsStr.split('')});
 		} else {
 			return null;
 		}
@@ -113,7 +113,7 @@ const parse_rebookAll = (textLeft) => {
 		let matches;
 		if (php.preg_match(/^(\d{1,2}[A-Z]{3})$/, value, matches = [])) {
 			departureDate = {raw: matches[1]};
-		} else if (php.preg_match(/^([A-Z]*)$/, value, matches = [])) {
+		} else if (php.preg_match(/^([A-Z]{0,2})$/, value, matches = [])) {
 			bookingClasses = value.split('');
 		} else {
 			return null;

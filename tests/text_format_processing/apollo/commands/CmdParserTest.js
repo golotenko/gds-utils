@@ -175,8 +175,8 @@ const provide_parse_deletePnrField = () => {
 			sell: {
 				sellType: 'rebookSelective',
 				segments: [
-					{segmentNumber: '1', bookingClass: 'M'},
-					{segmentNumber: '2', bookingClass: 'B'},
+					{segmentNumber: '1', bookingClasses: ['M']},
+					{segmentNumber: '2', bookingClasses: ['B']},
 				],
 			},
 		},
@@ -192,7 +192,26 @@ const provide_parse_deletePnrField = () => {
 				sell: {
 					sellType: 'rebookSelective',
 					segments: [
-						{segmentNumber: '2', bookingClass: 'H'},
+						{segmentNumber: '2', bookingClasses: ['H']},
+					],
+				},
+			},
+		},
+	});
+	testCases.push({
+		title: 'rebook one of segments to multiple classes',
+		input:'X1-3/01YN|2Y|3Q',
+		output: {
+			type: 'deletePnrField',
+			data: {
+				field: 'itinerary',
+				segmentNumbers: [1, 2],
+				sell: {
+					sellType: 'rebookSelective',
+					segments: [
+						{segmentNumber: '1', bookingClasses: ['Y', 'N']},
+						{segmentNumber: '2', bookingClasses: ['Y']},
+						{segmentNumber: '3', bookingClasses: ['Q']},
 					],
 				},
 			},
