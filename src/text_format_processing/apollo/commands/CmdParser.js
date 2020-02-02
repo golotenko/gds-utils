@@ -49,8 +49,6 @@ const parse_deletePnrField = (cmd) => {
 			segmentNumbers: segmentNumbers,
 			sell: textLeft ? Parse_sell(php.ltrim(textLeft, '/')) : null,
 		};
-	} else if (textLeft === 'T') {
-		return {field: 'storedPricing'};
 	} else {
 		return {field: null, unparsed: textLeft};
 	}
