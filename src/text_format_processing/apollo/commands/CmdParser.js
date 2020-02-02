@@ -12,11 +12,23 @@ const SimpleTypes = require('./SimpleTypes');
 
 // 1to1 mapping type/functions follow
 
+// 'XT', 'XT2', 'XT4*6|7-9'
+const parse_deleteStoredPricing = (cmd) => {
+	const match = cmd.match(/^XT(\d[\d\|\*]*|)/);
+	if (match) {
+		const [, rangeStr] = match;
+		return {
+			pricingNumbers: !rangeStr ? [] :
+				ParserUtil.parseRange(rangeStr, '|', '*'),
+		};
+	} else {
+		return null;
+	}
+};
+
 // 'XI', 'XA', 'X5', 'X1|4', 'X1-3|5', 'X2/01B1', 'X4/0SK93F8NOVLAXCPHNN2'
 const parse_deletePnrField = (cmd) => {
-	if (cmd.startsWith('XX') ||
-		!cmd.startsWith('X')
-	) {
+	if (!cmd.startsWith('X')) {
 		return null;
 	}
 	const textLeft = php.substr(cmd, 1);
@@ -37,6 +49,8 @@ const parse_deletePnrField = (cmd) => {
 			segmentNumbers: segmentNumbers,
 			sell: textLeft ? Parse_sell(php.ltrim(textLeft, '/')) : null,
 		};
+	} else if (textLeft === 'T') {
+		return {field: 'storedPricing'};
 	} else {
 		return {field: null, unparsed: textLeft};
 	}
@@ -260,6 +274,12 @@ const parseSingleCommand = (cmd) => {
 		type = 'storePricing';
 	} else if (data = Parse_sell(cmd)) {
 		type = 'sell';
+	// make sure these two are before parse_deletePnrField(),
+	// as they all start with "X", but the last one is generic
+	} else if (cmd.startsWith('XX')) {
+		type = 'calculator';
+	} else if (data = parse_deleteStoredPricing(cmd)) {
+		type = 'deleteStoredPricing';
 	} else if (data = parse_deletePnrField(cmd)) {
 		type = 'deletePnrField';
 	} else if (data = parse_insertSegments(cmd)) {

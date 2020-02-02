@@ -86,7 +86,7 @@ const parse_directSell = (cmd) => {
 	}
 };
 
-// '1M|2B'
+// '1M|2B', '01YN|2Y|3Q'
 const parse_rebookSelective = (textLeft) => {
 	const segments = [];
 	for (const rawSeg of textLeft.split('|')) {

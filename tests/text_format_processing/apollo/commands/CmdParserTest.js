@@ -9,6 +9,51 @@ const provide_parse = () => {
 		input: '*R',
 		output: {type: 'redisplayPnr'},
 	});
+	testCases.push({
+		title: 'XX example, should not get parsed as deletePnrField',
+		input: 'XX1+4',
+		output: {type: 'calculator'},
+	});
+	testCases.push({
+		title: 'cancel all ATFQ example',
+		input: 'XT',
+		output: {
+			type: 'deleteStoredPricing',
+			data: {
+				pricingNumbers: [],
+			},
+		},
+	});
+	testCases.push({
+		title: 'cancel two particular stores by number',
+		input: 'XT1+3',
+		output: {
+			type: 'deleteStoredPricing',
+			data: {
+				pricingNumbers: [1, 3],
+			},
+		},
+	});
+	testCases.push({
+		title: 'cancel from 1 through 3',
+		input: 'XT1*3',
+		output: {
+			type: 'deleteStoredPricing',
+			data: {
+				pricingNumbers: [1, 2, 3],
+			},
+		},
+	});
+	testCases.push({
+		title: 'cancel two ranges',
+		input: 'XT4*6|7*9',
+		output: {
+			type: 'deleteStoredPricing',
+			data: {
+				pricingNumbers: [4,5,6, 7,8,9],
+			},
+		},
+	});
 
 	return testCases.map(c => [c]);
 };
