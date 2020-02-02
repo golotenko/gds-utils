@@ -136,6 +136,23 @@ const provide_parse_deletePnrField = () => {
 			},
 		},
 	}});
+	testCases.push({
+		title: 'cancel 2 segments, rebook just one',
+		input:'X1-2/02H',
+		output: {
+			type: 'deletePnrField',
+			data: {
+				field: 'itinerary',
+				segmentNumbers: [1, 2],
+				sell: {
+					sellType: 'rebookSelective',
+					segments: [
+						{segmentNumber: '2', bookingClass: 'H'},
+					],
+				},
+			},
+		},
+	});
 
 	// rebookAll follow
 
