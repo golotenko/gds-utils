@@ -1144,6 +1144,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
+		// TUR segment example
 		list.push([
 			php.implode(php.PHP_EOL, [
 				'D/C WL CFM                                                  ',

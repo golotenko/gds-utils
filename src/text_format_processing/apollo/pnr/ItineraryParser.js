@@ -202,6 +202,42 @@ const parseAirSegmentBlock = (block) => {
 	}
 };
 
+// ' 6 TUR ZZ BK1  YYZ 07DEC-***THANK YOU FOR YOUR SUPPORT*** ',
+// ' 7 TUR ZZ BK1  YYZ 01FEB-***THANK YOU FOR YOUR SUPPORT***',
+const parseTurSegmentLine = (line) => {
+	const regex = mkReg([
+		/^\s*/,
+		/(?<segmentNumber>\d+)\s*/,
+		/(?<segmentType>OTH|TUR)\s*/,
+		/(?<vendor>[A-Z0-9]{2})\s*/,
+		/(?<segmentStatus>[A-Z]{2})\s*/,
+		/(?<seatCount>\d+)\s*/,
+		/(?<location>[A-Z]{3})\s*/,
+		/(?<date>\d+[A-Z]{3})\s*/,
+		/(-\s*(?<remark>.*?))?/,
+		/\s*$/,
+	]);
+	const match = line.match(regex);
+	if (match) {
+		const matches = match.groups;
+		return {
+			segmentNumber: matches.segmentNumber,
+			segmentType: GdsConstants.SEG_TUR,
+			vendor: matches.vendor,
+			segmentStatus: matches.segmentStatus,
+			seatCount: matches.seatCount,
+			location: matches.location,
+			date: {
+				raw: matches.date,
+				parsed: ParserUtil.parsePartialDate(matches.date),
+			},
+			remark: matches.remark,
+		};
+	} else {
+		return null;
+	}
+};
+
 class ItineraryParser {
 	// ' 1 UA1704S 19DEC LASEWR HK1   605A  157P *         SA   E  1'
 	// '1 ET 915T 6DEC DLAADD SS1   225P  855P *         FR   E  2     4:30  788',
@@ -239,39 +275,6 @@ class ItineraryParser {
 				segmentType: GdsConstants.SEG_OTH,
 				segmentNumber: trim(matches.segmentNumber),
 				text: trim(matches.text),
-			};
-		} else {
-			return null;
-		}
-	}
-
-	// ' 6 TUR ZZ BK1  YYZ 07DEC-***THANK YOU FOR YOUR SUPPORT*** ',
-	// ' 7 TUR ZZ BK1  YYZ 01FEB-***THANK YOU FOR YOUR SUPPORT***',
-	parseTurSegmentLine(line) {
-		const regex =
-			'/^\\s*' +
-			'(?<segmentNumber>\\d+)\\s+' + 'TUR\\s+' +
-			'(?<vendor>[A-Z0-9]{2})\\s+' +
-			'(?<segmentStatus>[A-Z]{2})' +
-			'(?<seatCount>\\d+)\\s+' +
-			'(?<location>[A-Z]{3})\\s+' +
-			'(?<date>\\d{1,2}[A-Z]{3})-?\\s*' +
-			'(?<remark>.*?)\\s*' +
-			'$/';
-		let matches;
-		if (matches = preg_match(regex, line)) {
-			return {
-				segmentNumber: matches.segmentNumber,
-				segmentType: GdsConstants.SEG_TUR,
-				vendor: matches.vendor,
-				segmentStatus: matches.segmentStatus,
-				seatCount: matches.seatCount,
-				location: matches.location,
-				date: {
-					raw: matches.date,
-					parsed: ParserUtil.parsePartialDate(matches.date),
-				},
-				remark: matches.remark,
 			};
 		} else {
 			return null;
@@ -544,6 +547,16 @@ class ItineraryParser {
 		}
 	}
 
+	parseSegmentBlock(block) {
+		return parseAirSegmentBlock(block)
+			|| this.parseOthSegmentLine(block)
+			|| parseTurSegmentLine(block)
+			|| this.parseArnkSegmentLine(block)
+			|| this.parseCarSegmentLine(block)
+			|| this.parseHotelSegmentLine(block)
+			|| this.parseFakeSegmentLine(block);
+	}
+
 	parse(dump) {
 		const segments = [];
 		const lines = dump.split('\n');
@@ -551,14 +564,7 @@ class ItineraryParser {
 
 		while (!php.empty(blocks)) {
 			const block = blocks.shift();
-			const segment = parseAirSegmentBlock(block)
-				|| this.parseOthSegmentLine(block)
-				|| this.parseTurSegmentLine(block)
-				|| this.parseArnkSegmentLine(block)
-				|| this.parseCarSegmentLine(block)
-				|| this.parseHotelSegmentLine(block)
-				|| this.parseFakeSegmentLine(block)
-			;
+			const segment = this.parseSegmentBlock(block);
 			if (segment) {
 				const linesLeft = (segment.linesLeft || []).filter(l => l.trim());
 				if (linesLeft.length > 0) {
