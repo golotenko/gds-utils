@@ -1,18 +1,9 @@
+const SellStatusParser = require('../text_format_processing/apollo/actions/SellStatusParser.js');
 const StateHelper = require('./StateHelper.js');
 const PnrStatusParser = require('../text_format_processing/apollo/actions/PnrStatusParser.js');
 const PnrParser = require('../text_format_processing/apollo/pnr/PnrParser.js');
-const ItineraryParser = require('../text_format_processing/apollo/pnr/ItineraryParser.js');
 const php = require('enko-fundamentals/src/Transpiled/php.js');
 const CmdParser = require('../text_format_processing/apollo/commands/CmdParser.js');
-
-const isValidSellOutput = (output) => {
-	for (const line of output.split('\n')) {
-		if (ItineraryParser.parseSegmentLine(line)) {
-			return true;
-		}
-	}
-	return false;
-};
 
 const isValidPricingOutput = (output) => {
 	const tooShortToBeValid = !output.match(/\n.*\n.*\n/);
@@ -23,26 +14,6 @@ const isValidPricing = (cmd, output) => {
 	const type = CmdParser.parse(cmd).type;
 	return ['priceItinerary', 'storePricing'].includes(type)
 		&& isValidPricingOutput(output);
-};
-
-const parseAddTurSegmentOutput = (dump) => {
-	const regex =
-		'/^\\s*'+
-		'(?<segmentNumber>\\d+)\\s*'+
-		'(?<segmentType>OTH|TUR)\\s*'+
-		'(?<vendor>[A-Z0-9]{2})\\s*'+
-		'(?<status>[A-Z]{2})\\s*'+
-		'(?<amount>\\d+)\\s*'+
-		'(?<location>[A-Z]{3})\\s*'+
-		'(?<date>\\d+[A-Z]{3})\\s*'+
-		'(-\\s*(?<remark>.*?))?'+
-		'\\s*$/';
-	let matches;
-	if (php.preg_match(regex, dump, matches = [])) {
-		return matches;
-	} else {
-		return null;
-	}
 };
 
 const detectPartialResallSuccessError = (dump) => {
@@ -179,9 +150,8 @@ const UpdateState_apollo = ({
 			areaData.area = data;
 			sessionState = {...areaData};
 		} else if (type === 'sell') {
-			if (isValidSellOutput(output) ||
-				parseAddTurSegmentOutput(clean)
-			) {
+			const parsed = SellStatusParser.parse(output);
+			if (parsed.segments.length > 0) {
 				sessionState.hasPnr = true;
 			}
 		} else if (type === 'sellFromLowFareSearch') {
