@@ -83,6 +83,16 @@ const provide_parse = () => {
 		output: {type: 'changeSegmentStatus'},
 	});
 
+	testCases.push({
+		title: 'Incomplete sell command - should not cause null pointer errors',
+		input: '0',
+		output: {
+			cmd: '0',
+			type: null,
+			data: null,
+		},
+	});
+
 	return testCases.map(c => [c]);
 };
 

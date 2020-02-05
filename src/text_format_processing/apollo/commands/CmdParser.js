@@ -172,7 +172,7 @@ const parseBulkCommand = (cmd) => {
 		}
 	}
 	const firstCmd = parsedCommands.shift()
-		|| {type: null, data: null};
+		|| {cmd, type: null, data: null};
 	firstCmd.followingCommands = parsedCommands;
 	return firstCmd;
 };
@@ -238,8 +238,8 @@ const parseShowPnrFieldsCmd = (cmd) => {
 };
 
 const detectCommandType = (cmd) => {
-	cmd = php.strtoupper(cmd);
-	cmd = php.trim(cmd);
+	cmd = cmd.toUpperCase();
+	cmd = cmd.trim();
 	const startTuples = Object.entries(SimpleTypes.start)
 		// put longest start patterns first
 		.sort((a,b) => b[0].length - a[0].length);
