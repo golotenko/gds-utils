@@ -70,17 +70,57 @@ const provide_parse = () => {
 		output: {type: null},
 	});
 
+	// HELP PNR-CHANGE SEGMENT STATUS
 	testCases.push({
+		title: 'all segments',
 		input: '.IHK',
+		output: {
+			type: 'changeSegmentStatus',
+			data: {
+				segmentNumbers: [],
+				segmentStatus: 'HK',
+			},
+		},
+	});
+	testCases.push({input: '.5HK', output: {type: 'changeSegmentStatus'}});
+	testCases.push({input: '.2HK', output: {type: 'changeSegmentStatus'}});
+	testCases.push({input: '.7LL', output: {type: 'changeSegmentStatus'}});
+	testCases.push({input: '.1|2LL', output: {type: 'changeSegmentStatus'}});
+	testCases.push({
+		title: 'multiple segments',
+		input: '.3|5|7HK',
+		output: {
+			type: 'changeSegmentStatus',
+			data: {
+				segmentNumbers: ['3','5','7'],
+				segmentStatus: 'HK',
+			},
+		},
+	});
+	testCases.push({input: '.3XK', output: {type: 'changeSegmentStatus'}});
+	testCases.push({
+		title: 'CHANGE STATUS AND TIMES',
+		input: '.3HK/745A216P',
 		output: {type: 'changeSegmentStatus'},
+		data: {
+			segmentNumbers: ['3'],
+			segmentStatus: 'HK',
+			departureTime: {raw: '1255'},
+			destinationTime: {raw: '1950'},
+		},
 	});
 	testCases.push({
-		input: '.2HK',
-		output: {type: 'changeSegmentStatus'},
-	});
-	testCases.push({
-		input: '.7LL',
-		output: {type: 'changeSegmentStatus'},
+		title: 'ADD TIMES FOR SEGMENT 2 IN 24 HOUR CLOCK',
+		input: '.2T/12551950',
+		output: {
+			type: 'changeSegmentStatus',
+			data: {
+				segmentNumbers: ['2'],
+				segmentStatus: null,
+				departureTime: {raw: '1255'},
+				destinationTime: {raw: '1950'},
+			},
+		},
 	});
 
 	testCases.push({

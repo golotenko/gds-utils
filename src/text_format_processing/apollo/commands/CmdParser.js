@@ -6,9 +6,10 @@ const Parse_fareSearch = require('./Parse_fareSearch.js');
 const Parse_changeMp = require('./Parse_changeMp.js');
 const Parse_sell = require('./Parse_sell.js');
 const PricingCmdParser = require('./Parse_priceItinerary.js');
+const {mkReg} = require('enko-fundamentals/src/Utils/Misc.js');
 
 const php = require("enko-fundamentals/src/Transpiled/php.js");
-const SimpleTypes = require('./SimpleTypes');
+const SimpleTypes = require('./SimpleTypes.js');
 
 // 1to1 mapping type/functions follow
 
@@ -51,6 +52,28 @@ const parse_deletePnrField = (cmd) => {
 		};
 	} else {
 		return {field: null, unparsed: textLeft};
+	}
+};
+
+const parse_changeSegmentStatus = (cmd) => {
+	const match = cmd.match(mkReg([
+		/^\./,
+		/(?<segmentSelect>[AI]|\d+[|\d]*)/,
+		/(?<segmentStatus>[A-Z]{2}|T)/,
+		/(?:\/(?<departureTime>\d{3,4}[APNM]?)(?<destinationTime>\d{3,4}[APNM]?))?/,
+		/$/,
+	]));
+	if (match) {
+		const applyToAllAir = ['A', 'I'].includes(match.groups.segmentSelect);
+		return {
+			applyToAllAir: applyToAllAir,
+			segmentNumbers: applyToAllAir ? [] : match.groups.segmentSelect.split('|'),
+			segmentStatus: match.groups.segmentStatus === 'T' ? null : match.groups.segmentStatus,
+			departureTime: {raw: match.groups.departureTime},
+			destinationTime: {raw: match.groups.destinationTime},
+		};
+	} else {
+		return null;
 	}
 };
 
@@ -282,6 +305,8 @@ const parseSingleCommand = (cmd) => {
 		type = 'deletePnrField';
 	} else if (data = parse_insertSegments(cmd)) {
 		type = 'insertSegments';
+	} else if (data = parse_changeSegmentStatus(cmd)) {
+		type = 'changeSegmentStatus';
 	} else if (data = Parse_fareSearch(cmd)) {
 		type = 'fareSearch';
 	} else if (parsed = Parse_changeMp(cmd)) {
