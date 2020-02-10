@@ -209,6 +209,7 @@ class PnrParser {
 					lineNumber: lineNum,
 					remarkType: generic.remarkType,
 					data: generic.data,
+					content: text,
 				});
 			}
 		}

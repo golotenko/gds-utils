@@ -119,16 +119,13 @@ class GenericRemarkParser
      * @param string remark - clean remark text with gds-specific line number, etc...
      */
 	static parse(remark)  {
-		let data, type;
+		let data = null, type = null;
 		if (data = this.parseCmsLeadRemark(remark)) {
 			type = this.CMS_LEAD_REMARK;
 		} else if (data = this.parsePriceRemark(remark)) {
 			type = this.PRICE_REMARK;
 		} else if (data = this.parseFxdRemark(remark)) {
 			type = this.FXD_REMARK;
-		} else {
-			type = 'UNKNOWN';
-			data = remark;
 		}
 		return {
 			remarkType: type,

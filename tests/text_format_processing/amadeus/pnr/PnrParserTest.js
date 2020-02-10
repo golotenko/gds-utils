@@ -1608,34 +1608,35 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'parsed': {
 					'remarks': [
 						{
-							'data': php.implode(php.PHP_EOL, [
+							remarkType: null,
+							content: php.implode(php.PHP_EOL, [
 								'APPLE JUICE APPLE JUICE APPLE JUICE APPLE JUICE APPLE',
 								'JUICE APPLE JUICE',
-							])
+							]),
 						},
 						{
-							'data': php.implode(php.PHP_EOL, [
+							content: php.implode(php.PHP_EOL, [
 								'APPLE JUICE APPLE JUICE APPLE JUICE APPLE JUICE',
 								'APPLEJUICE APPLE JUICE',
-							])
+							]),
 						},
 						{
-							'data': php.implode(php.PHP_EOL, [
+							content: php.implode(php.PHP_EOL, [
 								'A B A B A B A B A B A B A B A B A B A B A B A B A B A B A',
 								'B A B A B A B',
-							])
+							]),
 						},
 						{
-							'data': php.implode(php.PHP_EOL, [
+							content: php.implode(php.PHP_EOL, [
 								'DEOXYRIBOETHANBUTANPROPANFORTRANPENTANSAKURATANNUCLEIC',
 								'ACID',
-							])
+							]),
 						},
 						{
-							'data': php.implode(php.PHP_EOL, [
+							content: php.implode(php.PHP_EOL, [
 								'ACID DEOXYRIBOETHANBUTANPROPANFORTRANPENTANSAKURATANNUCLE',
 								'IC',
-							])
+							]),
 						},
 						{
 							'lineNumber': '6',

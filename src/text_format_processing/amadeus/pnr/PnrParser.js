@@ -200,6 +200,7 @@ class PnrParser
 				lineNumber: lineNumber,
 				remarkType: record.remarkType,
 				data: record.data,
+				content: msg,
 			};
 		} else {
 			return null;

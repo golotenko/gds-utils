@@ -269,8 +269,9 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'remarks': [
 					{
 						'lineNumber': '1',
-						'remarkType': 'UNKNOWN',
-						'data': '-S*SPLIT PTY/08MAR/WSAG/QSB/W5SK20 WS 08MAR 1351Z',
+						remarkType: null,
+						data: null,
+						content: '-S*SPLIT PTY/08MAR/WSAG/QSB/W5SK20 WS 08MAR 1351Z',
 					},
 				],
 			},

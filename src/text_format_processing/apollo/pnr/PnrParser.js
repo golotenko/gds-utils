@@ -178,6 +178,7 @@ class PnrParser {
 					data: {
 						name: tokens.name,
 					},
+					content: line,
 				});
 			} else {
 				const record = GenericRemarkParser.parse(line);
@@ -185,6 +186,7 @@ class PnrParser {
 					lineNumber: remarkNumber,
 					remarkType: record.remarkType,
 					data: record.data,
+					content: line,
 				});
 			}
 		}
