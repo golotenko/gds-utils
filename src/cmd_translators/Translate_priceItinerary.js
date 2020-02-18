@@ -130,6 +130,13 @@ const translatePaxes_amadeus = ({ptcs, paxNums, pricingModifiers = []}) => {
 		paxMods.push('P' + php.implode(',', paxNums));
 	}
 	if (ptcs.length > 0 || subMods.length > 0) {
+		if (ptcs.length === 1 && ptcs[0] === 'ITX' &&
+			!pricingModifiers.some(m => m.type === 'fareType')
+		) {
+			// Amadeus does not seem to allow ITX PTC
+			subMods.push('U');
+			ptcs = ['IT'];
+		}
 		const rMod = 'R' + [ptcs.map(normPtc).join('*')]
 			.concat(subMods).join(',');
 		paxMods.push(rMod);
