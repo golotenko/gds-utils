@@ -7,8 +7,11 @@ const normCmd = (gds, cmd) => {
 	if (!cmd) {
 		return cmd;
 	}
-	if (gds === 'apollo') {
+	if (['galileo', 'apollo'.includes(gds)]) {
 		cmd = cmd.replace(/\+/g, '|');
+		cmd = cmd.replace(/¤/g, '@');
+	}
+	if (gds === 'apollo') {
 		let match = cmd.match(/^((?:T:)?\$B(?:BQ\d+|B[AC0]?)?)(.*)$/);
 		if (match) {
 			let [_, baseCmd, modsPart] = match;
@@ -552,7 +555,6 @@ const provide_call = () => {
 
 		['apollo', 'galileo', '$B', 'FQ', true],
 		['apollo', 'galileo', '$BB', 'FQBB', true],
-		['apollo', 'galileo', '$BB0', 'FQBBK'],
 		['apollo', 'galileo', '$BBA', 'FQBA', true],
 		// $BB:{futureDate} -> FQBB.T{futureDate}{year}
 		['apollo', 'galileo', '$BB:26MAR18', 'FQBB.T26MAR18', true],
@@ -574,8 +576,6 @@ const provide_call = () => {
 		['apollo', 'galileo', '$BB/:A', 'FQBB:A'],
 		['apollo', 'galileo', '$B:N', 'FQ:N', true],
 		['apollo', 'galileo', '$B:A', 'FQ:A', true],
-		// $B.{class} -> FQ.{class}
-		['apollo', 'galileo', '$B.Q', 'FQ.Q', true],
 		// $BC{al} -> FQC{al}
 		['apollo', 'galileo', '$BCUA', 'FQCUA'],
 		// $B/C{al} -> FQ/C{al}
@@ -685,15 +685,15 @@ const provide_call = () => {
 		// $BS{segNum1}+{segNum2} -> FQS{segNum1}.{segNum2}
 		['apollo', 'galileo', '$BS1+2', 'FQS1.2', true],
 		// $BS{segNum1}*{segNum3}+{segNum5}*{segNum6} -> FQS{segNum1}-{segNum3}.{segNum5}-{segNum6}
-		['apollo', 'galileo', '$BS1*3+5*6', 'FQS1-3.5.6', true],
+		['apollo', 'galileo', '$BS1*3+5*6', 'FQS1-3.5.6', false],
 		// $BBS{segNum1}+{segNum2} -> FQBBS{segNum1}.{segNum2}
 		['apollo', 'galileo', '$BBS1+2', 'FQBBS1.2', true],
 		// $BBS{segNum1}*{segNum3}+{segNum5}*{segNum6} -> FQBBS{segNum1}-{segNum3}.{segNum5}-{segNum6}
-		['apollo', 'galileo', '$BBS1*3+5*6', 'FQBBS1-3.5.6', true],
+		['apollo', 'galileo', '$BBS1*3+5*6', 'FQBBS1-3.5.6', false],
 		// $BBAS{segNum1}+{segNum2}+{segNum5}+{segNum6} -> FQBAS{segNum1}.{segNum2}.{segNum5}.{segNum6}
 		['apollo', 'galileo', '$BBAS1+2+5+6', 'FQBAS1.2.5.6', true],
 		// $BBAS{segNum1}*{segNum3}+{segNum5}*{segNum6} -> FQBAS{segNum1}-{segNum3}.{segNum5}-{segNum6}
-		['apollo', 'galileo', '$BBAS1*3+5*6', 'FQBAS1-3.5.6', true],
+		['apollo', 'galileo', '$BBAS1*3+5*6', 'FQBAS1-3.5.6', false],
 		// $BS{segNum1}+{segNum2}+{segNum5}+{segNum6}/N{paxOrder}+{paxOrder}*C{paxAge} -> FQS{segNum1}.{segNum2}.{segNum5}.{segNum6}/P{paxOrder}.{paxOrder}*C{paxAge}
 		['apollo', 'galileo', '$BS1+2+5+6/N1+2*C05', 'FQS1.2.5.6/P1.2*C05', true],
 		// $BS{segNum1}+{segNum2}+{segNum5}+{segNum6}/N{paxorder}+{paxOrder}*C{paxAge}+{paxOrder}*INF -> FQS{segNum1}.{segNum2}.{segNum5}.{segNum6}/P{paxOrder}.{paxOrder}*C{paxAge}.{paxOrder}*INF
@@ -727,10 +727,8 @@ const provide_call = () => {
 		['sabre', 'apollo', 'WP', '$B', true],
 		['sabre', 'amadeus', 'WP', 'FXX', true],
 		['sabre', 'galileo', 'WP', 'FQ', true],
-		['sabre', 'galileo', 'WPNCB', 'FQBBK', true],
 		['amadeus', 'galileo', 'FXA/R,15JUN17', 'FQBB.T15JUN17', true],
 
-		['galileo', 'amadeus', 'FQBBK', 'FXR'],
 		['galileo', 'amadeus', 'FQBB/:N', 'FXA/R,P'],
 		['galileo', 'amadeus', 'FQBB/:A', 'FXA/R,U'],
 		['galileo', 'amadeus', 'FQ/CUA', 'FXX/R,VC-UA'],
@@ -757,7 +755,6 @@ const provide_call = () => {
 		['galileo', 'amadeus', 'FQS1.2.5.6/P1.2*C05', 'FXX/S1,2,5,6/RADT*C05'],
 		['galileo', 'amadeus', 'FQS1.2.5.6/P1.2*C05.3*INF', 'FXX/S1,2,5,6/RADT*C05*INF'],
 
-		['galileo', 'sabre', 'FQBBK', 'WPNCB'],
 		['galileo', 'sabre', 'FQBB/:N', 'WPNC¥PL'],
 		['galileo', 'sabre', 'FQBB/:A', 'WPNC¥PV'],
 		['galileo', 'sabre', 'FQ/CUA', 'WPAUA'],
@@ -820,12 +817,16 @@ class Translate_priceItineraryTest extends require('enko-fundamentals/src/Transp
 		if (bidirectional) {
 			subCases.push({fromGds: toGds, toGds: fromGds, cmd: output, output: cmd});
 		}
+		const baseDate = '2018-06-12 08:09:08';
 		for (const subCase of subCases) {
 			const {fromGds, toGds, cmd, output} = subCase;
 			const expected = normCmd(toGds, output || null);
 			const parsed = CmdParser.parse(cmd, fromGds);
-			let actual = Translate_priceItinerary({parsed, fromGds, toGds});
-			actual = normCmd(fromGds, actual);
+			let actual = null;
+			try {
+				actual = Translate_priceItinerary({parsed, fromGds, toGds, baseDate});
+				actual = normCmd(fromGds, actual);
+			} catch (exc) {}
 			this.assertEquals(expected, actual, 'Input cmd >' + cmd + ';');
 		}
 	}
