@@ -99,8 +99,11 @@ const subMod_amadeus = (mod) => {
 	}
 };
 
-const isTourPtc = ptc => ['ITX', 'IT', 'INN', 'ITF']
+const isMinorTourPtc = ptc => ['INN', 'ITF']
 	.includes(ptc) || (ptc || '').match(/^I\d+$/);
+
+const isTourPtc = ptc => ['ITX', 'IT']
+	.includes(ptc) || isMinorTourPtc(ptc);
 
 const translatePaxes_amadeus = ({ptcs, paxNums, pricingModifiers = []}) => {
 	// Amadeus does not seem to allow ITX PTC
@@ -134,6 +137,11 @@ const translatePaxes_amadeus = ({ptcs, paxNums, pricingModifiers = []}) => {
 		paxMods.push('P' + php.implode(',', paxNums));
 	}
 	if (ptcs.length > 0 || subMods.length > 0) {
+		if (ptcs.length > 0 &&
+			ptcs.every(isMinorTourPtc)
+		) {
+			ptcs.unshift('IT');
+		}
 		if (!pricingModifiers.some(m => m.type === 'fareType') &&
 			ptcs.some(isTourPtc)
 		) {
