@@ -99,8 +99,12 @@ const subMod_amadeus = (mod) => {
 	}
 };
 
+const isTourPtc = ptc => ['ITX', 'IT', 'INN', 'ITF']
+	.includes(ptc) || (ptc || '').match(/^I\d+$/);
+
 const translatePaxes_amadeus = ({ptcs, paxNums, pricingModifiers = []}) => {
-	const normPtc = ($ptc) => $ptc || 'ADT';
+	// Amadeus does not seem to allow ITX PTC
+	const normPtc = (ptc) => ({'ITX': 'IT'}[ptc] || ptc || 'ADT');
 	ptcs = php.array_values(php.array_unique(ptcs));
 	const subMods = [];
 	const superMods = [];
@@ -130,12 +134,10 @@ const translatePaxes_amadeus = ({ptcs, paxNums, pricingModifiers = []}) => {
 		paxMods.push('P' + php.implode(',', paxNums));
 	}
 	if (ptcs.length > 0 || subMods.length > 0) {
-		if (ptcs.length === 1 && ptcs[0] === 'ITX' &&
-			!pricingModifiers.some(m => m.type === 'fareType')
+		if (!pricingModifiers.some(m => m.type === 'fareType') &&
+			ptcs.some(isTourPtc)
 		) {
-			// Amadeus does not seem to allow ITX PTC
 			subMods.push('U');
-			ptcs = ['IT'];
 		}
 		const rMod = 'R' + [ptcs.map(normPtc).join('*')]
 			.concat(subMods).join(',');

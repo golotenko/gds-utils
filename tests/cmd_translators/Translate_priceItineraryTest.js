@@ -750,8 +750,8 @@ const provide_call = () => {
 		['galileo', 'amadeus', 'FQ*ITX', 'FXX/RIT,U'],
 		['galileo', 'amadeus', 'FQBB*ITX', 'FXA/RIT,U'],
 		['galileo', 'amadeus', 'FQBA*ITX', 'FXL/RIT,U'],
-		['galileo', 'amadeus', 'FQP1*ITX.2*I06', 'FXX/RITX*I06'],
-		['galileo', 'amadeus', 'FQP1*ITX.2*I06.3*ITF', 'FXX/RITX*I06*ITF'],
+		['galileo', 'amadeus', 'FQP1*ITX.2*I06', 'FXX/RIT*I06,U'],
+		['galileo', 'amadeus', 'FQP1*ITX.2*I06.3*ITF', 'FXX/RIT*I06*ITF,U'],
 		['galileo', 'amadeus', 'FQS1.2.5.6/P1.2*C05', 'FXX/S1,2,5,6/RADT*C05'],
 		['galileo', 'amadeus', 'FQS1.2.5.6/P1.2*C05.3*INF', 'FXX/S1,2,5,6/RADT*C05*INF'],
 
@@ -826,7 +826,11 @@ class Translate_priceItineraryTest extends require('enko-fundamentals/src/Transp
 			try {
 				actual = Translate_priceItinerary({parsed, fromGds, toGds, baseDate});
 				actual = normCmd(fromGds, actual);
-			} catch (exc) {}
+			} catch (exc) {
+				if (expected) {
+					throw exc;
+				}
+			}
 			this.assertEquals(expected, actual, 'Input cmd >' + cmd + ';');
 		}
 	}
