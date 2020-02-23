@@ -137,11 +137,6 @@ const translatePaxes_amadeus = ({ptcs, paxNums, pricingModifiers = []}) => {
 		paxMods.push('P' + php.implode(',', paxNums));
 	}
 	if (ptcs.length > 0 || subMods.length > 0) {
-		if (ptcs.length > 0 &&
-			ptcs.every(isMinorTourPtc)
-		) {
-			ptcs.unshift('IT');
-		}
 		if (!pricingModifiers.some(m => m.type === 'fareType') &&
 			ptcs.some(isTourPtc)
 		) {

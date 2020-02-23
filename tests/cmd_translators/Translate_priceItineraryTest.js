@@ -536,8 +536,8 @@ const provide_call = () => {
 		['apollo', 'amadeus', '$BB/OCUA', 'FXA/R,OCC-UA'],
 		['apollo', 'amadeus', '$B*ITX', 'FXX/RIT,U'],
 		['apollo', 'amadeus', '$BB*ITX', 'FXA/RIT,U'],
-		['apollo', 'amadeus', '$BB*I05', 'FXA/RIT*I05,U'],
-		['apollo', 'amadeus', '$BB*ITF', 'FXA/RIT*ITF,U'],
+		['apollo', 'amadeus', '$BB*I05', 'FXA/RI05,U'],
+		['apollo', 'amadeus', '$BB*ITF', 'FXA/RITF,U'],
 
 		['amadeus', 'apollo', 'FXX/RITX*I06', '$BN1*ITX|2*I06'],
 		['amadeus', 'apollo', 'FXX/RITX*I06*ITF', '$BN1*ITX|2*I06|3*ITF'],
