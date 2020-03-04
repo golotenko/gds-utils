@@ -1729,6 +1729,46 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		]);
 
+		// PCC configuration: extended itinerary display format with day offset
+		// due to 7 spaces, first line gets unwrapped as part of segment line - should not affect the parsing
+		list.push([
+			[
+				"/$--- SFP ---",
+				"RP/YTOC421D7/",
+				"  1  AT 209 Y 18JUN 4 YULCMN HK6   935P    1035P1005A+1 788 E0 D",
+				"         PLEASE USE FFAAT OR FFNAT TO",
+				"     COLLECT SAFAR FLYER NUMBER",
+				"         THINK TO INVITE NEW MEMBERS TO",
+				"     JOIN SAFAR FLYER LOYALTY PROGRAM",
+				"     SEE RTSVC",
+			].join("\n"),
+			{
+				parsed: {
+					"pnrInfo": {
+						"responsibleOfficeId": "YTOC421D7",
+					},
+					itinerary: [
+						{
+							lineNumber: '1',
+							airline: 'AT',
+							flightNumber: '209',
+							bookingClass: 'Y',
+							departureDate: {raw: '18JUN'},
+							dayOfWeek: '4',
+							departureAirport: 'YUL',
+							destinationAirport: 'CMN',
+							terminalTime: {raw: '935P'},
+							departureTime: {raw: '1035P'},
+							destinationTime: {raw: '1005A'},
+							dayOffset: 1,
+							aircraft: '788',
+							meals: {raw: 'D', parsed: ['DINNER']},
+						},
+					],
+				},
+			},
+		]);
+
 		// how itinerary looks in NYC1S2186 PCC - day offset instead of destination date
 		list.push([
 			php.implode(php.PHP_EOL, [
@@ -1830,7 +1870,9 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			]),
 			{
 				'parsed': {
-					'pnrInfo': {'recordLocator': null},
+					'pnrInfo': {
+						responsibleOfficeId: 'NYC1S2186',
+					},
 					'itinerary': [
 						{
 							'lineNumber': '1',

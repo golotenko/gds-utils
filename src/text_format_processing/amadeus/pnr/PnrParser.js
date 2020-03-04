@@ -484,17 +484,18 @@ class PnrParser
      * this way segments look in PCC-s like NYC1S2186 where
      * "EAS EXTENDED AIR SEG DISP" flag is configured as "NO"
      */
-	static parseDayOffsetSegmentLine(line)  {
+	static parseDayOffsetSegmentLine(line) {
 		const patterns = [
-			//  '  2  AY 099 Y 10APR 2 HELHKG HK1  1050P 2  1150P 230P+1 359 E0 H',
-			//  '  1  AY1074 Y 10APR 2 RIXHEL HK1   135P     220P 330P   AT7 E0 G',
-			//  '  1  SU1845 Y 10DEC 7 KIVSVO HK1            140A 535A   32A E0 S'
-			//  '  6  VA 165 I 22FEB 4 AKLMEL GK1        I   630A 840A   A',
-			//  '  4  SU2682 Y 10DEC 7 SVORIX HK2        D   925A1005A   *1A/E*',
-			'#### AAFFFF B DDDDD W RRRNNN SSQQ UUUUU GG tttttTTTTTOO MMMMMMMMMMMMMMMM ', // NYC1S2186
-			//  "  1  BR 031 C 10DEC 2 JFKTPE HK1       1  0020 0540+1 77W E 0 M",
-			//  "  2  BR 271 C 11DEC 3 TPEMNL HK1       2  0910 1145   77W E 0 M",
-			'#### AAFFFF B DDDDD W RRRNNN SSQQ UUUU GG tttt TTTTOO MMMMMMMMMMMMMMMM ', // MNLPH28FP
+		//  '  2  AY 099 Y 10APR 2 HELHKG HK1  1050P 2  1150P 230P+1 359 E0 H',
+		//  "  1  AT 209 Y 18JUN 4 YULCMN HK6   935P    1035P1005A+1 788 E0 D",
+		//  '  1  AY1074 Y 10APR 2 RIXHEL HK1   135P     220P 330P   AT7 E0 G',
+		//  '  1  SU1845 Y 10DEC 7 KIVSVO HK1            140A 535A   32A E0 S'
+		//  '  6  VA 165 I 22FEB 4 AKLMEL GK1        I   630A 840A   A',
+		//  '  4  SU2682 Y 10DEC 7 SVORIX HK2        D   925A1005A   *1A/E*',
+			'#### AAFFFF B DDDDD W RRRNNN SSQQ UUUUU GG tttttTTTTTOO MMMMMMMMMMMMMMMM', // NYC1S2186
+		//  "  1  BR 031 C 10DEC 2 JFKTPE HK1       1  0020 0540+1 77W E 0 M",
+		//  "  2  BR 271 C 11DEC 3 TPEMNL HK1       2  0910 1145   77W E 0 M",
+			'#### AAFFFF B DDDDD W RRRNNN SSQQ UUUU GG tttt TTTTOO MMMMMMMMMMMMMMMM', // MNLPH28FP
 		];
 		for (const pattern of patterns) {
 			const parsed = this.parseDayOffsetSegmentLineByPattern(line, pattern);
@@ -573,7 +574,6 @@ class PnrParser
 	}
 
 	static parseSegmentLine(line)  {
-
 		return this.parseExtendedDisplaySegmentLine(line)
             || this.parseDayOffsetSegmentLine(line);
 	}
@@ -678,11 +678,9 @@ class PnrParser
 
 	// >HELP HEADER; >MS64;
 	static parseHeaderLine1(line)  {
-		let regex, tokens, parsedDate;
-
 		// 'RP/SFO1S2195/SFO1S2195            NI/GS  18AUG16/1833Z   2RFU8B'
 		// 'RP/SFO1S2195/SWI1GCFZKRE/5RB/45520300    24SEP16/2215Z   3R593V',
-		regex =
+		const fullRegex =
             '/^'+
             '[A-Z\\d]{2}\/'+
             '(?<responsibleOfficeId>[A-Z0-9]+)\/'+
@@ -700,8 +698,9 @@ class PnrParser
             '(?<recordLocator>[A-Z0-9]{6})'+
             '\\s*'+
             '$/';
-		if (php.preg_match(regex, line, tokens = [])) {
-			parsedDate = ParserUtil.parseFullDate(tokens.date);
+		let tokens;
+		if (php.preg_match(fullRegex, line, tokens = [])) {
+			const parsedDate = ParserUtil.parseFullDate(tokens.date);
 			return {
 				responsibleOfficeId: tokens.responsibleOfficeId,
 				queueingOfficeId: tokens.queueingOfficeId,
@@ -716,6 +715,12 @@ class PnrParser
 					raw: tokens.time,
 					parsed: ParserUtil.decodeGdsTime(tokens.time),
 				},
+			};
+		} else if (tokens = line.match(/^RP\/([A-Z0-9]{9})\/\s*$/)) {
+			// 'RP/SFO1S2195/',
+			// when PNR is not saved yet
+			return {
+				responsibleOfficeId: tokens[1],
 			};
 		} else {
 			return null;
