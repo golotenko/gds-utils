@@ -5,13 +5,11 @@ const PnrParser = require('../../../../src/text_format_processing/amadeus/pnr/Pn
 
 class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCase.js') {
 	provideParserData() {
-		let $list;
-
-		$list = [];
+		const list = [];
 
 		// with MCO FA and simple FA - MCO FA should not be
 		// in 'tickets' since it is charge document, not ticket
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- TST TSM RLR SFP ---',
 				'RP/SJC1S212D/SJC1S212D            AA/GS   9SEP17/0358Z   QDDWB6',
@@ -205,7 +203,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RP/SFO1S2195/SFO1S2195            NI/GS  18AUG16/1833Z   2RFU8B',
 				'SFO1S2195/2005SI/17AUG16',
@@ -340,7 +338,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			}
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RP/SFO1S2195/SFO1S2195            NI/GS  10JUL16/0007Z   YL5C2V',
 				'SFO1S2195/0041AA/8JUL16',
@@ -448,7 +446,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// FA with -44 after ticket number
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- TST RLR SFP ---',
 				'RP/SJC1S212D/SJC1S212D            ZM/SU   1MAR18/0839Z   PM2IK9',
@@ -567,7 +565,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RP/SFO1S2195/SFO1S2195                             AA/GS 1JUL16/1804Z           X7PXMD',
 				'',
@@ -704,7 +702,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			}
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RP/SFO1S2195/SFO1S2195            W3/RM  14JUN16/1325Z   6VRX73',
 				'SFO1S2195/5000JI/23MAY16',
@@ -797,7 +795,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			}
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RP/SFO1S2195/SFO1S2195            AA/GS  20AUG16/1635Z   43DJ9D',
 				'SFO1S2195/4000NI/19APR16',
@@ -1073,7 +1071,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			}
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- TST RLR SFP ---',
 				'RP/SFO1S2195/SWI1GCFZKRE/5RB/45520300    24SEP16/2215Z   3R593V',
@@ -1249,7 +1247,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			}
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- RLR SFP ---',
 				'RP/SFO1S2195/SFO1S2195            TS/GS  19OCT16/1517Z   6A4TB2',
@@ -1294,7 +1292,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			}
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- RLR SFP ---',
 				'RP/SFO1S2195/SFO1S2195            TS/GS  19OCT16/1547Z   6A4YZ8',
@@ -1363,7 +1361,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			}
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- RLR SFP ---',
 				'RP/SFO1S2195/SFO1S2195            TS/GS  19OCT16/1547Z   6A4YZ8',
@@ -1411,7 +1409,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			}
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- TST TSM RLR MSC SFP ---',
 				'RP/SJC1S212D/SJC1S212D            WS/SU  21FEB17/0717Z   32UE3M',
@@ -1491,7 +1489,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// infant last name implicitly same as parent
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- TST TSM RLR MSC SFP ---',
 				'RP/SJC1S212D/SJC1S212D            AA/GS  17MAR17/1911Z   54P77J',
@@ -1531,7 +1529,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// not saved yet PNR - text between segments
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'/$--- MSC SFP ---',
 				'RP/SFO1S2195/',
@@ -1557,7 +1555,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// example of itinerary segment with OPERATED BY
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RP/SFO1S2195/',
 				'  1  KQ1566 H 28JUL 5 NBOAMS DK1  1155P 710A 29JUL  E  0 EQV',
@@ -1589,7 +1587,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		// RMDeoxyriboETHANBUTANPROPANFORTRANPENTANSAKURATANNucleic ACID
 		// RMACID DeoxyriboETHANBUTANPROPANFORTRANPENTANSAKURATANNucleic
 		// RMSTANISLAW/ID2838/CREATED FOR STANISLAW/ID2838/REQ. ID-1
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'/$RP/SFO1S2195/',
 				'  1 RM APPLE JUICE APPLE JUICE APPLE JUICE APPLE JUICE APPLE',
@@ -1655,7 +1653,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// dump starting with a blank line should be parsed correctly
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'',
 				'--- TST TSM RLR SFP ---',
@@ -1702,7 +1700,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// infant without date of birth and last name same as parent (INF/KATJA)
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RP/SFO1S2195/',
 				'  1.LIBERMANE/LEPIN   2.LIBERMANE/MARINA(INF/KATJA)',
@@ -1732,7 +1730,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// how itinerary looks in NYC1S2186 PCC - day offset instead of destination date
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'  1  AY1074 Y 10APR 2 RIXHEL HK1   135P     220P 330P   AT7 E0 G',
 				'     OPERATED BY NORDIC REGIONAL AIRLINES',
@@ -1752,7 +1750,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// and another one
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- MSC ---',
 				'RP/NYC1S2186/',
@@ -1772,7 +1770,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// and another one
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'  3  SQ5731 Y 10MAY 4 HNLICN HK1        M  1150A 510P+1 77L E0 L',
 				'     OPERATED BY ASIANA AIRLINES',
@@ -1791,7 +1789,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// negative day offset
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'  1  UA 200 Y 15OCT 7 GUMHNL HK1            635A 600P-1 777 E0 F',
 				'     ADV PAX FLT ARRIVES TERMINAL-M',
@@ -1807,7 +1805,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'/$                        ***  NHP  ***',
 				'RP/NYC1S2186/',
@@ -1886,7 +1884,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// day offset format segments in a stored PNR
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'/$--- RLR MSC ---',
 				'RP/NYC1S2186/NYC1S2186            WS/SU  12OCT17/1500Z   NWDBDX',
@@ -1931,7 +1929,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'/$RP/SFO1S2195/',
 				'  1  AY 099 Y 10APR 2 HELHKG DK1  1150P 230P 11APR  E  0 359 HH',
@@ -1963,7 +1961,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'/$RP/SFO1S2195/SFO1S2195            WS/SU  25SEP17/1933Z   VYYWJK',
 				'------- PRIORITY',
@@ -2109,7 +2107,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 
 		// with "SEE RTSTR" after pax/segment numbers in SSR NSST
 		// in case we ever want to parse numbers generally for any SSR code
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- TST RLR MSC SFP ---',
 				'RP/SJC1S212D/SJC1S212D            WS/SU  22MAR17/1137Z   6C4T4T',
@@ -2194,7 +2192,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// child with age - C07
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'                        ***  NHP  ***',
 				'RP/SFO1S2195/',
@@ -2230,7 +2228,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// with divided booking lines - '  * SP ...',
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- AXR ---',
 				'RP/SFO1S2195/SFO1S2195            WS/SU   6MAR18/1513Z   NXNP5Q',
@@ -2273,7 +2271,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// example with "FA ... /EV..." - voided ticket
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- TST TSM RLR MSC ---',
 				'RP/SFO1S2195/ATHA308AA            AA/GS  20FEB18/2312Z   SOKDS8',
@@ -2402,7 +2400,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// example with "FI" element - invoice number
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'--- TST RLR SFP ---',
 				'RP/LAXGO3106/LAXGO3106            DV/SU   7APR18/0226Z   J7KGNS',
@@ -2488,7 +2486,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// PTC specified for infant's parent
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RP/SFO1S2195/',
 				'  1.LIBERMANE/MARINA(ADT)(INF/LEPIN/25JAN18)',
@@ -2517,7 +2515,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// Philipines consolidator PCC - day offset instead of arrival date
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				"/$--- MSC SFP ---",
 				"RP/MNLPH28FP/",
@@ -2541,7 +2539,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 		]);
 
 		// 'RTN,AM,C,H,T,X,Z,M,P' output - full PNR with marriages
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'RP/SJC1S212D/SJC1S212D            WS/SU  26AUG19/2304Z   TGC8UJ',
 				'SJC1S212D/9998WS/13MAY19',
@@ -2651,18 +2649,16 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			},
 		]);
 
-		return $list;
+		return list;
 	}
 
 	/**
 	 * @dataProvider provideParserData
 	 */
-	testParser($dump, $expectedResult) {
-		let $actualResult;
-
-		$actualResult = PnrParser.parse($dump);
+	testParser(dump, expectedResult) {
+		let actualResult = PnrParser.parse(dump);
 		try {
-			this.assertArrayElementsSubset($expectedResult, $actualResult);
+			this.assertArrayElementsSubset(expectedResult, actualResult);
 		} catch (exc) {
 			throw exc;
 		}
