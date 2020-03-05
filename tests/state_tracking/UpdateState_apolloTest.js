@@ -2142,7 +2142,13 @@ const provide_call = () => {
 					' 2 EK 231T 04DEC DXBIAD SS2   225A  810A *         MO   E',
 					'><',
 				]),
-				'state': {'isPnrStored': false, 'recordLocator': '', 'hasPnr': true},
+				'state': {
+					'isPnrStored': false, 'recordLocator': '', 'hasPnr': true,
+					itinerary: [
+						{airline: 'EK', flightNumber: '232', bookingClass: 'T', departureDate: {raw: '13NOV'}, departureAirport: 'IAD', destinationAirport: 'DXB', segmentStatus: 'SS', seatCount: 2},
+						{airline: 'EK', flightNumber: '231', bookingClass: 'T', departureDate: {raw: '04DEC'}, departureAirport: 'DXB', destinationAirport: 'IAD', segmentStatus: 'SS', seatCount: 2},
+					],
+				},
 			},
 		],
 	});

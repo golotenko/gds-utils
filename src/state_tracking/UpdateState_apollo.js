@@ -40,6 +40,7 @@ const handleApolloCopyPnr = (sessionData, output) => {
 		sessionData.recordLocator = '';
 		sessionData.isPnrStored = false;
 		sessionData.hasPnr = true;
+		sessionData.itinerary = parsed.itineraryData || [];
 	} else if (output.match(/^\s*MODIFY\s*(><)?$/)) {
 		// nothing happened
 	} else {
