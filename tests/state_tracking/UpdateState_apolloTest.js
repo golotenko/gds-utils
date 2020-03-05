@@ -2414,7 +2414,13 @@ const provide_call = () => {
 					"FOR BORDER CONTROL AND AVIATION SECURITY PURPOSES",
 					"><",
 				].join("\n"),
-				"state": {"hasPnr": true, "cmdType": "sell"},
+				"state": {
+					"hasPnr": true, "cmdType": "sell",
+					itinerary: [
+						{airline: 'EY', flightNumber: '407', bookingClass: 'Z', departureDate: {raw: '30JAN'}, departureAirport: 'BKK', destinationAirport: 'AUH', segmentStatus: 'SS', seatCount: 2},
+						{airline: 'EY', flightNumber: '151', bookingClass: 'Z', departureDate: {raw: '30JAN'}, departureAirport: 'AUH', destinationAirport: 'ORD', segmentStatus: 'SS', seatCount: 2},
+					],
+				},
 			},
 		],
 	});

@@ -84,6 +84,23 @@ const UpdateState_apollo = ({
 	const getAreaDataUnsafe = getAreaData;
 	getAreaData = (letter) => ({...getAreaDataUnsafe(letter)});
 
+	const handle_sell = (output) => {
+		const parsed = SellStatusParser.parse(output);
+		if (parsed.segments.length > 0) {
+			sessionState.hasPnr = true;
+			sessionState.itinerary = sessionState.itinerary || [];
+			for (const segment of parsed.segments) {
+				if (segment.segmentNumber && segment.segmentNumber !== '0' &&
+					segment.segmentNumber <= sessionState.itinerary.length + 1
+				) {
+					sessionState.itinerary.splice(segment.segmentNumber - 1, 0, segment);
+				} else {
+					sessionState.itinerary.push(segment);
+				}
+			}
+		}
+	};
+
 	const updateState = (cmd, output) => {
 		const clean = php.preg_replace(/\)?><$/, '', output);
 		const commandTypeData = CmdParser.parse(cmd);
@@ -150,10 +167,7 @@ const UpdateState_apollo = ({
 			areaData.area = data;
 			sessionState = {...areaData};
 		} else if (type === 'sell') {
-			const parsed = SellStatusParser.parse(output);
-			if (parsed.segments.length > 0) {
-				sessionState.hasPnr = true;
-			}
+			handle_sell(output);
 		} else if (type === 'sellFromLowFareSearch') {
 			if (php.preg_match(/^FS.*?\s+.*PRICING OPTION.*TOTAL AMOUNT\s*\d*\.?\d+[A-Z]{3}/s, output)) {
 				sessionState.hasPnr = true;
