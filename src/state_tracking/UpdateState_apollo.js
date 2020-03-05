@@ -178,10 +178,12 @@ const UpdateState_apollo = ({
 			}
 		}
 		if (openPnr) {
+			sessionState.itinerary = [];
 			sessionState.recordLocator = recordLocator;
 			sessionState.hasPnr = true;
 			sessionState.isPnrStored = true;
 		} else if (dropPnr) {
+			sessionState.itinerary = [];
 			sessionState.recordLocator = '';
 			sessionState.hasPnr = false;
 			sessionState.isPnrStored = false;

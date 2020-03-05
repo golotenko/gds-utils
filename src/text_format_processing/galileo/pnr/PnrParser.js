@@ -307,7 +307,9 @@ class PnrParser {
 		result.passengers = {passengerList: parsedHead.nameRecords};
 		result.itineraryData = parsedHead.itinerary;
 		result.foneData = php.empty(sections['FONE']) ? [] :
-			sections['FONE'].split('\n').map((line) => this.parseFoneLine(line));
+			sections['FONE'].split('\n')
+				.filter(l => l.trim())
+				.map((line) => this.parseFoneLine(line));
 		result.adrsData = php.empty(sections['ADRS']) ? null : this.parseAddressLine(sections['ADRS']);
 		result.dlvrData = php.empty(sections['DLVR']) ? null : this.parseAddressLine(sections['DLVR']);
 		result.formOfPaymentData = php.empty(sections['FOP ']) ? null : this.parseFopLine(sections['FOP ']);

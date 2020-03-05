@@ -2453,7 +2453,7 @@ class UpdateState_apolloTest extends require('enko-fundamentals/src/Transpiled/L
 				const allCmds = calledCommands.map(cmdRec => cmdRec.cmd);
 				const msg = i + '-th command - ' + cmdRecord.cmd +
 					' - \n' + allCmds.join(', ') + '\n';
-				this.assertArrayElementsSubset(expected, sessionState, msg);
+				this.assertSubTree(expected, sessionState, msg);
 			}
 		}
 	}
