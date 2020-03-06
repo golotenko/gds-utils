@@ -968,6 +968,12 @@ const provide_call = () => {
 					'DEPARTS ORD TERMINAL 2  - ARRIVES CVG TERMINAL 3 ',
 					'><',
 				]),
+				state: {
+					itinerary: [
+						{airline: 'UA', flightNumber:  '1192'},
+						{airline: 'UA', flightNumber:  '3519'},
+					],
+				},
 			},
 			{
 				'cmd': 'A*O19JUL',
@@ -992,7 +998,15 @@ const provide_call = () => {
 					'DEPARTS ORD TERMINAL 1 ',
 					'><',
 				]),
-				'state': {'area': 'C'},
+				'state': {
+					'area': 'C',
+					itinerary: [
+						{airline: 'UA', flightNumber:  '1192'},
+						{airline: 'UA', flightNumber:  '3519'},
+						{airline: 'UA', flightNumber:  '4513'},
+						{airline: 'UA', flightNumber:  '1854'},
+					],
+				},
 			},
 			{
 				'cmd': 'SA',
@@ -1070,7 +1084,10 @@ const provide_call = () => {
 					'IGND ',
 					'><',
 				]),
-				'state': {'hasPnr': false},
+				'state': {
+					'hasPnr': false,
+					itinerary: [],
+				},
 			},
 		],
 	});
