@@ -2498,6 +2498,159 @@ const provide_call = () => {
 		],
 	});
 
+	sessionRecords.push({
+		"title": "few interesting manipulations with the itinerary",
+		"initialState": {
+			"gds": 'apollo',
+			"area": "A", "pcc": "3OL5", "recordLocator": "",
+			"cmdType": "moreAirAvailability", "hasPnr": false,
+		},
+		"calledCommands": [
+			{
+				"cmd": "01E1Y2",
+				"type": "sell",
+				"output": [
+					" 1 KQ    3E   2JUL JFKNBO SS1  1255P 1025A|*      1          E",
+					"DEPARTS JFK TERMINAL 4  - ARRIVES NBO TERMINAL 1A",
+					" 2 KQ  352Y   3JUL NBOJUB SS1   125P  310P *      1          E",
+					"OFFER CAR/HOTEL    >CAL;     >HOA;",
+					"DEPARTS NBO TERMINAL 1A",
+					"ADD ADVANCE PASSENGER INFORMATION SSRS DOCA/DOCO/DOCS",
+					"PERSONAL DATA WHICH IS PROVIDED TO US IN CONNECTION",
+					"WITH YOUR TRAVEL MAY BE PASSED TO GOVERNMENT AUTHORITIES",
+					"FOR BORDER CONTROL AND AVIATION SECURITY PURPOSES",
+					"><",
+				].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'KQ', flightNumber: '3', bookingClass: 'E'},
+						{airline: 'KQ', flightNumber: '352', bookingClass: 'Y'},
+					],
+				},
+			},
+			{
+				"cmd": "01M1*GK",
+				"type": "sell",
+				"output": [
+					" 3 KQ    3M   2JUL JFKNBO GK1  1255P 1025A|                   ",
+					"DEPARTS JFK TERMINAL 4  - ARRIVES NBO TERMINAL 1A",
+					" 4 KQ  352M   3JUL NBOJUB GK1   125P  310P                    ",
+					"OFFER CAR/HOTEL    >CAL;     >HOA;",
+					"DEPARTS NBO TERMINAL 1A",
+					"ADD ADVANCE PASSENGER INFORMATION SSRS DOCA/DOCO/DOCS",
+					"PERSONAL DATA WHICH IS PROVIDED TO US IN CONNECTION",
+					"WITH YOUR TRAVEL MAY BE PASSED TO GOVERNMENT AUTHORITIES",
+					"FOR BORDER CONTROL AND AVIATION SECURITY PURPOSES",
+					"><",
+				].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'KQ', flightNumber: '3', bookingClass: 'E'},
+						{airline: 'KQ', flightNumber: '352', bookingClass: 'Y'},
+						{airline: 'KQ', flightNumber: '3', bookingClass: 'M'},
+						{airline: 'KQ', flightNumber: '352', bookingClass: 'M'},
+					],
+				},
+			},
+			{
+				"cmd": "SE",
+				"type": "changeArea",
+				"output": [
+					"CURRENTLY USING AAA REQUESTED",
+					"NO NAMES",
+					" 1 KQ   3E 02JUL JFKNBO SS1  1255P 1025A|*      TH/FR   E  1",
+					" 2 KQ 352Y 03JUL NBOJUB SS1   125P  310P *         FR   E  1",
+					" 3 KQ   3M 02JUL JFKNBO GK1  1255P 1025A|       TH/FR",
+					" 4 KQ 352M 03JUL NBOJUB GK1   125P  310P           FR",
+					"><",
+				].join("\n"),
+			},
+			{
+				"cmd": "X3", "type": "deletePnrField",
+				"output": ["NEXT REPLACES  3", "><"].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'KQ', flightNumber: '3', bookingClass: 'E'},
+						{airline: 'KQ', flightNumber: '352', bookingClass: 'Y'},
+						{airline: 'KQ', flightNumber: '352', bookingClass: 'M'},
+					],
+				},
+			},
+			{
+				"cmd": "SE",
+				"type": "changeArea",
+				"output": [
+					"CURRENTLY USING AAA REQUESTED",
+					"NO NAMES",
+					" 1 KQ   3E 02JUL JFKNBO SS1  1255P 1025A|*      TH/FR   E  1",
+					" 2 KQ 352Y 03JUL NBOJUB SS1   125P  310P *         FR   E  1",
+					" 3 KQ 352M 03JUL NBOJUB GK1   125P  310P           FR",
+					"><",
+				].join("\n"),
+			},
+			{
+				"cmd": "/0/2-3",
+				"type": "reorderSegments",
+				"output": [
+					" 1 KQ 352Y 03JUL NBOJUB SS1   125P  310P *         FR   E  1",
+					" 2 KQ 352M 03JUL NBOJUB GK1   125P  310P           FR",
+					" 3 KQ   3E 02JUL JFKNBO SS1  1255P 1025A|*      TH/FR   E  1",
+					"><",
+				].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'KQ', flightNumber: '352', bookingClass: 'Y'},
+						{airline: 'KQ', flightNumber: '352', bookingClass: 'M'},
+						{airline: 'KQ', flightNumber: '3', bookingClass: 'E'},
+					],
+				},
+			},
+			{
+				"cmd": "SE",
+				"type": "changeArea",
+				"output": [
+					"CURRENTLY USING AAA REQUESTED",
+					"NO NAMES",
+					" 1 KQ 352Y 03JUL NBOJUB SS1   125P  310P *         FR   E  1",
+					" 2 KQ 352M 03JUL NBOJUB GK1   125P  310P           FR",
+					" 3 KQ   3E 02JUL JFKNBO SS1  1255P 1025A|*      TH/FR   E  1",
+					"><",
+				].join("\n"),
+			},
+			{
+				"cmd": "X1-3/01YN|2Y|3E", "type": "deletePnrField",
+				"output": ["DUPLICATE SEGMENT NOT PERMITTED", "UNABLE TO CANCEL", "><"].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'KQ', flightNumber: '352', bookingClass: 'Y'},
+						{airline: 'KQ', flightNumber: '352', bookingClass: 'M'},
+						{airline: 'KQ', flightNumber: '3', bookingClass: 'E'},
+					],
+				},
+			},
+			{
+				"cmd": "SE",
+				"type": "changeArea",
+				"output": [
+					"CURRENTLY USING AAA REQUESTED",
+					"NO NAMES",
+					" 1 KQ 352M 03JUL NBOJUB GK1   125P  310P           FR",
+					" 2 KQ 352Y 03JUL NBOJUB SS1   125P  310P *         FR   E",
+					" 3 KQ   3E 02JUL JFKNBO SS1  1255P 1025A|*      TH/FR   E",
+					"><",
+				].join("\n"),
+			},
+			{
+				"cmd": "X1-2", "type": "deletePnrField", "output": ["NEXT REPLACES  1", "><"].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'KQ', flightNumber: '3', bookingClass: 'E'},
+					],
+				},
+			},
+		],
+	});
+
 	return sessionRecords.map(t => [t]);
 };
 
