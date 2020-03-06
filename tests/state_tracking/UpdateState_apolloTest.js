@@ -1287,7 +1287,17 @@ const provide_call = () => {
 					'         OPERATED BY MESA AIRLINES DBA UNITED EXPRESS',
 					'><',
 				]),
-				'state': {'hasPnr': true, 'isPnrStored': false},
+				'state': {
+					'hasPnr': true, 'isPnrStored': false,
+					itinerary: [
+						{airline: 'AC', flightNumber:  '447'},
+						{airline: 'SN', flightNumber:  '552'},
+						{airline: 'SN', flightNumber:  '357'},
+						{airline: 'SN', flightNumber:  '359'},
+						{airline: 'UA', flightNumber:  '951'},
+						{airline: 'UA', flightNumber: '6308'},
+					],
+				},
 			},
 			{
 				'cmd': '**-BECK',
@@ -1313,6 +1323,16 @@ const provide_call = () => {
 					'         OPERATED BY MESA AIRLINES DBA UNITED EXPRESS',
 					'><',
 				]),
+				'state': {
+					itinerary: [
+						{airline: 'AC', flightNumber:  '447'},
+						{airline: 'SN', flightNumber:  '552'},
+						{airline: 'SN', flightNumber:  '357'},
+						{airline: 'SN', flightNumber:  '359'},
+						{airline: 'UA', flightNumber:  '951'},
+						{airline: 'UA', flightNumber: '6308'},
+					],
+				},
 			},
 			{
 				'cmd': 'P:SFOAS/800-750-2238 ASAP CUSTOMER SUPPORT',
@@ -1335,7 +1355,10 @@ const provide_call = () => {
 					'A-OUT B-IN AG-NOT AUTH - APOLLO',
 					'><',
 				]),
-				'state': {'hasPnr': false},
+				'state': {
+					'hasPnr': false,
+					itinerary: undefined,
+				},
 			},
 			{
 				'cmd': 'SEM/2BQ6/AG',
@@ -1560,7 +1583,13 @@ const provide_call = () => {
 					'FOR BORDER CONTROL AND AVIATION SECURITY PURPOSES',
 					'><',
 				]),
-				'state': {'hasPnr': true},
+				'state': {
+					'hasPnr': true,
+					itinerary: [
+						{airline: 'SU', flightNumber: '1845', bookingClass: 'Y', departureDate: {raw: '10DEC'}, departureAirport: 'KIV', destinationAirport: 'SVO', segmentStatus: 'SS', seatCount: 1},
+						{airline: 'SU', flightNumber: '2682', bookingClass: 'Y', departureDate: {raw: '10DEC'}, departureAirport: 'SVO', destinationAirport: 'RIX', segmentStatus: 'SS', seatCount: 1},
+					],
+				},
 			},
 			{
 				'cmd': 'N:LIBERMANE/MARINA',

@@ -176,6 +176,8 @@ const UpdateState_apollo = ({
 		} else if (type === 'redisplayPnr') {
 			if (php.trim(clean) === 'INVLD') {
 				dropPnr = true;
+			} else {
+				sessionState.itinerary = PnrParser.parse(clean).itineraryData || [];
 			}
 		}
 		if (openPnr) {
