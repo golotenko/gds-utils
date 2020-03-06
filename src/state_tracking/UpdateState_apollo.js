@@ -84,6 +84,8 @@ const assertCancelledOk = clean => {
 		|| clean.match(/^\s*CANCEL REQUEST COMPLETED\s*(?:><)?$/);
 };
 
+const isZero = seg => !seg.segmentNumber || seg.segmentNumber === '0';
+
 /** @param {Object|null} agent = require('Agent.js')() */
 const UpdateState_apollo = ({
 	cmd, output, sessionState, getAreaData,
@@ -97,7 +99,7 @@ const UpdateState_apollo = ({
 			sessionState.hasPnr = true;
 			sessionState.itinerary = sessionState.itinerary || [];
 			for (const segment of segments) {
-				if (segment.segmentNumber && segment.segmentNumber !== '0' &&
+				if (!isZero(segment) &&
 					segment.segmentNumber <= sessionState.itinerary.length + 1
 				) {
 					sessionState.itinerary.splice(segment.segmentNumber - 1, 0, segment);
@@ -204,8 +206,13 @@ const UpdateState_apollo = ({
 				? (data.segmentNumbers || [])
 				: (sessionState.itinerary || [])
 					.map(s => s.segmentNumber);
-			// TODO: handle when segment numbers are not displayed (due to them not being changed)
-			const rebookedSegments = SellStatusParser.parse(clean).segments;
+			const rebookSegNumsLeft = [...cancelSegNums];
+			const rebookedSegments = SellStatusParser.parse(clean).segments
+				.map(s => ({...s,
+					segmentNumber: !isZero(s)
+						? s.segmentNumber
+						: rebookSegNumsLeft.shift(),
+				}));
 			if (assertCancelledOk(clean) || rebookedSegments.length > 0) {
 				sessionState.itinerary = (sessionState.itinerary || [])
 					.filter((s, i) => !cancelSegNums.includes(+i + 1))

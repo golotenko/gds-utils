@@ -2651,6 +2651,73 @@ const provide_call = () => {
 		],
 	});
 
+	sessionRecords.push({
+		"title": "example where no segment number is available in the output",
+		"initialState": {
+			"gds": 'apollo',
+			"area": "A", "pcc": "3OL5", "recordLocator": "",
+			"cmdType": "moreAirAvailability", "hasPnr": false,
+		},
+		"calledCommands": [
+			{
+				"cmd": "*R",
+				"output": [
+					"NO NAMES",
+					" 1 AC 128T 15JUN YVRYYZ SS5  1140P  711A|*      MO/TU   E",
+					" 2 ET 553U 16JUN YYZADD SS5  1100A  700A|*      TU/WE   E",
+					" 3 ET 900C 16JUL LOSADD SS5   140P  900P *         TH   E",
+					" 4 ET 552M 16JUL ADDYYZ GK5  1055P  825A|       TH/FR",
+					" 5 ET 552H 16JUL ADDYYZ GK5  1055P  825A|       TH/FR",
+					"><",
+				].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'AC', flightNumber: '128', bookingClass: 'T'},
+						{airline: 'ET', flightNumber: '553', bookingClass: 'U'},
+						{airline: 'ET', flightNumber: '900', bookingClass: 'C'},
+						{airline: 'ET', flightNumber: '552', bookingClass: 'M'},
+						{airline: 'ET', flightNumber: '552', bookingClass: 'H'},
+					],
+				},
+			},
+			{
+				"cmd": "X3-4/04U",
+				"output": [
+					"   ET  552U  16JUL ADDYYZ SS5  1055P  825A|*      1          E",
+					"010 KP 1105 *",
+					"010 SA 7194 *",
+					"OFFER CAR/HOTEL    >CAL;     >HOA;",
+					"DEPARTS ADD TERMINAL 2  - ARRIVES YYZ TERMINAL 1 ",
+					"ADD ADVANCE PASSENGER INFORMATION SSRS DOCA/DOCO/DOCS",
+					"PERSONAL DATA WHICH IS PROVIDED TO US IN CONNECTION",
+					"WITH YOUR TRAVEL MAY BE PASSED TO GOVERNMENT AUTHORITIES",
+					"FOR BORDER CONTROL AND AVIATION SECURITY PURPOSES",
+					"CANCEL REQUEST COMPLETED",
+					"><",
+				].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'AC', flightNumber: '128', bookingClass: 'T'},
+						{airline: 'ET', flightNumber: '553', bookingClass: 'U'},
+						{airline: 'ET', flightNumber: '552', bookingClass: 'U'},
+						{airline: 'ET', flightNumber: '552', bookingClass: 'H'},
+					],
+				},
+			},
+			{
+				"cmd": "*R",
+				"output": [
+					"NO NAMES",
+					" 1 AC 128T 15JUN YVRYYZ SS5  1140P  711A|*      MO/TU   E",
+					" 2 ET 553U 16JUN YYZADD SS5  1100A  700A|*      TU/WE   E",
+					" 3 ET 552U 16JUL ADDYYZ SS5  1055P  825A|*      TH/FR   E",
+					" 4 ET 552H 16JUL ADDYYZ GK5  1055P  825A|       TH/FR",
+					"><",
+				].join("\n"),
+			},
+		],
+	});
+
 	return sessionRecords.map(t => [t]);
 };
 
