@@ -370,6 +370,13 @@ const provide_call = () => {
 					'pricingCmd': '$BBS1|2|5',
 					'hasPnr': true,
 					'isPnrStored': false,
+					itinerary: [
+						{airline: 'KL', flightNumber:  '1228'},
+						{airline: 'KL', flightNumber:  '611'},
+						{airline: 'DL', flightNumber:  '5976'},
+						{airline: 'DL', flightNumber:  '1496'},
+						{airline: 'DL', flightNumber:  '140'},
+					],
 				},
 			},
 			{
@@ -378,6 +385,13 @@ const provide_call = () => {
 					'NEXT REPLACES  3',
 					'><',
 				]),
+				state: {
+					itinerary: [
+						{airline: 'KL', flightNumber:  '1228'},
+						{airline: 'KL', flightNumber:  '611'},
+						{airline: 'DL', flightNumber:  '140'},
+					],
+				},
 			},
 			{
 				'cmd': '*R',
@@ -513,7 +527,14 @@ const provide_call = () => {
 					' 3 DL 140T 17JUL MSPCDG SS2   424P  730A|*      MO/TU   E',
 					'><',
 				]),
-				'state': {'area': 'A', 'pcc': '2G55'},
+				'state': {
+					'area': 'A', 'pcc': '2G55',
+					itinerary: [
+						{airline: 'KL', flightNumber:  '1228'},
+						{airline: 'KL', flightNumber:  '611'},
+						{airline: 'DL', flightNumber:  '140'},
+					],
+				},
 			},
 			{
 				'cmd': '*R',
@@ -1374,7 +1395,7 @@ const provide_call = () => {
 				]),
 				'state': {
 					'hasPnr': false,
-					itinerary: undefined,
+					itinerary: [],
 				},
 			},
 			{

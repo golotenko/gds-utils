@@ -30,7 +30,7 @@ const handleApolloCopyPnr = (sessionData, output) => {
 	output = output.replace(/\)?><$/, '');
 	const parsed = PnrParser.parse(output);
 	const sections = PnrParser.splitToSections(output);
-	delete (sections.HEAD);
+	delete sections.HEAD;
 	const isEmpty = (val) => php.empty(val);
 	const isValidPnrOutput = !php.empty(parsed.itineraryData)
 		|| !php.empty(parsed.passengers.passengerList)
@@ -77,6 +77,13 @@ const wasAreaChangedOk = dump => php.preg_match(/[A-E]-IN-AG/, dump)
 	|| php.preg_match(/[A-E]-OUT\s[A-E]-IN\sAG/, dump)
 	|| php.preg_match(/CURRENTLY\sUSING\s[A-E]{3}/, dump);
 
+const assertCancelledOk = clean => {
+	return clean.match(/^\s*SEGMENTS CANCELLED - NEXT REPLACES\s*(\d+)\s*(?:><)?$/)
+		|| clean.match(/^[\s\S]*\s*CNLD FROM\s*(\d+)\s*(?:><)?$/)
+		|| clean.match(/^\s*NEXT REPLACES\s*(\d+)\s*(?:><)?$/)
+		|| clean.match(/^\s*CANCEL REQUEST COMPLETED\s*(?:><)?$/);
+};
+
 /** @param {Object|null} agent = require('Agent.js')() */
 const UpdateState_apollo = ({
 	cmd, output, sessionState, getAreaData,
@@ -85,12 +92,11 @@ const UpdateState_apollo = ({
 	const getAreaDataUnsafe = getAreaData;
 	getAreaData = (letter) => ({...getAreaDataUnsafe(letter)});
 
-	const handle_sell = (output) => {
-		const parsed = SellStatusParser.parse(output);
-		if (parsed.segments.length > 0) {
+	const consumeNewSegments = (segments) => {
+		if (segments.length > 0) {
 			sessionState.hasPnr = true;
 			sessionState.itinerary = sessionState.itinerary || [];
-			for (const segment of parsed.segments) {
+			for (const segment of segments) {
 				if (segment.segmentNumber && segment.segmentNumber !== '0' &&
 					segment.segmentNumber <= sessionState.itinerary.length + 1
 				) {
@@ -100,6 +106,11 @@ const UpdateState_apollo = ({
 				}
 			}
 		}
+	};
+
+	const handle_sell = (output) => {
+		const parsed = SellStatusParser.parse(output);
+		consumeNewSegments(parsed.segments);
 	};
 
 	const updateState = (cmd, output) => {
@@ -167,6 +178,12 @@ const UpdateState_apollo = ({
 			const areaData = getAreaData(data);
 			areaData.area = data;
 			sessionState = {...areaData};
+			sessionState.itinerary = PnrParser.parse(clean).itineraryData || [];
+		} else if (type === 'reorderSegments') {
+			const segments = PnrParser.parse(clean).itineraryData || [];
+			if (segments.length > 0) {
+				sessionState.itinerary = segments;
+			}
 		} else if (type === 'sell') {
 			handle_sell(output);
 		} else if (type === 'sellFromLowFareSearch') {
@@ -178,6 +195,22 @@ const UpdateState_apollo = ({
 				dropPnr = true;
 			} else {
 				sessionState.itinerary = PnrParser.parse(clean).itineraryData || [];
+			}
+		} else if (
+			type === 'deletePnrField' &&
+			data && data.field === 'itinerary'
+		) {
+			const cancelSegNums = !data.applyToAllAir
+				? (data.segmentNumbers || [])
+				: (sessionState.itinerary || [])
+					.map(s => s.segmentNumber);
+			// TODO: handle when segment numbers are not displayed (due to them not being changed)
+			const rebookedSegments = SellStatusParser.parse(clean).segments;
+			if (assertCancelledOk(clean) || rebookedSegments.length > 0) {
+				sessionState.itinerary = (sessionState.itinerary || [])
+					.filter((s, i) => !cancelSegNums.includes(+i + 1))
+					.map((s, i) => ({...s, segmentNumber: +i + 1}));
+				consumeNewSegments(rebookedSegments);
 			}
 		}
 		if (openPnr) {
