@@ -97,16 +97,17 @@ const UpdateState_apollo = ({
 	const consumeNewSegments = (segments) => {
 		if (segments.length > 0) {
 			sessionState.hasPnr = true;
-			sessionState.itinerary = sessionState.itinerary || [];
+			const itinerary = [...sessionState.itinerary || []];
 			for (const segment of segments) {
 				if (!isZero(segment) &&
-					segment.segmentNumber <= sessionState.itinerary.length + 1
+					segment.segmentNumber <= itinerary.length + 1
 				) {
-					sessionState.itinerary.splice(segment.segmentNumber - 1, 0, segment);
+					itinerary.splice(segment.segmentNumber - 1, 0, segment);
 				} else {
-					sessionState.itinerary.push(segment);
+					itinerary.push(segment);
 				}
 			}
+			sessionState.itinerary = itinerary;
 		}
 	};
 
