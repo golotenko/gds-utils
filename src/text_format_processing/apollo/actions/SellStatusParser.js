@@ -18,6 +18,19 @@ const ItineraryParser = require('../pnr/ItineraryParser.js');
  * "   AA 1477Q  15MAR MIACLT SS1   610A  822A *      1          E",
  * "503 18 *",
  * "OFFER CAR/HOTEL    >CAL;     >HOA;",
+ *
+ *
+ *  "   ET  552U  16JUL ADDYYZ SS5  1055P  825A|*      1          E",
+ *  "010 KP 1105 *",
+ *  "010 SA 7194 *",
+ *  "OFFER CAR/HOTEL    >CAL;     >HOA;",
+ *  "DEPARTS ADD TERMINAL 2  - ARRIVES YYZ TERMINAL 1 ",
+ *  "ADD ADVANCE PASSENGER INFORMATION SSRS DOCA/DOCO/DOCS",
+ *  "PERSONAL DATA WHICH IS PROVIDED TO US IN CONNECTION",
+ *  "WITH YOUR TRAVEL MAY BE PASSED TO GOVERNMENT AUTHORITIES",
+ *  "FOR BORDER CONTROL AND AVIATION SECURITY PURPOSES",
+ *  "CANCEL REQUEST COMPLETED",
+ *  "><",
  */
 exports.parse = (output) => {
 	const segments = [];
