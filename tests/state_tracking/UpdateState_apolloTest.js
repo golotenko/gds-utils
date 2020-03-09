@@ -2600,6 +2600,7 @@ const provide_call = () => {
 					"><",
 				].join("\n"),
 				state: {
+					stepFlags: ['fullItineraryKnown'],
 					itinerary: [
 						{airline: 'KQ', flightNumber: '352', bookingClass: 'Y'},
 						{airline: 'KQ', flightNumber: '352', bookingClass: 'M'},
@@ -2618,6 +2619,9 @@ const provide_call = () => {
 					" 3 KQ   3E 02JUL JFKNBO SS1  1255P 1025A|*      TH/FR   E  1",
 					"><",
 				].join("\n"),
+				state: {
+					stepFlags: ['fullItineraryKnown'],
+				},
 			},
 			{
 				"cmd": "X1-3/01YN|2Y|3E", "type": "deletePnrField",
@@ -2628,6 +2632,7 @@ const provide_call = () => {
 						{airline: 'KQ', flightNumber: '352', bookingClass: 'M'},
 						{airline: 'KQ', flightNumber: '3', bookingClass: 'E'},
 					],
+					stepFlags: [],
 				},
 			},
 			{
@@ -2681,6 +2686,7 @@ const provide_call = () => {
 						{airline: 'ET', flightNumber: '552', bookingClass: 'M'},
 						{airline: 'ET', flightNumber: '552', bookingClass: 'H'},
 					],
+					stepFlags: ['fullItineraryKnown'],
 				},
 			},
 			{
@@ -2705,6 +2711,7 @@ const provide_call = () => {
 						{airline: 'ET', flightNumber: '552', bookingClass: 'U'},
 						{airline: 'ET', flightNumber: '552', bookingClass: 'H'},
 					],
+					stepFlags: [],
 				},
 			},
 			{

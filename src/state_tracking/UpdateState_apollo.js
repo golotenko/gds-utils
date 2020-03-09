@@ -93,6 +93,7 @@ const UpdateState_apollo = ({
 	sessionState = {...sessionState};
 	const getAreaDataUnsafe = getAreaData;
 	getAreaData = (letter) => ({...getAreaDataUnsafe(letter)});
+	const stepFlags = [];
 
 	const consumeNewSegments = (segments) => {
 		if (segments.length > 0) {
@@ -108,6 +109,14 @@ const UpdateState_apollo = ({
 				itinerary.splice(segNum - 1, 0, segment);
 			}
 			sessionState.itinerary = itinerary;
+		}
+	};
+
+	const consumeFullItinerary = (clean, ignoreEmpty = false) => {
+		const segments = PnrParser.parse(clean).itineraryData || [];
+		if (segments.length > 0 || !ignoreEmpty) {
+			sessionState.itinerary = segments;
+			stepFlags.push('fullItineraryKnown');
 		}
 	};
 
@@ -215,12 +224,9 @@ const UpdateState_apollo = ({
 			const areaData = getAreaData(data);
 			areaData.area = data;
 			sessionState = {...areaData};
-			sessionState.itinerary = PnrParser.parse(clean).itineraryData || [];
+			consumeFullItinerary(clean);
 		} else if (type === 'reorderSegments') {
-			const segments = PnrParser.parse(clean).itineraryData || [];
-			if (segments.length > 0) {
-				sessionState.itinerary = segments;
-			}
+			consumeFullItinerary(clean, true);
 		} else if (type === 'sellFromLowFareSearch') {
 			if (php.preg_match(/^FS.*?\s+.*PRICING OPTION.*TOTAL AMOUNT\s*\d*\.?\d+[A-Z]{3}/s, output)) {
 				sessionState.hasPnr = true;
@@ -229,15 +235,17 @@ const UpdateState_apollo = ({
 			if (php.trim(clean) === 'INVLD') {
 				dropPnr = true;
 			} else {
-				sessionState.itinerary = PnrParser.parse(clean).itineraryData || [];
+				consumeFullItinerary(clean);
 			}
 		}
 		if (openPnr) {
+			stepFlags.push('pnrOpened');
 			sessionState.itinerary = [];
 			sessionState.recordLocator = recordLocator;
 			sessionState.hasPnr = true;
 			sessionState.isPnrStored = true;
 		} else if (dropPnr) {
+			stepFlags.push('pnrDropped');
 			sessionState.itinerary = [];
 			sessionState.recordLocator = '';
 			sessionState.hasPnr = false;
@@ -258,7 +266,10 @@ const UpdateState_apollo = ({
 		return sessionState;
 	};
 
-	return execute();
+	execute();
+	sessionState.stepFlags = stepFlags;
+
+	return sessionState;
 };
 
 UpdateState_apollo.wasIgnoredOk = wasIgnoredOk;
