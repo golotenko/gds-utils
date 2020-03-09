@@ -282,7 +282,7 @@ class ItineraryParser {
 	}
 
 	parseArnkSegmentLine(line) {
-		const regex = /^(?<segmentNumber>[\s\d]{2})\s{3}ARNK\s*$/;
+		const regex = /^(?<segmentNumber>[\s\d]{2})\s+ARNK\s*$/;
 		let matches;
 		if (matches = preg_match(regex, line, matches)) {
 			return {

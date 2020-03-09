@@ -280,7 +280,7 @@ const detectCommandType = (cmd) => {
 };
 
 const parseSingleCommand = (cmd) => {
-	let data, type, parsed;
+	let data, type, parsed, match;
 	if (type = SimpleTypes.exact[cmd]) {
 		data = null;
 	} else if (data = parse_changeArea(cmd)) {
@@ -324,6 +324,9 @@ const parseSingleCommand = (cmd) => {
 		type = 'airAvailability';
 	} else if (data = Parse_airAvailability.more(cmd)) {
 		type = 'moreAirAvailability';
+	} else if (match = cmd.match(/^\s*\/(\d+)\s*$/)) {
+		type = 'setNextFollowsSegment';
+		data = {segmentNumber: match[1]};
 	} else if (parsed = parseChainableCmd(cmd)) {
 		return parsed;
 	} else if (type = detectCommandType(cmd)) {

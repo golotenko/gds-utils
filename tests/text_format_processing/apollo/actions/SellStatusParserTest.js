@@ -46,6 +46,20 @@ const provide_parse = () => {
 		},
 	});
 
+	testCases.push({
+		title: 'response to the >Y; - creates an ARNK segment at requested position',
+		input: [
+			"   ARNK",
+			"OFFER CAR/HOTEL    >CAL;     >HOA;",
+			"><",
+		].join("\n"),
+		output: {
+			segments: [
+				{segmentType: 'ARNK'},
+			],
+		},
+	});
+
 	return testCases.map(tc => [tc]);
 };
 

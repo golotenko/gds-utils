@@ -133,6 +133,17 @@ const provide_parse = () => {
 		},
 	});
 
+	testCases.push({
+		title: 'should fully parse',
+		input: '/2',
+		output: {
+			type: 'setNextFollowsSegment',
+			data: {
+				segmentNumber: '2',
+			},
+		},
+	});
+
 	return testCases.map(c => [c]);
 };
 

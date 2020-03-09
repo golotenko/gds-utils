@@ -98,14 +98,14 @@ const UpdateState_apollo = ({
 		if (segments.length > 0) {
 			sessionState.hasPnr = true;
 			const itinerary = [...sessionState.itinerary || []];
+			let nextAddSegmentNumber = sessionState.nextAddSegmentNumber || itinerary.length + 1;
+			sessionState.nextAddSegmentNumber = null;
 			for (const segment of segments) {
-				if (!isZero(segment) &&
-					segment.segmentNumber <= itinerary.length + 1
-				) {
-					itinerary.splice(segment.segmentNumber - 1, 0, segment);
-				} else {
-					itinerary.push(segment);
-				}
+				const segNum = !isZero(segment)
+					&& segment.segmentNumber <= itinerary.length + 1
+					? segment.segmentNumber
+					: nextAddSegmentNumber++;
+				itinerary.splice(segNum - 1, 0, segment);
 			}
 			sessionState.itinerary = itinerary;
 		}
@@ -114,6 +114,34 @@ const UpdateState_apollo = ({
 	const handle_sell = (output) => {
 		const parsed = SellStatusParser.parse(output);
 		consumeNewSegments(parsed.segments);
+	};
+
+	const handle_deletePnrField = (data, clean) => {
+		if (!data && data.field !== 'itinerary') {
+			return;
+		}
+
+		const cancelSegNums = !data.applyToAllAir
+			? (data.segmentNumbers || [])
+			: (sessionState.itinerary || [])
+				.map(s => s.segmentNumber);
+		const rebookSegNumsLeft = [...cancelSegNums];
+		const rebookedSegments = SellStatusParser.parse(clean).segments
+			.map(s => ({...s,
+				segmentNumber: !isZero(s)
+					? s.segmentNumber
+					: rebookSegNumsLeft.shift(),
+			}));
+		const asCancel = assertCancelledOk(clean);
+		if (asCancel || rebookedSegments.length > 0) {
+			sessionState.itinerary = (sessionState.itinerary || [])
+				.filter((s, i) => !cancelSegNums.includes(+i + 1))
+				.map((s, i) => ({...s, segmentNumber: +i + 1}));
+			consumeNewSegments(rebookedSegments);
+		}
+		if (asCancel && asCancel[1]) {
+			sessionState.nextAddSegmentNumber = asCancel[1];
+		}
 	};
 
 	const updateState = (cmd, output) => {
@@ -151,9 +179,15 @@ const UpdateState_apollo = ({
 			// Invalid command: '*ACOSTA/MONICA BAUTISTA' with output INVLD breaks PNR state
 		} else if (php.preg_match(/^\*[A-Z0-9]+\//, cmd) && output.startsWith('INVLD')) {
 			dropPnr = true;
-		} else if (type == 'changePcc' && wasPccChangedOk(output, data)) {
+		} else if (type === 'changePcc' && wasPccChangedOk(output, data)) {
 			sessionState.pcc = data;
-		} else if (type == 'openPnr') {
+		} else if (type === 'sell') {
+			handle_sell(output);
+		} else if (type === 'deletePnrField') {
+			handle_deletePnrField(data, clean);
+		} else if (type === 'setNextFollowsSegment' && data) {
+			sessionState.nextAddSegmentNumber = +data.segmentNumber + 1;
+		} else if (type === 'openPnr') {
 			const openPnrStatus = PnrStatusParser.detectOpenPnrStatus(output);
 			if (php.in_array(openPnrStatus, ['notExisting', 'isRestricted'])) {
 				dropPnr = true;
@@ -161,23 +195,23 @@ const UpdateState_apollo = ({
 				recordLocator = data;
 				openPnr = true;
 			}
-		} else if (type == 'storeKeepPnr') {
+		} else if (type === 'storeKeepPnr') {
 			if (recordLocator = PnrStatusParser.parseSavePnr(output).recordLocator || null) {
 				openPnr = true;
 			}
-		} else if (type == 'searchPnr') {
+		} else if (type === 'searchPnr') {
 			if (wasSinglePnrOpenedFromSearch(output)) {
 				recordLocator = (PnrParser.parse(output).headerData.reservationInfo || {}).recordLocator;
 				openPnr = true;
 			} else if (isPnrListOutput(output)) {
 				dropPnr = true;
 			}
-		} else if (type == 'displayPnrFromList') {
+		} else if (type === 'displayPnrFromList') {
 			if (wasPnrOpenedFromList(output)) {
 				recordLocator = (PnrParser.parse(output).headerData.reservationInfo || {}).recordLocator;
 				openPnr = true;
 			}
-		} else if (type == 'changeArea' && wasAreaChangedOk(output)) {
+		} else if (type === 'changeArea' && wasAreaChangedOk(output)) {
 			const areaData = getAreaData(data);
 			areaData.area = data;
 			sessionState = {...areaData};
@@ -187,8 +221,6 @@ const UpdateState_apollo = ({
 			if (segments.length > 0) {
 				sessionState.itinerary = segments;
 			}
-		} else if (type === 'sell') {
-			handle_sell(output);
 		} else if (type === 'sellFromLowFareSearch') {
 			if (php.preg_match(/^FS.*?\s+.*PRICING OPTION.*TOTAL AMOUNT\s*\d*\.?\d+[A-Z]{3}/s, output)) {
 				sessionState.hasPnr = true;
@@ -198,27 +230,6 @@ const UpdateState_apollo = ({
 				dropPnr = true;
 			} else {
 				sessionState.itinerary = PnrParser.parse(clean).itineraryData || [];
-			}
-		} else if (
-			type === 'deletePnrField' &&
-			data && data.field === 'itinerary'
-		) {
-			const cancelSegNums = !data.applyToAllAir
-				? (data.segmentNumbers || [])
-				: (sessionState.itinerary || [])
-					.map(s => s.segmentNumber);
-			const rebookSegNumsLeft = [...cancelSegNums];
-			const rebookedSegments = SellStatusParser.parse(clean).segments
-				.map(s => ({...s,
-					segmentNumber: !isZero(s)
-						? s.segmentNumber
-						: rebookSegNumsLeft.shift(),
-				}));
-			if (assertCancelledOk(clean) || rebookedSegments.length > 0) {
-				sessionState.itinerary = (sessionState.itinerary || [])
-					.filter((s, i) => !cancelSegNums.includes(+i + 1))
-					.map((s, i) => ({...s, segmentNumber: +i + 1}));
-				consumeNewSegments(rebookedSegments);
 			}
 		}
 		if (openPnr) {

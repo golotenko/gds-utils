@@ -22,8 +22,8 @@ const makeDefaultApolloState = () => {
 const provide_call = () => {
 	const sessionRecords = [];
 
-	// Work Areas should be tracked properly
 	sessionRecords.push({
+		title: 'Work Areas should be tracked properly',
 		'initialState': makeDefaultApolloState(),
 		'calledCommands': [
 			{
@@ -391,6 +391,7 @@ const provide_call = () => {
 						{airline: 'KL', flightNumber:  '611'},
 						{airline: 'DL', flightNumber:  '140'},
 					],
+					nextAddSegmentNumber: '3',
 				},
 			},
 			{
@@ -2569,6 +2570,7 @@ const provide_call = () => {
 				"cmd": "X3", "type": "deletePnrField",
 				"output": ["NEXT REPLACES  3", "><"].join("\n"),
 				state: {
+					nextAddSegmentNumber: '3',
 					itinerary: [
 						{airline: 'KQ', flightNumber: '3', bookingClass: 'E'},
 						{airline: 'KQ', flightNumber: '352', bookingClass: 'Y'},
@@ -2643,6 +2645,7 @@ const provide_call = () => {
 			{
 				"cmd": "X1-2", "type": "deletePnrField", "output": ["NEXT REPLACES  1", "><"].join("\n"),
 				state: {
+					nextAddSegmentNumber: '1',
 					itinerary: [
 						{airline: 'KQ', flightNumber: '3', bookingClass: 'E'},
 					],
@@ -2715,6 +2718,73 @@ const provide_call = () => {
 					"><",
 				].join("\n"),
 			},
+		],
+	});
+
+	sessionRecords.push({
+		"title": "NEXT FOLLOWS and ARNK segment sell example",
+		"initialState": {
+			"gds": 'apollo',
+			"area": "A", "pcc": "3OL5", "recordLocator": "",
+			"cmdType": "moreAirAvailability", "hasPnr": false,
+		},
+		"calledCommands": [
+			{
+				cmd: '*R',
+				output: [
+					'NO NAMES',
+					' 1 AA 359O 25FEB IADDFW GK1   223P  455P           TU',
+					' 2 AA 945O 25FEB DFWSCL GK1   830P  845A|       TU/WE',
+					' 3 AA 912Q 14MAR SCLMIA SS1   850P  425A|*      SA/SU   E  1',
+					' 4 AA1477Q 15MAR MIACLT SS1   610A  822A *         SU   E  1',
+					' 5 AA5320Q 15MAR CLTIAD GK1   945A 1121A           SU',
+					'         OPERATED BY PSA AIRLINES AS AMERICAN EAGLE',
+					'><',
+				].join('\n'),
+			},
+			{"cmd": ".1LL", "type": "changeSegmentStatus", "output": ["SGMT   1 LL                                                    ", "><"].join("\n")},
+			{
+				cmd: ".2LL",
+				type: "changeSegmentStatus",
+				output: ["SGMT   2 LL                                                    ", "><"].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'AA', flightNumber: '359', bookingClass: 'O', destinationAirport: 'DFW'},
+						{airline: 'AA', flightNumber: '945', bookingClass: 'O', destinationAirport: 'SCL'},
+						{airline: 'AA', flightNumber: '912', bookingClass: 'Q', destinationAirport: 'MIA'},
+						{airline: 'AA', flightNumber: '1477', bookingClass: 'Q', destinationAirport: 'CLT'},
+						{airline: 'AA', flightNumber: '5320', bookingClass: 'Q', destinationAirport: 'IAD'},
+					],
+				},
+			},
+			{
+				cmd: "/2",
+				type: "setNextFollowsSegment",
+				output: ["NEXT FOLLOWS  2                                                ", "><"].join("\n"),
+				state: {
+					nextAddSegmentNumber: 3,
+				},
+			},
+			{
+				cmd: "Y",
+				type: "sell",
+				output: [
+					"   ARNK",
+					"OFFER CAR/HOTEL    >CAL;     >HOA;",
+					"><",
+				].join("\n"),
+				state: {
+					itinerary: [
+						{airline: 'AA', flightNumber: '359', bookingClass: 'O', destinationAirport: 'DFW'},
+						{airline: 'AA', flightNumber: '945', bookingClass: 'O', destinationAirport: 'SCL'},
+						{segmentType: 'ARNK'},
+						{airline: 'AA', flightNumber: '912', bookingClass: 'Q', destinationAirport: 'MIA'},
+						{airline: 'AA', flightNumber: '1477', bookingClass: 'Q', destinationAirport: 'CLT'},
+						{airline: 'AA', flightNumber: '5320', bookingClass: 'Q', destinationAirport: 'IAD'},
+					],
+				},
+			},
+			{"cmd": ".6LL", "type": "changeSegmentStatus", "output": ["SGMT   6 LL                                                    ", "><"].join("\n")},
 		],
 	});
 
