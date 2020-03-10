@@ -316,7 +316,7 @@ const mod_galileo = (effectiveMods, mod) => {
 		if (letter) {
 			effectiveMods.push('++-' + letter);
 		} else {
-			throw Rej.NotImplemented('Unsupported cabin class ' + mod.parsed.parsed + ' - ' + mod.raw);
+			throw Rej.NotImplemented.makeExc('Unsupported cabin class ' + mod.parsed.parsed + ' - ' + mod.raw);
 		}
 	} else {
 		return false;
