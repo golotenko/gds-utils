@@ -9,7 +9,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 UA1704S 19DEC LASEWR HK1   605A  157P *         SA   E  1',
-				' 2 UA 999S 19DEC EWRBRU HK1   635P  750A|*      SA\/SU   E  1',
+				' 2 UA 999S 19DEC EWRBRU HK1   635P  750A|*      SA/SU   E  1',
 				' 3 SN2835V 20DEC BRUDME HK1  1015A  345P *         SU   E',
 				' 4 UA9741S 07JAN DMEZRH HK1   905A 1050A *         TH   E  4',
 				'         OPERATED BY SWISS',
@@ -17,7 +17,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 				' 6 UA2030S 07JAN IADLAS HK1   656P  920P *         TH   E  4',
 				' 7 OTH ZO BK1  XXX 27SEP-PRESERVEPNR',
 				'*** PROFILE ASSOCIATIONS EXIST *** >*PA; ',
-				'FONE-SFOAS\/800-750-2238 ASAP CUSTOMER SUPPORT',
+				'FONE-SFOAS/800-750-2238 ASAP CUSTOMER SUPPORT',
 			]),
 			{
 				'segments': [
@@ -53,7 +53,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 						'destinationTime': {'raw': '750A','parsed': '07:50'},
 						'dayOffset': 1,
 						'confirmedByAirline': true,
-						'daysOfWeek': {'raw': 'SA\/SU','parsed': '6\/7'},
+						'daysOfWeek': {'raw': 'SA/SU','parsed': '6/7'},
 						'eticket': 'E',
 						'marriage': 1,
 					},
@@ -132,7 +132,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 					},
 					{'segmentType': 'OTH','segmentNumber': '7','text': 'ZO BK1  XXX 27SEP-PRESERVEPNR'},
 				],
-				'textLeft': php.implode(php.PHP_EOL, ['*** PROFILE ASSOCIATIONS EXIST *** >*PA; ','FONE-SFOAS\/800-750-2238 ASAP CUSTOMER SUPPORT']),
+				'textLeft': php.implode(php.PHP_EOL, ['*** PROFILE ASSOCIATIONS EXIST *** >*PA; ','FONE-SFOAS/800-750-2238 ASAP CUSTOMER SUPPORT']),
 			},
 		]);
 
@@ -140,8 +140,8 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 			php.implode(php.PHP_EOL, [
 				' 1 UA1966S 19JAN AUSIAH HK1   530A  625A *         TU   E',
 				' 2 UA1979S 19JAN IAHEWR HK1   902A  130P *         TU   E',
-				' 3 UA 179S 19JAN EWRSGN HK1   345P  125A2*      TU\/TH   E',
-				' 4 NH 832K 27JAN SGNNRT HK1  1155P  725A|*      WE\/TH   E 14',
+				' 3 UA 179S 19JAN EWRSGN HK1   345P  125A2*      TU/TH   E',
+				' 4 NH 832K 27JAN SGNNRT HK1  1155P  725A|*      WE/TH   E 14',
 			]),
 			{
 				'segments': [
@@ -195,7 +195,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 						'destinationTime': {'parsed': '01:25'},
 						'dayOffset': 2,
 						'confirmedByAirline': true,
-						'daysOfWeek': {'parsed': '2\/4'},
+						'daysOfWeek': {'parsed': '2/4'},
 						'eticket': 'E',
 						'marriage': 0,
 					},
@@ -213,7 +213,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 						'destinationTime': {'parsed': '07:25'},
 						'dayOffset': 1,
 						'confirmedByAirline': true,
-						'daysOfWeek': {'parsed': '3\/4'},
+						'daysOfWeek': {'parsed': '3/4'},
 						'eticket': 'E',
 						'marriage': 14,
 					},
@@ -225,7 +225,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		list.push([
 			php.implode(php.PHP_EOL, [
 				'1 ET 915T 6DEC DLAADD SS1   225P  855P *         FR   E  2     4:30  788',
-				'2 ET 500T 6DEC ADDIAD SS1  1050P  815A+*      FR\/SA   E  2    17:25  77L',
+				'2 ET 500T 6DEC ADDIAD SS1  1050P  815A+*      FR/SA   E  2    17:25  77L',
 				'3 UA5806K 7DEC IADOKC SS1   530P  726P *         SA   E        2:56  CR7',
 				'        OPERATED BY SKYWEST DBA UNITED EXPRESS',
 			]),
@@ -331,9 +331,9 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		// with car segments
 		list.push([
 			php.implode(php.PHP_EOL, [
-				' 1 CCR ZE KK1 QRL 23FEB-25FEB MCMR\/RG-EUR39.42DY-UNL 39.42XH\/BS-05578602\/PUP-QRLC60\/ARR-1337\/RC-AEXXMC\/DT-0800\/NM-PUGACOVS GENADIJS\/CF-H1282505939 OSI ',
-				' 2 ET 501S 23FEB IADADD GK1  1030A  740A|       TH\/FR',
-				' 3 CCR ZE HK1 MOD 11JAN-13JAN CCAR\/RG-USD31.00DY-UNL MI XH 10.54\/BS-05578602\/PUP-MODC02\/ARR-1354\/RC-OAUD1\/DT-0800\/NM-PUGACOVS GENADIJS\/CF-H1280118360 *',
+				' 1 CCR ZE KK1 QRL 23FEB-25FEB MCMR/RG-EUR39.42DY-UNL 39.42XH/BS-05578602/PUP-QRLC60/ARR-1337/RC-AEXXMC/DT-0800/NM-PUGACOVS GENADIJS/CF-H1282505939 OSI ',
+				' 2 ET 501S 23FEB IADADD GK1  1030A  740A|       TH/FR',
+				' 3 CCR ZE HK1 MOD 11JAN-13JAN CCAR/RG-USD31.00DY-UNL MI XH 10.54/BS-05578602/PUP-MODC02/ARR-1354/RC-OAUD1/DT-0800/NM-PUGACOVS GENADIJS/CF-H1280118360 *',
 			]),
 			{
 				'segments': [
@@ -362,7 +362,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 						'destinationTime': {'raw': '740A','parsed': '07:40'},
 						'dayOffset': 1,
 						'confirmedByAirline': false,
-						'daysOfWeek': {'raw': 'TH\/FR','parsed': '4\/5'},
+						'daysOfWeek': {'raw': 'TH/FR','parsed': '4/5'},
 						'eticket': '',
 						'marriage': 0,
 						'unexpectedText': '',
@@ -455,10 +455,10 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 			php.implode(php.PHP_EOL, [
 				' 1 DL4508X 10JAN BOISEA HK1  1038A 1120A *         TU   E  1',
 				'         OPERATED BY SKYWEST DBA DELTA CONNECTION',
-				' 2 DL 142X 10JAN SEAAMS HK1   125P  830A|*      TU\/WE   E  1',
+				' 2 DL 142X 10JAN SEAAMS HK1   125P  830A|*      TU/WE   E  1',
 				' 3 DL9318X 11JAN AMSKGL HK1   955A  720P *         WE   E  1',
 				'         OPERATED BY KLM ROYAL DUTCH AIRL',
-				' 4 DL9318X 17FEB KGLAMS HK1   825P  600A|*      FR\/SA   E  4',
+				' 4 DL9318X 17FEB KGLAMS HK1   825P  600A|*      FR/SA   E  4',
 				'         OPERATED BY KLM ROYAL DUTCH AIRL  KGL-EBB',
 				'         OPERATED BY KLM ROYAL DUTCH AIRL  EBB-AMS',
 				' 5 DL 143X 18FEB AMSSEA HK1  1000A 1124A *         SA   E  4',
@@ -473,7 +473,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 						'segmentNumber': 4,
 						'operatedBy': 'KLM ROYAL DUTCH AIRL',
 						'raw': php.implode(php.PHP_EOL, [
-							' 4 DL9318X 17FEB KGLAMS HK1   825P  600A|*      FR\/SA   E  4',
+							' 4 DL9318X 17FEB KGLAMS HK1   825P  600A|*      FR/SA   E  4',
 							'         OPERATED BY KLM ROYAL DUTCH AIRL  KGL-EBB',
 							'         OPERATED BY KLM ROYAL DUTCH AIRL  EBB-AMS',
 						]),
@@ -486,9 +486,9 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 UA1158K 29MAY LAXHNL HK4   845A 1140A *         MO   E',
-				' 2 UA 201K 29MAY HNLGUM HK4   215P  555P|       MO\/TU',
+				' 2 UA 201K 29MAY HNLGUM HK4   215P  555P|       MO/TU',
 				' 3 UA 183K 30MAY GUMMNL HK4   700P  850P           TU',
-				' 4 UA 192K 27JUN MNLGUM HK4   945P  540A|       TU\/WE',
+				' 4 UA 192K 27JUN MNLGUM HK4   945P  540A|       TU/WE',
 				'         OPERATED BY UNITED AIRLINES FOR AIR MICRONESIA  MNL-ROR         OPERATED BY UNITED AIRLINES FOR AIR MICRONESIA  ROR-GUM 5 UA 196K 28JUN GUMNRT HK4  1200N  255P *         WE   E  1',
 				' 6 UA  33K 28JUN NRTLAX HK4   505P 1115A *         WE   E  1',
 			]),
@@ -509,9 +509,9 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 DL2050V 31MAY PHXSLC HK1  1047A  125P *         WE   E  1',
-				' 2 DL  56V 31MAY SLCAMS HK1   236P  840A|*      WE\/TH   E  1',
+				' 2 DL  56V 31MAY SLCAMS HK1   236P  840A|*      WE/TH   E  1',
 				' 3 AF1807V 01JUN AMSMRS HK1   940A 1130A *         TH   E',
-				' 4 HHL NN HK1 MRS 01JUN-04JUN  3NT 17560  CAMPANILE MARSEILLE   1C1DRAC -1\/RG-EUR69.00\/AGT10741570\/G-DPSTAXXXXXXXXXXXX8476EXP0722\/NM-FOX KARINE V\/CF-2345678993 *',
+				' 4 HHL NN HK1 MRS 01JUN-04JUN  3NT 17560  CAMPANILE MARSEILLE   1C1DRAC -1/RG-EUR69.00/AGT10741570/G-DPSTAXXXXXXXXXXXX8476EXP0722/NM-FOX KARINE V/CF-2345678993 *',
 				' 5 DL8643V 10JUN MRSCDG HK1   710A  840A *         SA   E  2',
 				'         OPERATED BY AIR FRANCE',
 				' 6 DL 141V 10JUN CDGMSP HK1  1030A 1225P *         SA   E  2',
@@ -540,7 +540,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 			php.implode(php.PHP_EOL, [
 				' 1 PS9401Y 10JUN KBPRIX SS1   940A 1135A *         SA   E',
 				'         OPERATED BY AIR BALTIC CORPORATION S',
-				' 2 HHL LW SS1 RIX 10JUN-11JUN  1NT 28550  GRAND PALACE HOTEL    1L050ZZZ-1\/RG-EUR240.00\/AGT05578602\/G-VI4111111111111111EXP0819\/NM-LIBERMANE MARINA\/CF-109485440 *',
+				' 2 HHL LW SS1 RIX 10JUN-11JUN  1NT 28550  GRAND PALACE HOTEL    1L050ZZZ-1/RG-EUR240.00/AGT05578602/G-VI4111111111111111EXP0819/NM-LIBERMANE MARINA/CF-109485440 *',
 			]),
 			{
 				'segments': [
@@ -563,7 +563,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		// Car segment example
 		list.push([
 			php.implode(php.PHP_EOL, [
-				' 1 CCR ZD HK1 REK 18JUN-19JUN MDMN\/RG-USD109.00DY-UNL FM\/BS-05578602\/PUP-REKC03\/ARR-1200\/RC-YEI\/DT-1200\/NM-NANAN JELENA\/CF-06232332US1 *',
+				' 1 CCR ZD HK1 REK 18JUN-19JUN MDMN/RG-USD109.00DY-UNL FM/BS-05578602/PUP-REKC03/ARR-1200/RC-YEI/DT-1200/NM-NANAN JELENA/CF-06232332US1 *',
 			]),
 			{
 				'segments': [
@@ -588,7 +588,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		// Car segment from *I (preprocessed); has approximate total
 		list.push([
 			php.implode(php.PHP_EOL, [
-				' 1 CCR ZD SS1 REK 18JUN-21JUN MDMN\/RG-USD79.00DY-UNL FM\/BS-05578602\/PUP-REKC03\/ARR-1200\/RC-YEI\/DT-1200\/NM-NANAN JELENA\/CF-06239599US2 *\/APPROXIMATE TOTAL RATE-USD237.00-UNL FM 03DY 00HR .00MC',
+				' 1 CCR ZD SS1 REK 18JUN-21JUN MDMN/RG-USD79.00DY-UNL FM/BS-05578602/PUP-REKC03/ARR-1200/RC-YEI/DT-1200/NM-NANAN JELENA/CF-06239599US2 */APPROXIMATE TOTAL RATE-USD237.00-UNL FM 03DY 00HR .00MC',
 			]),
 			{
 				'segments': [
@@ -612,7 +612,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 
 		list.push([
 			php.implode(php.PHP_EOL, [
-				' 1 QR5297Y 30OCT MSPLHR SS1   404P 1135A|*      MO\/TU   E  3',
+				' 1 QR5297Y 30OCT MSPLHR SS1   404P 1135A|*      MO/TU   E  3',
 				'         OPERATED BY AMERICAN AIRLINES  MSP-ORD',
 				'         OPERATED BY AMERICAN AIRLINES  ORD-LHR',
 				'         OPERATED BY AMERICAN AIRLINES  MSP-ORD',
@@ -641,7 +641,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 						'departureTime': {'raw': '404P','parsed': '16:04'},
 						'destinationTime': {'raw': '1135A','parsed': '11:35'},
 						'raw': php.implode(php.PHP_EOL, [
-							' 1 QR5297Y 30OCT MSPLHR SS1   404P 1135A|*      MO\/TU   E  3',
+							' 1 QR5297Y 30OCT MSPLHR SS1   404P 1135A|*      MO/TU   E  3',
 							'         OPERATED BY AMERICAN AIRLINES  MSP-ORD',
 							'         OPERATED BY AMERICAN AIRLINES  ORD-LHR',
 							'         OPERATED BY AMERICAN AIRLINES  MSP-ORD',
@@ -663,7 +663,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		// artificial dump that would cause infinite loop
 		list.push([
 			php.implode(php.PHP_EOL, [
-				' 1 QR5297Y 30OCT MSPLHR SS1   404P 1135A|*      MO\/TU   E  3',
+				' 1 QR5297Y 30OCT MSPLHR SS1   404P 1135A|*      MO/TU   E  3',
 				'         PLANE CHANGE CAN TAKE PLACE - ASK CARRIER ',
 			]),
 			{
