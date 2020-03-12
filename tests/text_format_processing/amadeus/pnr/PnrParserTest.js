@@ -60,7 +60,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'       /S2-3',
 				' 31 FT *US17GPRD2',
 				' 32 FV PAX PR/S2-3',
-				' '
+				' ',
 			]), {
 				'parsed': {
 					'pnrInfo': {
@@ -138,6 +138,9 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 								'flyerNumber': '1005775190',
 							},
 						},
+						{lineNumber:  9, ssrCode: 'CTCE', airline: 'PR'},
+						{lineNumber: 10, ssrCode: 'CTCM', airline: 'PR'},
+						{lineNumber: 11, ssrCode: 'ADTK', airline: '1A'},
 					],
 					'mcoRecords': [
 						{
@@ -230,7 +233,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'',
 				' 17 FO 725-7797289737SFO04MAR16/05578602/725-77972897373E3*B668.',
 				'       00/X627.16/C450.00',
-				' 18 FP O/CCCA5111111111111111+/CHECK'
+				' 18 FP O/CCCA5111111111111111+/CHECK',
 			]),
 			{
 				'parsed': {
@@ -335,7 +338,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 					],
 				},
-			}
+			},
 		]);
 
 		list.push([
@@ -364,7 +367,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				' 16 FM *M*81.50A',
 				' 17 FP PAX CCVI4111111111111111/1018/A070720/S2-3',
 				'',
-				' 18 FV PAX W3/S2-3'
+				' 18 FV PAX W3/S2-3',
 			]),
 			{
 				'parsed': {
@@ -441,8 +444,8 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 							],
 						},
 					],
-				}
-			}
+				},
+			},
 		]);
 
 		// FA with -44 after ticket number
@@ -590,7 +593,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'       /S2-3',
 				' 14 FM *M*8',
 				' 15 FP PAX CCCA5111111111111111/0717/A00146Z/S2-3',
-				' 16 FV PAX W3/S2-3'
+				' 16 FV PAX W3/S2-3',
 			]),
 			{
 				'parsed': {
@@ -699,7 +702,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 					],
 				},
-			}
+			},
 		]);
 
 		list.push([
@@ -734,7 +737,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				' 21 FO 725-7797289787SFO16MAR16/05578602/725-77972897875E1*B236.',
 				'       00/X582.16/C250.00',
 				' 22 FP O/CHECK+/CHECK',
-				' 23 FV PAX W3/S2-3'
+				' 23 FV PAX W3/S2-3',
 			]),
 			{
 				'parsed': {
@@ -791,8 +794,8 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 							],
 						},
 					],
-				}
-			}
+				},
+			},
 		]);
 
 		list.push([
@@ -830,7 +833,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'       00/X567.16/C100.00',
 				' 22 FP PAX O/CCCA5111111111111111+/CCCA5111111111111111/0319/A07',
 				'       4722/S2-5',
-				' 23 FV PAX QR/S2-5'
+				' 23 FV PAX QR/S2-5',
 			]),
 			{
 				'parsed': {
@@ -1068,7 +1071,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 					],
 				},
-			}
+			},
 		]);
 
 		list.push([
@@ -1118,7 +1121,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'32 FE PAX FL/CNX/CHG RESTRICTED CHECK FARE NOTE -BG:LH/S2-5',
 				'33 FM *M*0',
 				'34 FP PAX CCCA5111111111111111/1018/A04528B/S2-5',
-				'35 FV PAX UA/S2-5'
+				'35 FV PAX UA/S2-5',
 			]),
 			{
 				'parsed': {
@@ -1244,7 +1247,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 					],
 				},
-			}
+			},
 		]);
 
 		list.push([
@@ -1262,7 +1265,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'  8 SSR DOCS UA HK1 ////05MAR90/F//DOE/JOHN',
 				'  9 RM NOTIFY PASSENGER PRIOR TO TICKET PURCHASE & CHECK-IN:',
 				'       FEDERAL LAWS FORBID THE CARRIAGE OF HAZARDOUS MATERIALS -',
-				'       GGAMAUSHAZ/S2'
+				'       GGAMAUSHAZ/S2',
 			]),
 			{
 				'parsed': {
@@ -1289,7 +1292,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 					],
 				},
-			}
+			},
 		]);
 
 		list.push([
@@ -1309,7 +1312,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				' 11 SSR DOCS ET HK1 ////05MAR96/M//DOE/JOHN/P2',
 				' 12 RM NOTIFY PASSENGER PRIOR TO TICKET PURCHASE & CHECK-IN:',
 				'       FEDERAL LAWS FORBID THE CARRIAGE OF HAZARDOUS MATERIALS -',
-				'       GGAMAUSHAZ/S4'
+				'       GGAMAUSHAZ/S4',
 			]),
 			{
 				'parsed': {
@@ -1358,7 +1361,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 					],
 				},
-			}
+			},
 		]);
 
 		list.push([
@@ -1369,7 +1372,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'  1.DOE/FRANK(INFJONES/JANE/01APR16)   2.DOE/JOHN',
 				'  4  ET 501 E 13NOV 7 IADADD HK3  1030A 740A 14NOV  E  ET/',
 				'  5 AP SFO 888 585-2727 - ITN CORP. - A',
-				'  6 TK TL20OCT/SFO1S2195'
+				'  6 TK TL20OCT/SFO1S2195',
 			]),
 			{
 				'parsed': {
@@ -1406,7 +1409,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 					],
 				},
-			}
+			},
 		]);
 
 		list.push([
@@ -1434,7 +1437,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				' 11 SSR RQST TK KK1 IAHIST/11DN,P1/DEFAULT ZONE CODE/S2   SEE',
 				'                /// RTSTR',
 				' 12 SSR RQST TK UN1 ISTIAH/11A,P1/DEFAULT ZONE CODE/S5   SEE',
-				'                /// RTSTR'
+				'                /// RTSTR',
 			]),
 			{
 				'parsed': {
@@ -1485,7 +1488,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					],
 					'tickets': [],
 				},
-			}
+			},
 		]);
 
 		// infant last name implicitly same as parent
@@ -1573,7 +1576,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 							'flightNumber': '1566', 'destinationAirport': 'AMS', 'raw': php.implode(php.PHP_EOL, [
 								'  1  KQ1566 H 28JUL 5 NBOAMS DK1  1155P 710A 29JUL  E  0 EQV',
 								'     OPERATED BY KLM ROYAL DUTCH AIRLINES',
-							])
+							]),
 						},
 					],
 				},
@@ -1679,7 +1682,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						{
 							'nameNumber': {'raw': '1.', 'absolute': 1},
 							'firstName': 'ANTIGONI',
-							'lastName': 'PAPAPOSTOLOU'
+							'lastName': 'PAPAPOSTOLOU',
 						},
 					],
 					'itinerary': [
@@ -2038,7 +2041,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 								'isInfant': false,
 								'raw': '1.',
 								'absolute': 1,
-								'firstNameNumber': 1
+								'firstNameNumber': 1,
 							},
 						},
 					],
@@ -2544,7 +2547,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				"  3 RM NOTIFY PASSENGER PRIOR TO TICKET PURCHASE & CHECK-IN:",
 				"       FEDERAL LAWS FORBID THE CARRIAGE OF HAZARDOUS MATERIALS -",
 				"       GGAMAUSHAZ/S1",
-				" "
+				" ",
 			]),
 			{
 				parsed: {
