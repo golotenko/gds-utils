@@ -4,12 +4,10 @@ const LinearFareParser = require('../../../../src/text_format_processing/galileo
 
 class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCase.js') {
 	provideTestCases() {
-		let $list;
-
-		$list = [];
+		const list = [];
 
 		// first example
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'FQ-1 G13MAR18      ADT',
 				'  KIV PS X/IEV PS RIX 603.79D1EP4 NUC603.79END ROE0.844659',
@@ -67,7 +65,7 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 									'destination': 'RIX',
 									'fare': '452.84',
 									'fareBasis': 'D1EP4',
-									'ticketDesignator': 'CH25'
+									'ticketDesignator': 'CH25',
 								},
 							],
 							'currency': 'NUC',
@@ -111,7 +109,7 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// with non-sequential passenger numbers
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'FQ-1.4 G13MAR18      ADT       ',
 				'  RDU DL X/DTT DL X/TYO DL MNL M2742.50MNERFFMU DL X/TYO DL',
@@ -136,7 +134,7 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 									'destination': 'MNL',
 									'mileageSurcharge': 'M',
 									'fare': '2742.50',
-									'fareBasis': 'MNERFFMU'
+									'fareBasis': 'MNERFFMU',
 								},
 								{'destination': 'TYO'},
 								{'destination': 'DTT'},
@@ -144,7 +142,7 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 									'destination': 'RDU',
 									'mileageSurcharge': 'M',
 									'fare': '2742.50',
-									'fareBasis': 'MNERFFMU'
+									'fareBasis': 'MNERFFMU',
 								},
 							],
 							'currency': 'NUC',
@@ -172,7 +170,7 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// should wrap by 64 characters
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'FQ-1 Z28JUN18      ITX       ',
 				'  EDI AA NYC 58.26OKN5F1M4U/GBT1 AA RDU AA X/E/LON BA EDI',
@@ -193,7 +191,7 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 									'destination': 'NYC',
 									'fare': '58.26',
 									'fareBasis': 'OKN5F1M4U',
-									'ticketDesignator': 'GBT1'
+									'ticketDesignator': 'GBT1',
 								},
 								{'airline': 'AA', 'destination': 'RDU'},
 								{'airline': 'AA', 'destination': 'LON'},
@@ -203,7 +201,7 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 									'mileageSurcharge': '5M',
 									'fare': '61.17',
 									'fareBasis': 'OKN5F1M4U',
-									'ticketDesignator': 'GBT1'
+									'ticketDesignator': 'GBT1',
 								},
 							],
 							'fare': '119.43',
@@ -229,7 +227,7 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 
 		// failed to parse fare breakdown... because this dump should be wrapped by 63 chars?
 		// session: 52084
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				"FQ-1 G19APR19      ADT       ",
 				"  TPA AA X/CLT AA LON M85.00OKW8I7B5 AY X/CLT AA TPA",
@@ -256,7 +254,13 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 						'taxes': [
 							{'taxCode': 'AY', 'amount': '11.20'},
 							{'taxCode': 'US', 'amount': '37.20'},
-							// ...
+							{'taxCode': 'XA'},
+							{'taxCode': 'XF'},
+							{'taxCode': 'XY'},
+							{'taxCode': 'YC'},
+							{'taxCode': 'GB'},
+							{'taxCode': 'UB'},
+							{'taxCode': 'YR'},
 						],
 						'netPrice': {'currency': 'USD', 'amount': '735.23'},
 					},
@@ -264,18 +268,16 @@ class LinearFareParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 			},
 		]);
 
-		return $list;
+		return list;
 	}
 
 	/**
 	 * @test
 	 * @dataProvider provideTestCases
 	 */
-	testAction($input, $expected) {
-		let $actual;
-
-		$actual = LinearFareParser.parse($input);
-		this.assertArrayElementsSubset($expected, $actual);
+	testAction(input, expected) {
+		const actual = LinearFareParser.parse(input);
+		this.assertSubTree(expected, actual);
 	}
 
 	getTestMapping() {
