@@ -1,6 +1,5 @@
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 const AtfqParser = require('./AtfqParser.js');
-const GenericRemarkParser = require('../../agnostic/GenericRemarkParser.js');
 const ItineraryParser = require("./ItineraryParser.js");
 const HeaderParser = require("./HeaderParser");
 const GdsPassengerBlockParser = require("../../agnostic/GdsPassengerBlockParser.js");
@@ -166,29 +165,11 @@ class PnrParser {
 
 	static parseRemarks(dump) {
 		const result = [];
-		for (let line of dump.split('\n')) {
-			const remarkNumber = line.startsWith('RMKS-') ? 1 :
-				php.intval(php.trim(php.substr(line, 0, 5)));
-			line = line.slice(5);
-			let tokens;
-			if (php.preg_match(/MADE FOR (AGENT )?(?<name>[A-Z]+)\b/, line, tokens = [])) {
-				result.push({
-					lineNumber: remarkNumber,
-					remarkType: 'MADE_FOR_REMARK',
-					data: {
-						name: tokens.name,
-					},
-					content: line,
-				});
-			} else {
-				const record = GenericRemarkParser.parse(line);
-				result.push({
-					lineNumber: remarkNumber,
-					remarkType: record.remarkType,
-					data: record.data,
-					content: line,
-				});
-			}
+		for (const line of dump.split('\n')) {
+			const lineNumber = line.startsWith('RMKS-') ? 1 :
+				+line.slice(0, 5).trim();
+			const content = line.slice(5);
+			result.push({lineNumber, content});
 		}
 		return result;
 	}

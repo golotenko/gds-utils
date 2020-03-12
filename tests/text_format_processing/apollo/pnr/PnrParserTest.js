@@ -192,13 +192,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'remarks': [
 					{
 						'lineNumber': 1,
-						'remarkType': 'PRICE_REMARK',
-						'data': {
-							'passengerNumber': 1,
-							'sellingPrice': '1248.96',
-							'netPrice': '1178.96',
-							'fare': '417.00',
-						},
+						content: 'S1 1248.96 N1 1178.96 F1 417.00',
 					},
 				],
 			},
@@ -849,14 +843,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			{
 				'remarks': [
 					{
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'ALEX',
-							'agentId': '1',
-							'leadOwnerLogin': 'LEPIN',
-							'leadOwnerId': '346',
-							'leadId': '1',
-						},
+						content: 'SFOHT/ALEX/ID1/CREATED FOR LEPIN/ID346/REQ. ID-1',
 					},
 				],
 			},
@@ -875,14 +862,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			{
 				'remarks': [
 					{
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'ELDAR',
-							'agentId': '20744',
-							'leadOwnerLogin': null,
-							'leadOwnerId': null,
-							'leadId': '4490480',
-						},
+						content: 'SFOHT/ELDAR/ID20744/REQ. ID-4490480',
 					},
 				],
 			},
@@ -899,15 +879,12 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 			{
 				'remarks': [
 					{
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'STANISLAW',
-							'agentId': '2838',
-							'leadOwnerLogin': 'STANISLAW',
-							'leadOwnerId': '2838',
-							'leadId': '1',
-							'pcc': '2G55',
-						},
+						lineNumber: 1,
+						content: 'STANISLAW/ID2838/CREATED FOR STANISLAW/ID2838/REQ. ID-1 IN 2G55',
+					},
+					{
+						lineNumber: 2,
+						content: 'LONGLON GLON GOK OSDGDSG S GS KLD KSGJKLS SDGJDSKL GJDGSKLJ DKLGJDSKL GJDSKLGJDK',
 					},
 				],
 			},
@@ -1090,60 +1067,6 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				],
 			},
 		]);
-		list.push([
-			php.implode(php.PHP_EOL, [
-				'CREATED IN GDS DIRECT BY AKLESUNS',
-				'VSKJ2A/WS QSBYC DPBVWS  AG 05578602 23OCT',
-				' 1.1PUPKIN/MARINA ',
-				' 1 PS 898D 10DEC KIVKBP HK1   710A  820A *         SU   E',
-				' 2 PS 185D 10DEC KBPRIX HK1   920A 1100A *         SU   E',
-				'FONE-SFOAS/800-750-2238 ASAP CUSTOMER SUPPORT',
-				'TKTG-TAU/23OCT',
-				'RMKS-GD-AKLESUNS/ID6206/CREATED FOR STANISLAW/ID2838/REQ. ID-1 IN 2G55',
-				'ACKN-1A R2Z43Y   23OCT 1204',
-				'',
-			]),
-			{
-				'remarks': [
-					{
-						'lineNumber': 1,
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'AKLESUNS',
-							'agentId': '6206',
-							'leadOwnerLogin': 'STANISLAW',
-							'leadOwnerId': '2838',
-							'leadId': '1',
-							'pcc': '2G55',
-						},
-					},
-				],
-			},
-		]);
-		list.push([
-			php.implode(php.PHP_EOL, [
-				'CREATED IN GDS DIRECT BY AKLESUNS',
-				'NO NAMES',
-				'RMKS-GD-AKLESUNS/6206/FOR STANISLAW/2838/LEAD-1 IN 2G55',
-				'',
-			]),
-			{
-				'remarks': [
-					{
-						'lineNumber': 1,
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'AKLESUNS',
-							'agentId': '6206',
-							'leadOwnerLogin': 'STANISLAW',
-							'leadOwnerId': '2838',
-							'leadId': '1',
-							'pcc': '2G55',
-						},
-					},
-				],
-			},
-		]);
 		// TUR segment example
 		list.push([
 			php.implode(php.PHP_EOL, [
@@ -1276,52 +1199,6 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						'daysOfWeek': {'raw': 'SU', 'parsed': '7'},
 						'eticket': 'E',
 						'marriage': 0,
-					},
-				],
-			},
-		]);
-		list.push([
-			php.implode(php.PHP_EOL, [
-				'CREATED IN GDS DIRECT BY STANISLAW',
-				'NO NAMES',
-				'RMKS-GD-STANISLAW/2838 IN 2G55',
-			]),
-			{
-				'remarks': [
-					{
-						'lineNumber': 1,
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'STANISLAW',
-							'agentId': '2838',
-							'leadOwnerLogin': null,
-							'leadOwnerId': null,
-							'leadId': null,
-							'pcc': '2G55',
-						},
-					},
-				],
-			},
-		]);
-		list.push([
-			php.implode(php.PHP_EOL, [
-				'CREATED IN GDS DIRECT BY KUNKKA',
-				'NO NAMES',
-				'RMKS-GD-KUNKKA/8050/LEAD-1 IN 2G55',
-			]),
-			{
-				'remarks': [
-					{
-						'lineNumber': 1,
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'KUNKKA',
-							'agentId': '8050',
-							'leadOwnerLogin': null,
-							'leadOwnerId': null,
-							'leadId': '1',
-							'pcc': '2G55',
-						},
 					},
 				],
 			},

@@ -1606,7 +1606,6 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'parsed': {
 					'remarks': [
 						{
-							remarkType: null,
 							content: php.implode(php.PHP_EOL, [
 								'APPLE JUICE APPLE JUICE APPLE JUICE APPLE JUICE APPLE',
 								'JUICE APPLE JUICE',
@@ -1638,14 +1637,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 						},
 						{
 							'lineNumber': '6',
-							'remarkType': 'CMS_LEAD_REMARK',
-							'data': {
-								'agentLogin': 'STANISLAW',
-								'agentId': '2838',
-								'leadOwnerLogin': 'STANISLAW',
-								'leadOwnerId': '2838',
-								'leadId': '1',
-							},
+							content: 'STANISLAW/ID2838/CREATED FOR STANISLAW/ID2838/REQ. ID-1',
 						},
 					],
 				},
@@ -1956,15 +1948,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					],
 					'remarks': [
 						{
-							'remarkType': 'CMS_LEAD_REMARK',
-							'data': {
-								'agentLogin': 'AKLESUNS',
-								'agentId': '6206',
-								'leadOwnerLogin': 'STANISLAW',
-								'leadOwnerId': '2838',
-								'leadId': '1',
-								'pcc': 'NYC1S2186',
-							},
+							content: 'AKLESUNS/ID6206/CREATED FOR STANISLAW/ID2838/REQ. ID-1 IN\nNYC1S2186',
 						},
 					],
 				},
@@ -2088,15 +2072,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 					'remarks': [
 						{
 							'lineNumber': '5',
-							'remarkType': 'CMS_LEAD_REMARK',
-							'data': {
-								'agentLogin': 'ELDAR',
-								'agentId': '20744',
-								'leadOwnerLogin': 'ELDAR',
-								'leadOwnerId': '20744',
-								'leadId': '4633250',
-								'pcc': 'SFO1S2195',
-							},
+							content: 'ELDAR/ID20744/CREATED FOR ELDAR/ID20744/REQ. ID-4633250\nIN SFO1S2195',
 						},
 					],
 					'cars': [

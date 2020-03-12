@@ -1,7 +1,6 @@
 const GdsConstants = require('../../agnostic/GdsConstants.js');
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 const FlightInfoParser = require('../FlightInfoParser.js');
-const GenericRemarkParser = require('../../agnostic/GenericRemarkParser.js');
 
 const php = require('enko-fundamentals/src/Transpiled/php.js');
 const AmadeusReservationPassengerBlockParser = require('./AmadeusReservationPassengerBlockParser.js');
@@ -188,20 +187,13 @@ class PnrParser
 	// '  4 RM DEOXYRIBOETHANBUTANPROPANFORTRANPENTANSAKURATANNUCLEIC
 	// '       ACID
 	static parseRemark(line)  {
-		let matches, $_, lineNumber, msg, record;
-
+		let matches;
 		if (php.preg_match(/^\s*(\d+)\s+RM\s+(\S.*)$/s, line, matches = [])) {
-			[$_, lineNumber, msg] = matches;
+			const [, lineNumber, content] = matches;
 			// preserving line breaks in the message because we can't
 			// say for sure when it was joined by '' and when by ' '
 
-			record = GenericRemarkParser.parse(msg);
-			return {
-				lineNumber: lineNumber,
-				remarkType: record.remarkType,
-				data: record.data,
-				content: msg,
-			};
+			return {lineNumber, content};
 		} else {
 			return null;
 		}

@@ -269,8 +269,6 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'remarks': [
 					{
 						'lineNumber': '1',
-						remarkType: null,
-						data: null,
 						content: '-S*SPLIT PTY/08MAR/WSAG/QSB/W5SK20 WS 08MAR 1351Z',
 					},
 				],
@@ -1330,15 +1328,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'remarks': [
 					{
 						'lineNumber': '1',
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'ARCHIE FOULER',
-							'agentId': '8388',
-							'leadOwnerLogin': 'ARCHIE FOULER',
-							'leadOwnerId': '8388',
-							'leadId': '9142354',
-							'pcc': 'G8T',
-						},
+						content: 'GD-ARCHIE FOULER/8388/FOR ARCHIE FOULER/8388/LEAD-9142354 IN G8T WS 29AUG 1257Z',
 					},
 				],
 			},
@@ -1364,15 +1354,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'remarks': [
 					{
 						'lineNumber': '1',
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'ELON CLARK',
-							'agentId': '100691',
-							'leadOwnerLogin': 'ELON CLARK',
-							'leadOwnerId': '100691',
-							'leadId': '9151830',
-							'pcc': '80DJ',
-						},
+						content: 'GD-ELON CLARK/100691/FOR ELON CLARK/100691/LEAD-9151830 IN 80DJ WS 30AUG 1732Z',
 					},
 				],
 			},
@@ -1413,15 +1395,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'remarks': [
 					{
 						'lineNumber': '1',
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'MAX',
-							'agentId': '426',
-							'leadOwnerLogin': 'MAX',
-							'leadOwnerId': '426',
-							'leadId': '11534008',
-							'pcc': '711M',
-						},
+						content: 'GD-MAX/426/FOR MAX/426/LEAD-11534008 IN 711M WS 21MAY 2009Z',
 					},
 				],
 				'ssrSegments': [
@@ -1463,15 +1437,7 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				'remarks': [
 					{
 						'lineNumber': '1',
-						'remarkType': 'CMS_LEAD_REMARK',
-						'data': {
-							'agentLogin': 'MAX',
-							'agentId': '426',
-							'leadOwnerLogin': 'MAX',
-							'leadOwnerId': '426',
-							'leadId': '11534008',
-							'pcc': '711M',
-						},
+						content: 'GD-MAX/426/FOR MAX/426/LEAD-11534008 IN 711M WS 21MAY 2009Z',
 					},
 				],
 				'vlocData': [

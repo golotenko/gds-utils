@@ -1,6 +1,5 @@
 const ParserUtil = require('../../agnostic/ParserUtil.js');
 
-const GenericRemarkParser = require('../../agnostic/GenericRemarkParser.js');
 const StoredPricingListParser = require('../pricing/StoredPricingListParser.js');
 
 const php = require('enko-fundamentals/src/Transpiled/php.js');
@@ -202,15 +201,9 @@ class PnrParser {
 		for (const line of lines) {
 			let matches;
 			if (php.preg_match(/^\s*(\d+)\.\s+(.*?)\s*$/s, line, matches = [])) {
-				let [, lineNum, text] = matches;
-				text = php.str_replace('\n', '', text);
-				const generic = GenericRemarkParser.parse(text);
-				result.push({
-					lineNumber: lineNum,
-					remarkType: generic.remarkType,
-					data: generic.data,
-					content: text,
-				});
+				let [, lineNumber, text] = matches;
+				const content = php.str_replace('\n', '', text);
+				result.push({lineNumber, content});
 			}
 		}
 		return result;
