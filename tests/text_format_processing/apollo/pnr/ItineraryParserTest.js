@@ -5,9 +5,8 @@ const php  = require('enko-fundamentals/src/Transpiled/php.js');
 class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCase.js')
 {
 	provideTreeTestCases()  {
-		let $list;
-		$list = [];
-		$list.push([
+		const list = [];
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 UA1704S 19DEC LASEWR HK1   605A  157P *         SA   E  1',
 				' 2 UA 999S 19DEC EWRBRU HK1   635P  750A|*      SA\/SU   E  1',
@@ -137,7 +136,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 			},
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 UA1966S 19JAN AUSIAH HK1   530A  625A *         TU   E',
 				' 2 UA1979S 19JAN IAHEWR HK1   902A  130P *         TU   E',
@@ -223,7 +222,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 			},
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'1 ET 915T 6DEC DLAADD SS1   225P  855P *         FR   E  2     4:30  788',
 				'2 ET 500T 6DEC ADDIAD SS1  1050P  815A+*      FR\/SA   E  2    17:25  77L',
@@ -257,7 +256,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// Spaces around cabin class, no day of week
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 BA  64 Q28JUN NBOLHR HK1  1120P  615A |*  ',
 				' 2 BA 239 Q01JUL LHRBOS HK1   755P 1010P  *',
@@ -311,7 +310,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// *RTZ2TA - with 'ARNK' segment
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 2 MU 211B 28OCT PVGMNL UN1  1230A  340A *         FR   E',
 				' 3 MU 211B 28OCT PVGMNL HL1  1230A  340A           FR',
@@ -330,7 +329,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// with car segments
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 CCR ZE KK1 QRL 23FEB-25FEB MCMR\/RG-EUR39.42DY-UNL 39.42XH\/BS-05578602\/PUP-QRLC60\/ARR-1337\/RC-AEXXMC\/DT-0800\/NM-PUGACOVS GENADIJS\/CF-H1282505939 OSI ',
 				' 2 ET 501S 23FEB IADADD GK1  1030A  740A|       TH\/FR',
@@ -386,7 +385,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// segments without flight number
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 DL1234Y 15DEC EWRLHR GK1                        TH',
 				' 2 DL1234Y 16DEC LHRTYO GK1                        FR',
@@ -452,7 +451,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// >*WPDH1E; - with multiple OPERATED BY in one segment due to hidden stop
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 DL4508X 10JAN BOISEA HK1  1038A 1120A *         TU   E  1',
 				'         OPERATED BY SKYWEST DBA DELTA CONNECTION',
@@ -484,7 +483,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// >*N0FT3X; directly from apollo, without wrapping
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 UA1158K 29MAY LAXHNL HK4   845A 1140A *         MO   E',
 				' 2 UA 201K 29MAY HNLGUM HK4   215P  555P|       MO\/TU',
@@ -507,7 +506,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// >*MQ4FZG; with hotel segment
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 DL2050V 31MAY PHXSLC HK1  1047A  125P *         WE   E  1',
 				' 2 DL  56V 31MAY SLCAMS HK1   236P  840A|*      WE\/TH   E  1',
@@ -537,7 +536,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// another hotel example
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 PS9401Y 10JUN KBPRIX SS1   940A 1135A *         SA   E',
 				'         OPERATED BY AIR BALTIC CORPORATION S',
@@ -562,7 +561,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// Car segment example
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 CCR ZD HK1 REK 18JUN-19JUN MDMN\/RG-USD109.00DY-UNL FM\/BS-05578602\/PUP-REKC03\/ARR-1200\/RC-YEI\/DT-1200\/NM-NANAN JELENA\/CF-06232332US1 *',
 			]),
@@ -587,7 +586,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// Car segment from *I (preprocessed); has approximate total
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 CCR ZD SS1 REK 18JUN-21JUN MDMN\/RG-USD79.00DY-UNL FM\/BS-05578602\/PUP-REKC03\/ARR-1200\/RC-YEI\/DT-1200\/NM-NANAN JELENA\/CF-06239599US2 *\/APPROXIMATE TOTAL RATE-USD237.00-UNL FM 03DY 00HR .00MC',
 			]),
@@ -611,7 +610,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 			},
 		]);
 
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 QR5297Y 30OCT MSPLHR SS1   404P 1135A|*      MO\/TU   E  3',
 				'         OPERATED BY AMERICAN AIRLINES  MSP-ORD',
@@ -662,7 +661,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// artificial dump that would cause infinite loop
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				' 1 QR5297Y 30OCT MSPLHR SS1   404P 1135A|*      MO\/TU   E  3',
 				'         PLANE CHANGE CAN TAKE PLACE - ASK CARRIER ',
@@ -675,7 +674,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// CMS flight duration artifacts should not get parsed as marriage number
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'1 UA1158K 09DEC LAXHNL SS1   830A 1223P *         MO   E  1      5:53  777       ',
 				'2 UA 201K 09DEC HNLGUM SS1   315P  705P+*      MO/TU   E  1      7:50  777       ',
@@ -695,7 +694,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// digits in place of booking class - should not get parsed
-		$list.push([
+		list.push([
 			[
 				' 4 DL35424 30DEC ATLABY SS1   141P  235P *         MO   E  2',
 				'         OPERATED BY SKYWEST DBA DELTA CONNECTION',
@@ -710,7 +709,7 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 		]);
 
 		// 5 digits in flight number - should not get parsed
-		$list.push([
+		list.push([
 			[
 				'5 AC19175M 05JAN LISYYZ SS1  1255P  415P *         SU   E      ',
 				'       OPERATED BY AIR CANADA ROUGE',
@@ -724,13 +723,13 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 			},
 		]);
 
-		return $list;
+		return list;
 	}
 
 	testParser($dump, $expected)  {
 		let $actual;
 		$actual = ItineraryParser.parse($dump);
-		this.assertArrayElementsSubset($expected, $actual);
+		this.assertSubTree($expected, $actual);
 	}
 
 	getTestMapping() {

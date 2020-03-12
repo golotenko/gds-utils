@@ -138,9 +138,9 @@ class PnrParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 								'flyerNumber': '1005775190',
 							},
 						},
-						{lineNumber:  9, ssrCode: 'CTCE', airline: 'PR'},
-						{lineNumber: 10, ssrCode: 'CTCM', airline: 'PR'},
-						{lineNumber: 11, ssrCode: 'ADTK', airline: '1A'},
+						{lineNumber: '9', ssrCode: 'CTCE', airline: 'PR'},
+						{lineNumber: '10', ssrCode: 'CTCM', airline: 'PR'},
+						{lineNumber: '11', ssrCode: 'ADTK', airline: '1A'},
 					],
 					'mcoRecords': [
 						{
