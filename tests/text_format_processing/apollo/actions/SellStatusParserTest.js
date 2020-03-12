@@ -60,6 +60,22 @@ const provide_parse = () => {
 		},
 	});
 
+	testCases.push({
+		title: 'response to the >X7/0YB; - results in two booking classes in the segment',
+		input: [
+			'   AC  171YN 30MAY YYZYEG SS1   505P  711P *      3          E',
+			'OFFER CAR/HOTEL    >CAL;     >HOA;',
+			'DEPARTS YYZ TERMINAL 1 ',
+			'CANCEL REQUEST COMPLETED',
+			'><',
+		].join('\n'),
+		output: {
+			segments: [
+				{airline: 'AC', flightNumber: '171', bookingClass: 'Y', secondaryBookingClass: 'N', destinationAirport: 'YEG'},
+			],
+		},
+	});
+
 	return testCases.map(tc => [tc]);
 };
 

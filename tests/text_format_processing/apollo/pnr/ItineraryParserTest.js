@@ -723,13 +723,41 @@ class ItineraryParserTest extends require('enko-fundamentals/src/Transpiled/Lib/
 			},
 		]);
 
+		// two letters in a booking class - appear when you rebook in two classes with X7/0YN
+		list.push([
+			[
+				' 1 LH 471K 30MAY YYZFRA SS1   620P  755A|*      SA/SU   E  1',
+				' 2 LH 590K 31MAY FRANBO SS1  1110A  810P *         SU   E  1',
+				' 3 LH 591K 07JUL NBOFRA SS1  1025P  540A|*      TU/WE   E',
+				' 4 AC 875K 08JUL FRAYUL SS1   955A 1135A *         WE   E  2',
+				' 5 AC7727K 08JUL YULDFW SS1   135P  429P *         WE   E  2',
+				'         OPERATED BY AIR CANADA EXPRESS - SKY REGIONAL',
+				' 6 AC7664K 30MAY DFWYYZ SS1  1140A  340P *         SA   E',
+				'         OPERATED BY AIR CANADA EXPRESS - SKY REGIONAL',
+				' 7 AC 171YN30MAY YYZYEG SS1   505P  711P *         SA   E  3',
+				' 8 AC8163YN30MAY YEGYYC SS1   755P  853P *         SA   E  3',
+				'         OPERATED BY AIR CANADA EXPRESS - JAZZ',
+			].join('\n'),
+			{
+				segments: [
+					{airline: 'LH', bookingClass: 'K', destinationAirport: 'FRA'},
+					{airline: 'LH', bookingClass: 'K', destinationAirport: 'NBO'},
+					{airline: 'LH', bookingClass: 'K', destinationAirport: 'FRA'},
+					{airline: 'AC', bookingClass: 'K', destinationAirport: 'YUL'},
+					{airline: 'AC', bookingClass: 'K', destinationAirport: 'DFW'},
+					{airline: 'AC', bookingClass: 'K', destinationAirport: 'YYZ'},
+					{airline: 'AC', bookingClass: 'Y', destinationAirport: 'YEG', secondaryBookingClass: 'N'},
+					{airline: 'AC', bookingClass: 'Y', destinationAirport: 'YYC', secondaryBookingClass: 'N'},
+				],
+			},
+		]);
+
 		return list;
 	}
 
-	testParser($dump, $expected)  {
-		let $actual;
-		$actual = ItineraryParser.parse($dump);
-		this.assertSubTree($expected, $actual);
+	testParser(input, output)  {
+		let actual = ItineraryParser.parse(input);
+		this.assertSubTree(output, actual);
 	}
 
 	getTestMapping() {
