@@ -5,9 +5,7 @@ const FlightInfoParser = require('../../../src/text_format_processing/amadeus/Fl
 class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCase.js') {
 	// "DO1-2" to get hidden stop info for segments "1" through "2"
 	provideDumps() {
-		let $list;
-
-		$list = [];
+		const list = [];
 
 		// hidden stops in segment
 		// '  2  DL 275 Y 10SEP 7*DTWMNL DK1  1210P 855P 11SEP  E  1 EQV D',
@@ -15,7 +13,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		// '     DELTA ONE SVC THIS FLT',
 		// '     SEE RTSVC',
 		// >AD10SEPATLMNL/XDTW/ADL; >SS1Y1; >DO1-3; for all segments in the PNR
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DO1-3',
 				'*1A PLANNED FLIGHT INFO*              DL 201   72 SA 09SEP17    ',
@@ -123,7 +121,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 								'from': 'ATL', 'to': 'DTW', 'raw': php.implode(php.PHP_EOL, [
 									' CO2/PAX* 101.25 KG ECO, 101.25 KG PRE',
 									' (*):SOURCE:ICAO CARBON EMISSIONS CALCULATOR',
-								])
+								]),
 							},
 						],
 						'configurations': [
@@ -210,7 +208,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 								'from': 'DTW', 'to': 'MNL', 'raw': php.implode(php.PHP_EOL, [
 									' CO2/PAX* 757.09 KG ECO, 1,514.17 KG PRE',
 									' (*):SOURCE:ICAO CARBON EMISSIONS CALCULATOR',
-								])
+								]),
 							},
 						],
 						'configurations': [
@@ -224,7 +222,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 
 		// apollo>*PVK4WC; - with "-" instead of meal code. Apollo has empty string
 		// in place of meal there, so it is either "no info from airline" or "no meal"
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DO1-3',
 				'*1A PLANNED FLIGHT INFO*              PW 722    4 TU 04JUL17    ',
@@ -382,7 +380,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// apollo>*V1WWKC; with a multi-line comment and a configuration
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DO1-6',
 				'*1A PLANNED FLIGHT INFO*              VS4657   30 SU 30JUL17    ',
@@ -436,7 +434,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 								'from': 'JFK', 'to': 'BOS', 'raw': php.implode(php.PHP_EOL, [
 									'COMMERCIAL DUPLICATE - OPERATED BY',
 									'DELTA AIR LINES',
-								])
+								]),
 							},
 							{'from': 'JFK', 'to': 'BOS', 'raw': 'AIRCRAFT OWNER DELTA AIR LINES'},
 							{'entireSegment': true, 'raw': 'Q/ INTL ONLINE CONNECTING OR STOPOVR TRAFFIC ONL'},
@@ -452,7 +450,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 								'from': 'JFK', 'to': 'BOS', 'raw': php.implode(php.PHP_EOL, [
 									' CO2/PAX* 61.76 KG ECO, 61.76 KG PRE',
 									' (*):SOURCE:ICAO CARBON EMISSIONS CALCULATOR',
-								])
+								]),
 							},
 						],
 						'configurations': [
@@ -464,7 +462,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// apollo>*V1BWT8; multiple meal codes for same classes
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DO1-6',
 				'*1A PLANNED FLIGHT INFO*              SN 241    2 SU 02JUL17    ',
@@ -523,7 +521,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// apollo>*P8T520; with FLIGHT NOT OPERATIONAL segment
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DO1-5',
 				'DL 2243 04JUL2017 FLIGHT NOT OPERATIONAL                        ',
@@ -607,7 +605,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// apollo>*JG6RK2; aircraft change in hidden stop and multiple configuration lines
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DO1-7',
 				'*1A PLANNED FLIGHT INFO*              UA 282   29 SA 29JUL17    ',
@@ -686,7 +684,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// >RT62E5I8; with flown segments
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DO4-7',
 				'ET 509 27JUN2017 REQUEST IS OUTSIDE SYSTEM DATE RANGE           ',
@@ -761,7 +759,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// with * OPERATIONAL FLIGHT INFO *
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DODL9578/20DEC',
 				'* OPERATIONAL FLIGHT INFO *            DL9578    0 WE 20DEC17   ',
@@ -843,7 +841,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 									{
 										'bookingClasses': ['M', 'H', 'Q', 'K', 'L', 'U', 'T', 'X', 'V'],
 										'raw': 'S',
-										'parsed': ['SNACK']
+										'parsed': ['SNACK'],
 									},
 								],
 								'aircraft': '73H',
@@ -857,7 +855,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 								'raw': php.implode(php.PHP_EOL, [
 									'COMMERCIAL DUPLICATE - OPERATED BY',
 									'KLM ROYAL DUTCH AIRLINES',
-								])
+								]),
 							},
 							{'raw': 'AIRCRAFT OWNER KLM ROYAL DUTCH AIRLINES'},
 							{'raw': 'G/ QUALIFIED ONLINE CONNECTING TRAFFIC ONLY'},
@@ -870,7 +868,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 								'raw': php.implode(php.PHP_EOL, [
 									' CO2/PAX* 126.86 KG ECO, 126.86 KG PRE',
 									' (*):SOURCE:ICAO CARBON EMISSIONS CALCULATOR',
-								])
+								]),
 							},
 						],
 						'configurations': [{'raw': '73H  NO CONFIGURATION SET'}],
@@ -881,7 +879,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// terminal_command_log id #103564180, with hidden stop and operational flight info
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DODL392/28NOV',
 				'* OPERATIONAL FLIGHT INFO *            DL 392   -1 TU 28NOV17   ',
@@ -964,7 +962,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// terminal_command_log id #124832696, operational flight info with only estimations
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DOBA0268/20DEC',
 				'* OPERATIONAL FLIGHT INFO *            BA 268    0 WE 20DEC17   ',
@@ -1019,7 +1017,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 
 		// terminal_command_log id #124985642, with free-form messages without time
 		// this example also shows that ESTIMATED TIME OF ARRIVAL is in time zone of LHR
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DOBA268/19DEC',
 				'* OPERATIONAL FLIGHT INFO *            BA 268   -1 TU 19DEC17   ',
@@ -1090,7 +1088,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// with "FLIGHT NOT OPERATING ON DATE SPECIFIED / SEE ALTERNATE DISPLAY" warning
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DOUA7228/01JAN',
 				'FLIGHT NOT OPERATING ON DATE SPECIFIED / SEE ALTERNATE DISPLAY  ',
@@ -1194,7 +1192,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 		]);
 
 		// with "FLIGHT NOT OPERATING ON DATE SPECIFIED / SEE ALTERNATE DISPLAY" warning
-		$list.push([
+		list.push([
 			php.implode(php.PHP_EOL, [
 				'DOBA1542/17JAN',
 				'* OPERATIONAL FLIGHT INFO *            BA1542   -1 WE 17JAN18   ',
@@ -1269,7 +1267,7 @@ class FlightInfoParserTest extends require('enko-fundamentals/src/Transpiled/Lib
 			},
 		]);
 
-		return $list;
+		return list;
 	}
 
 	/**
