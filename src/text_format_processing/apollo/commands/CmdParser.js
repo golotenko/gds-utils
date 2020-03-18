@@ -78,14 +78,25 @@ const parse_changeSegmentStatus = (cmd) => {
 };
 
 // '/2|Y', '/3|01Y3', '/4|0UA15Y3DECLAXSFONN1'
-const parse_insertSegments = ($cmd) => {
-	let $matches, $_, $segNum, $value;
-	if (php.preg_match(/^\/(\d+)\|(\S.*)$/, $cmd, $matches = [])) {
-		[$_, $segNum, $value] = $matches;
+const parse_insertSegments = (cmd) => {
+	let matches;
+	if (php.preg_match(/^\/(\d+)\|(\S.*)$/, cmd, matches = [])) {
+		const [, insertAfter, value] = matches;
 		return {
-			insertAfter: $segNum,
-			sell: Parse_sell($value),
+			insertAfter: insertAfter,
+			sell: Parse_sell(value),
 		};
+	} else {
+		return null;
+	}
+};
+
+const parse_reorderSegments = (cmd) => {
+	const match = cmd.match(/^\/(\d+)\/(\d+(?:[|-]\d+)*)$/);
+	if (match) {
+		const [, insertAfter, rangeStr] = match;
+		const segmentNumbers = ParserUtil.parseRange(rangeStr, '|', '-');
+		return {insertAfter, segmentNumbers};
 	} else {
 		return null;
 	}
@@ -186,11 +197,10 @@ const parseBulkCommand = (cmd) => {
 			parsedCommands.push(parsedCmd);
 		} else {
 			const parseTillEnd = parseSingleCommand(strCmd) || {
-				cmd: strCmd,
 				type: null,
 				data: null,
 			};
-			parsedCommands.push(parseTillEnd);
+			parsedCommands.push({...parseTillEnd, cmd: strCmd});
 			strCmd = '';
 		}
 	}
@@ -279,37 +289,38 @@ const detectCommandType = (cmd) => {
 	return null;
 };
 
+const typeToParser = {
+	changeArea: parse_changeArea,
+	changePcc: parse_changePcc,
+	priceItinerary: parse_priceItinerary,
+	priceItineraryManually: parse_priceItineraryManually,
+	storePricing: parse_storePricing,
+	// make sure these two are before parse_deletePnrField(),
+	// as they all start with "X", but the last one is generic
+	calculator: cmd => cmd.startsWith('XX'),
+	deleteStoredPricing: parse_deleteStoredPricing,
+	deletePnrField: parse_deletePnrField,
+	insertSegments: parse_insertSegments,
+	reorderSegments: parse_reorderSegments,
+	changeSegmentStatus: parse_changeSegmentStatus,
+	sell: Parse_sell,
+	fareSearch: Parse_fareSearch,
+	airAvailability: Parse_airAvailability,
+	moreAirAvailability: Parse_airAvailability.more,
+};
+
 const parseSingleCommand = (cmd) => {
 	let data, type, parsed, match;
 	if (type = SimpleTypes.exact[cmd]) {
-		data = null;
-	} else if (data = parse_changeArea(cmd)) {
-		type = 'changeArea';
-	} else if (data = parse_changePcc(cmd)) {
-		type = 'changePcc';
-	} else if (data = parse_priceItinerary(cmd)) {
-		type = 'priceItinerary';
-	} else if (data = parse_priceItineraryManually(cmd)) {
-		type = 'priceItineraryManually';
-	} else if (data = parse_storePricing(cmd)) {
-		type = 'storePricing';
-	} else if (data = Parse_sell(cmd)) {
-		type = 'sell';
-	// make sure these two are before parse_deletePnrField(),
-	// as they all start with "X", but the last one is generic
-	} else if (cmd.startsWith('XX')) {
-		type = 'calculator';
-	} else if (data = parse_deleteStoredPricing(cmd)) {
-		type = 'deleteStoredPricing';
-	} else if (data = parse_deletePnrField(cmd)) {
-		type = 'deletePnrField';
-	} else if (data = parse_insertSegments(cmd)) {
-		type = 'insertSegments';
-	} else if (data = parse_changeSegmentStatus(cmd)) {
-		type = 'changeSegmentStatus';
-	} else if (data = Parse_fareSearch(cmd)) {
-		type = 'fareSearch';
-	} else if (parsed = Parse_changeMp(cmd)) {
+		return {type, data: null};
+	}
+	for (const [type, parse] of Object.entries(typeToParser)) {
+		const data = parse(cmd);
+		if (data) {
+			return {type, data};
+		}
+	}
+	if (parsed = Parse_changeMp(cmd)) {
 		type = parsed.type;
 		data = parsed.data;
 	} else if (parsed = Parse_changeSeats(cmd)) {
@@ -320,10 +331,6 @@ const parseSingleCommand = (cmd) => {
 			storePnrSendEmail: data.sendEmail,
 			storeKeepPnr: data.keepPnr,
 		}))[0] || 'storePnr';
-	} else if (data = Parse_airAvailability(cmd)) {
-		type = 'airAvailability';
-	} else if (data = Parse_airAvailability.more(cmd)) {
-		type = 'moreAirAvailability';
 	} else if (match = cmd.match(/^\s*\/(\d+)\s*$/)) {
 		type = 'setNextFollowsSegment';
 		data = {segmentNumber: match[1]};

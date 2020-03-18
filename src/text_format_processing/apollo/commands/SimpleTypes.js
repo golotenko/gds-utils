@@ -112,7 +112,6 @@ const regex = [
 	[/^T:V\d*$/, 'restorePricing'],
 	[/^\*R(\||$)/, 'redisplayPnr'], // ENTIRE RECORD
 	[/^\*I(\||$)/, 'itinerary'], // ITINERARY
-	[/^(?:\/\d+){2}(?:[|+-]\d+)*$/, 'reorderSegments'],
 	[/^FS\d*[A-Z]{3}(\d+[A-Z]{3}[A-Z]{3})+.*$/, 'lowFareSearch'], // HELP FSU (Unbooked)
 	[/^FS\d+$/, 'sellFromLowFareSearch'],
 	[/^MORE\*\d+$/, 'lowFareSearchNavigation'],// AT THE SAME PRICE AS PRICING OPTION \d

@@ -783,10 +783,34 @@ class CmdParserTest extends require('enko-fundamentals/src/Transpiled/Lib/TestCa
 				sell: {sellType: 'directSell'},
 			},
 		}]);
-		list.push(['/2/8', {type: 'reorderSegments'}]);
-		list.push(['/1/3-5', {type: 'reorderSegments'}]);
-		list.push(['/3/7|9', {type: 'reorderSegments'}]);
-		list.push(['/1/5|7-9', {type: 'reorderSegments'}]);
+		list.push(['/2/8', {
+			type: 'reorderSegments',
+			data: {
+				insertAfter: '2',
+				segmentNumbers: [8],
+			},
+		}]);
+		list.push(['/1/3-5', {
+			type: 'reorderSegments',
+			data: {
+				insertAfter: '1',
+				segmentNumbers: [3,4,5],
+			},
+		}]);
+		list.push(['/3/7|9', {
+			type: 'reorderSegments',
+			data: {
+				insertAfter: '3',
+				segmentNumbers: [7,9],
+			},
+		}]);
+		list.push(['/1/5|7-9', {
+			type: 'reorderSegments',
+			data: {
+				insertAfter: '1',
+				segmentNumbers: [5,7,8,9],
+			},
+		}]);
 		list.push([
 			'$BBAS3-*2G55|4-*2G55',
 			{
